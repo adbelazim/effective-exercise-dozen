@@ -146,7 +146,9 @@ public class PlanContratado implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.PlanContratado[ clienteCodigo=" + clienteCodigo + " ]";
+        return "PlanContratado{" + "clienteCodigo=" + clienteCodigo + ", planContratadoFechaPago=" + planContratadoFechaPago + ", planContratadoMonto=" + planContratadoMonto + ", planContratadoObservacion=" + planContratadoObservacion + ", planId=" + planId + ", cliente=" + cliente + '}';
     }
+
+    
     
 }

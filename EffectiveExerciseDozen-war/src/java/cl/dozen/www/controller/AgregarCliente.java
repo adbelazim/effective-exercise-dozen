@@ -9,6 +9,9 @@ package cl.dozen.www.controller;
 import cl.dozen.www.entities.Cliente;
 import cl.dozen.www.entities.Plan;
 import cl.dozen.www.entities.PlanContratado;
+import cl.dozen.www.facades.ClienteFacadeLocal;
+import cl.dozen.www.facades.ClienteSessionLocal;
+import cl.dozen.www.facades.PlanContratadoFacadeLocal;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +39,17 @@ import javax.inject.Inject;
 @Named
 @ConversationScoped
 public class AgregarCliente implements Serializable{
+    @EJB
+    private ClienteSessionLocal clienteSession;
+    @EJB
+    private PlanContratadoFacadeLocal planContratadoFacade;
+    @EJB
+    private ClienteFacadeLocal clienteFacade;
     //me permite obtener todos los planes desdes la DB
     @EJB
     private PlanFacadeLocal planFacade;
     //manater conversacion entre datos
+    
     @Inject
     private Conversation conversation;
     //cliente de la vista, del tipo entities
@@ -53,19 +63,21 @@ public class AgregarCliente implements Serializable{
     //mostrar mensajes en el servidor de aplicaciones
     private static Logger logger = Logger.getLogger(AgregarCliente.class.getName());  
 
-    public AgregarCliente() {
+    public AgregarCliente() {        
     }
     
     @PostConstruct
     public void init(){
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-     
+              
+        cliente = new Cliente(clienteSession.codCliente()+1);
+ 
         planes = planFacade.findAll();
         
         planContratado = new PlanContratado();
         
-  
+        
+        
+        
     }
     
     public void beginConversation()
@@ -124,10 +136,17 @@ public class AgregarCliente implements Serializable{
     public void agregarCliente(){
            // agregar cliente a la BD
         
+        System.out.println(cliente.toString());
+        clienteFacade.create(cliente);    
         
-        endConversation();;
+        planContratado.setClienteCodigo(cliente.getClienteCodigo());
+        planContratado.setPlanId(planSeleccionado);
         
+        System.out.println(planContratado.toString());
         
+        planContratadoFacade.create(planContratado);
+        endConversation();
+    
     }
     
    public void onRowSelect() {

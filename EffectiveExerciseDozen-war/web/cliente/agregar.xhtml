@@ -9,179 +9,198 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     </h:head>
-    
-    <f:event listener="#{agregarCliente.beginConversation()}"
-  type="preRenderView"></f:event>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+            <ui:define name="top">
+                <ui:include src="../menu.xhtml"/>
 
-    <h:form id="form">
-        <p:wizard  widgetVar="wiz" flowListener="#{agregarCliente.onFlowProcess}">
-            <p:tab id="personal" title="Información Personal">
-                <p:panel  header="Datos Cliente" >
-                    <h:panelGrid  columns="3">
-                        <h:outputLabel for="rut" value="Rut"/>
-                        <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.cliente.clienteRut}"  > 
-                        </p:inputText>
-                        <p:message id="msgRut" for="rut"  />
-                        <h:outputLabel for="nombre" value="Nombre"/>
-                        <p:inputText  id="nombre" value="#{agregarCliente.cliente.clienteNombre}" required="true" requiredMessage="Campo requerido">
-
-                        </p:inputText>
-                        <p:message id="msgNombre" for="nombre"  />
-                        <h:outputLabel  for="apellidos" value="Apellidos" />
-                        <p:inputText id ="apellidos"  value="#{agregarCliente.cliente.clienteApellido}" required="true" requiredMessage="Campo requerido">
-
-                        </p:inputText>
-                        <p:message id="msgApellidos" for="apellidos"  />
-                        <h:outputLabel  for="fechanac" value="Fecha Nacimiento"/>
-                        <p:calendar  pattern="dd/MM/yyyy"  yearRange="1900" id="fechanac" value="#{agregarCliente.cliente.clienteFechaNacimiento}" required="true" requiredMessage="Campo requerido" navigator="true" >
-                        
-                        </p:calendar>
-                        <p:message id="msgFechanac" for="fechanac" /> 
-                        <h:outputLabel  for="sexo" value="Sexo"/>
-                        <p:selectOneRadio  id="sexo" value="#{agregarCliente.cliente.clienteSexo}" required="true" requiredMessage="Campo requerido">  
-                            <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
-                            <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
-
-                        </p:selectOneRadio>
-                        <p:message id="msgSexo" for="sexo"  />              
-                        <h:outputLabel for="email" value="Email"/>
-                        <p:inputText id ="email"  value="#{agregarCliente.cliente.clienteMail}" required="true" requiredMessage="Campo requerido">
-
-                        </p:inputText>
-                        <p:message id="msgEmail" for="email"  />
-                        
-                        <h:outputLabel for="direccion" value="Direccion"/>
-                        <p:inputText id ="direccion"  value="#{agregarCliente.cliente.clienteDireccion}" required="true" requiredMessage="Campo requerido">
-
-                        </p:inputText>
-                        <p:message id="msgDireccion" for="direccion"  />
-
-                        <h:outputLabel for="telemer" value="Telefono Emergencia"/>
-                        <p:inputText id ="telemer" value="#{agregarCliente.cliente.clienteTelefonoEmergencia}" required="true" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido">
-                            <f:validateLength minimum="7"/>
-
-                        </p:inputText>
-                        <p:message id="msgTelemer" for="telemer"  />
-                        <h:outputLabel for="telcont" value="Telefono Contacto" />
-                        <p:inputText id="telcont" value="#{agregarCliente.cliente.clienteTelefono}" required="true" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido" >
-                            <f:validateLength minimum="7"/>
-
-                        </p:inputText>
-                        <p:message id="msgTelcont" for="telcont"  />
-                    </h:panelGrid>
-                </p:panel>
-            </p:tab>
-            
-            <p:tab id="eleccionPlan" title="Plan">  
-                <p:panel header="Planes" >
-                    <p:dataTable id="planes" var="plan" value="#{agregarCliente.planes}" rowKey="#{plan.planId}"  
-                                 selection="#{agregarCliente.planSeleccionado}" selectionMode="single">  
-
-                        <f:facet name="header">  
-                            Haga Click en un Plan para seleccionar  
-                        </f:facet>  
-
-                        <p:column headerText="Nombre">  
-                            #{plan.planNombre}  
-                        </p:column>  
-
-                        <p:column headerText="Precio">  
-                            #{plan.planPrecio}  
-                        </p:column>  
-
-                        <p:column headerText="Descripcion" >  
-                            #{plan.planDescripcion}  
-                        </p:column> 
-                        <p:ajax event="rowSelect" listener="#{agregarCliente.onRowSelect}" update=":form:panelDetalle"  />  
-                    </p:dataTable>
-                    <p:separator />
-                    <p:panel id="panelDetalle" header="Detalle del Plan" >
-                        <h:panelGrid columns="3">
-
-                            <h:outputLabel for="planSelNom" value="Nombre" />
-                            <p:inputText readonly="true" id="planSelNom" value="#{agregarCliente.planSeleccionado.planNombre}"/>
-                            <p:message id="msgplanSelNom" for="planSelNom" /> 
-
-                            <h:outputLabel for="planSelDesc" value="Descripcion" />
-                            <p:inputTextarea readonly="true" id="planSelDesc" value="#{agregarCliente.planSeleccionado.planDescripcion}"/>
-                            <p:message id="msgplanSelDesc" for="planSelDesc" /> 
-
-                            <h:outputLabel for="planObs" value="Observaciones" />
-                            <p:inputTextarea  id="planObs" value="#{agregarCliente.planContratado.planContratadoObservacion}"/>
-                            <p:message id="msgplanObs" for="planObs" /> 
-
-                            <h:outputLabel  for="fechaini" value="Inicio"/>
-                            <p:calendar  pattern="dd/MM/yyyy" id="fechaini" value="#{agregarCliente.planContratado.planContratadoFechaPago}" required="true" requiredMessage="Campo requerido" navigator="true" >
-                            </p:calendar>
-                            <p:message id="msgFechaini" for="fechaini" /> 
-
-                            <h:outputLabel  for="fechafin" value="Termino"/>
-                            <p:calendar  pattern="dd/MM/yyyy" id="fechafin" value="#{agregarCliente.planContratado.planContratadoFechaPago}" required="true" requiredMessage="Campo requerido" navigator="true" >
-                            </p:calendar>
-                            <p:message id="msgFechafin" for="fechafin" />  
+            </ui:define>
 
 
-                            <h:outputLabel for="planSelPre" value="Precio" />
-                            <p:inputText  id="planSelPre" value="#{agregarCliente.planContratado.planContratadoMonto}">
-                                <p:ajax event="blur" update="msgPrecio" />
-                            </p:inputText>
-                            <p:message id="msgPrecio" for="planSelPre" /> 
+            <ui:define name="content">
+                <f:event listener="#{agregarCliente.beginConversation()}"
+                         type="preRenderView"></f:event>
 
-                        </h:panelGrid>
-                    </p:panel>
-                </p:panel> 
-            </p:tab>                   
-            <p:tab id="confirmacion" title="Confirmacion">  
-                <p:panel header="Datos Cliente" >
-                    <p:panelGrid columns="2">
- 
-                        <h:outputLabel for="rutConfirm" value="Rut"/>
-                        <h:outputLabel  id="rutConfirm" value="#{agregarCliente.cliente.clienteRut}"/>
+                <h:form id="form">
+                    <p:wizard  widgetVar="wiz" flowListener="#{agregarCliente.onFlowProcess}">
+                        <p:tab id="personal" title="Información Personal">
+                            <p:panel  header="Datos Cliente" >
+                                <h:panelGrid  columns="3">
+                                    <h:outputLabel for="rut" value="Rut"/>
+                                    <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.cliente.clienteRut}"  > 
+                                    </p:inputText>
+                                    <p:message id="msgRut" for="rut"  />
+                                    <h:outputLabel for="nombre" value="Nombre"/>
+                                    <p:inputText  id="nombre" value="#{agregarCliente.cliente.clienteNombre}" required="true" requiredMessage="Campo requerido">
 
-                        <h:outputLabel for="nombreConfirm" value="Nombre"/>
-                        <h:outputLabel  id="nombreConfirm" value="#{agregarCliente.cliente.clienteNombre}" />
+                                    </p:inputText>
+                                    <p:message id="msgNombre" for="nombre"  />
+                                    <h:outputLabel  for="apellidos" value="Apellidos" />
+                                    <p:inputText id ="apellidos"  value="#{agregarCliente.cliente.clienteApellido}" required="true" requiredMessage="Campo requerido">
 
-                        <h:outputLabel  for="apellidosConfirm" value="Apellidos" />
-                        <h:outputLabel id ="apellidosConfirm"  value="#{agregarCliente.cliente.clienteApellido}" />
+                                    </p:inputText>
+                                    <p:message id="msgApellidos" for="apellidos"  />
+                                    <h:outputLabel  for="fechanac" value="Fecha Nacimiento"/>
+                                    <p:calendar  pattern="dd/MM/yyyy"  yearRange="1900" id="fechanac" value="#{agregarCliente.cliente.clienteFechaNacimiento}" required="true" requiredMessage="Campo requerido" navigator="true" >
 
-                        <h:outputLabel for="fechanacConfirm" value="Fecha Nacimiento"/>
-                        <h:outputLabel  id="fechanacConfirm" value="#{agregarCliente.cliente.clienteFechaNacimiento}" />
+                                    </p:calendar>
+                                    <p:message id="msgFechanac" for="fechanac" /> 
+                                    <h:outputLabel  for="sexo" value="Sexo"/>
+                                    <p:selectOneRadio  id="sexo" value="#{agregarCliente.cliente.clienteSexo}" required="true" requiredMessage="Campo requerido">  
+                                        <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                                        <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
 
-                        <h:outputLabel  for="sexoConfirm" value="Sexo"/>
-                        <h:outputLabel  id="sexoConfirm" value="#{agregarCliente.cliente.clienteSexo}"/>  
+                                    </p:selectOneRadio>
+                                    <p:message id="msgSexo" for="sexo"  />              
+                                    <h:outputLabel for="email" value="Email"/>
+                                    <p:inputText id ="email"  value="#{agregarCliente.cliente.clienteMail}" required="true" requiredMessage="Campo requerido">
+
+                                    </p:inputText>
+                                    <p:message id="msgEmail" for="email"  />
+
+                                    <h:outputLabel for="direccion" value="Direccion"/>
+                                    <p:inputText id ="direccion"  value="#{agregarCliente.cliente.clienteDireccion}" required="true" requiredMessage="Campo requerido">
+
+                                    </p:inputText>
+                                    <p:message id="msgDireccion" for="direccion"  />
+
+                                    <h:outputText value="Estado Civil: " />  
+                                    <p:selectOneMenu requiredMessage="Campo requerido" required ="true"  id="civil" value="#{agregarCliente.cliente.clienteEstadoCivil}">  
+                                        <f:selectItem itemLabel="" itemValue="" />
+                                        <f:selectItem itemLabel="Soltero" itemValue="Soltero" />  
+                                        <f:selectItem itemLabel="Casado" itemValue="Casado" />  
+                                        <f:selectItem itemLabel="Viudo" itemValue="Viudo" />  
+                                    </p:selectOneMenu> 
+                                    <p:message id="msgEstadoCivil" for="civil"  />
+
+                                    <h:outputLabel for="telemer" value="Telefono Emergencia"/>
+                                    <p:inputText id ="telemer" value="#{agregarCliente.cliente.clienteTelefonoEmergencia}" required="false" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido">
+                                        <f:validateLength minimum="7"/>
+
+                                    </p:inputText>
+                                    <p:message id="msgTelemer" for="telemer"  />
+                                    <h:outputLabel for="telcont" value="Telefono Contacto" />
+                                    <p:inputText id="telcont" value="#{agregarCliente.cliente.clienteTelefono}" required="true" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido" >
+                                        <f:validateLength minimum="7"/>
+
+                                    </p:inputText>
+                                    <p:message id="msgTelcont" for="telcont"  />
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="eleccionPlan" title="Plan">  
+                            <p:panel header="Planes" >
+                                <p:dataTable id="planes" var="plan" value="#{agregarCliente.planes}" rowKey="#{plan.planId}"  
+                                             selection="#{agregarCliente.planSeleccionado}" selectionMode="single">  
+
+                                    <f:facet name="header">  
+                                        Haga Click en un Plan para seleccionar  
+                                    </f:facet>  
+
+                                    <p:column headerText="Nombre">  
+                                        #{plan.planNombre}  
+                                    </p:column>  
+
+                                    <p:column headerText="Precio">  
+                                        #{plan.planPrecio}  
+                                    </p:column>  
+
+                                    <p:column headerText="Descripcion" >  
+                                        #{plan.planDescripcion}  
+                                    </p:column> 
+                                    <p:ajax event="rowSelect" listener="#{agregarCliente.onRowSelect}" update=":form:panelDetalle"  />  
+                                </p:dataTable>
+                                <p:separator />
+                                <p:panel id="panelDetalle" header="Detalle del Plan" >
+                                    <h:panelGrid columns="3">
+
+                                        <h:outputLabel for="planSelNom" value="Nombre" />
+                                        <p:inputText readonly="true" id="planSelNom" value="#{agregarCliente.planSeleccionado.planNombre}"/>
+                                        <p:message id="msgplanSelNom" for="planSelNom" /> 
+
+                                        <h:outputLabel for="planSelDesc" value="Descripcion" />
+                                        <p:inputTextarea readonly="true" id="planSelDesc" value="#{agregarCliente.planSeleccionado.planDescripcion}"/>
+                                        <p:message id="msgplanSelDesc" for="planSelDesc" /> 
+
+                                        <h:outputLabel for="planObs" value="Observaciones" />
+                                        <p:inputTextarea  id="planObs" value="#{agregarCliente.planContratado.planContratadoObservacion}"/>
+                                        <p:message id="msgplanObs" for="planObs" /> 
+
+                                        <h:outputLabel  for="fechaini" value="Inicio"/>
+                                        <p:calendar  pattern="dd/MM/yyyy" id="fechaini" value="#{agregarCliente.planContratado.planContratadoFechaPago}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                                        </p:calendar>
+                                        <p:message id="msgFechaini" for="fechaini" /> 
+
+                                        <h:outputLabel  for="fechafin" value="Termino"/>
+                                        <p:calendar  pattern="dd/MM/yyyy" id="fechafin" value="#{agregarCliente.planContratado.planContratadoFechaPago}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                                        </p:calendar>
+                                        <p:message id="msgFechafin" for="fechafin" />  
 
 
-                        <h:outputLabel for="emailConfirm" value="Email"/>
-                        <h:outputLabel id ="emailConfirm"  value="#{agregarCliente.cliente.clienteMail}" />
+                                        <h:outputLabel for="planSelPre" value="Precio" />
+                                        <p:inputText  id="planSelPre" value="#{agregarCliente.planContratado.planContratadoMonto}">
+                                            <p:ajax event="blur" update="msgPrecio" />
+                                        </p:inputText>
+                                        <p:message id="msgPrecio" for="planSelPre" /> 
 
-                        <h:outputLabel for="telemerConfirm" value="Telefono Emergencia"/>
-                        <h:outputLabel id ="telemerConfirm" value="#{agregarCliente.cliente.clienteTelefonoEmergencia}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:panel> 
+                        </p:tab>                   
+                        <p:tab id="confirmacion" title="Confirmacion">  
+                            <p:panel header="Datos Cliente" >
+                                <p:panelGrid columns="2">
+
+                                    <h:outputLabel for="rutConfirm" value="Rut"/>
+                                    <h:outputLabel  id="rutConfirm" value="#{agregarCliente.cliente.clienteRut}"/>
+
+                                    <h:outputLabel for="nombreConfirm" value="Nombre"/>
+                                    <h:outputLabel  id="nombreConfirm" value="#{agregarCliente.cliente.clienteNombre}" />
+
+                                    <h:outputLabel  for="apellidosConfirm" value="Apellidos" />
+                                    <h:outputLabel id ="apellidosConfirm"  value="#{agregarCliente.cliente.clienteApellido}" />
+
+                                    <h:outputLabel for="fechanacConfirm" value="Fecha Nacimiento"/>
+                                    <h:outputLabel  id="fechanacConfirm" value="#{agregarCliente.cliente.clienteFechaNacimiento}" />
+
+                                    <h:outputLabel  for="sexoConfirm" value="Sexo"/>
+                                    <h:outputLabel  id="sexoConfirm" value="#{agregarCliente.cliente.clienteSexo}"/>  
 
 
-                        <h:outputLabel for="telcontConfirm" value="Telefono Contacto" />
-                        <h:outputLabel id="telcontConfirm" value="#{agregarCliente.cliente.clienteTelefono}"/>
+                                    <h:outputLabel for="emailConfirm" value="Email"/>
+                                    <h:outputLabel id ="emailConfirm"  value="#{agregarCliente.cliente.clienteMail}" />
 
-                        <h:outputLabel for="planSeleccionadoConfirm" value="Plan Contratado" />
-                        <h:outputLabel id="planSeleccionadoConfirm" value="#{agregarCliente.planSeleccionado.planNombre}"/>
+                                    <h:outputLabel for="telemerConfirm" value="Telefono Emergencia"/>
+                                    <h:outputLabel id ="telemerConfirm" value="#{agregarCliente.cliente.clienteTelefonoEmergencia}"/>
 
-                        <h:outputLabel for="planSeleccionadoPrecio" value="Total a pagar" />
-                        <h:outputLabel id="planSeleccionadoPrecio" value="#{agregarCliente.planContratado.planContratadoMonto}"/>
 
-                        <p:commandButton process="@this"  onclick="confirmation.show();" value="Ingresar Cliente"/>
+                                    <h:outputLabel for="telcontConfirm" value="Telefono Contacto" />
+                                    <h:outputLabel id="telcontConfirm" value="#{agregarCliente.cliente.clienteTelefono}"/>
 
-                    </p:panelGrid>
-                </p:panel>
-            </p:tab> 
-        </p:wizard>
-    </h:form>
+                                    <h:outputLabel for="planSeleccionadoConfirm" value="Plan Contratado" />
+                                    <h:outputLabel id="planSeleccionadoConfirm" value="#{agregarCliente.planSeleccionado.planNombre}"/>
 
-    <p:confirmDialog id="confirmDialog" message="¿Esta seguro de agregar el cliente?" header="Nuevo Cliente" severity="alert" widgetVar="confirmation"> 
-        <h:form>
+                                    <h:outputLabel for="planSeleccionadoPrecio" value="Total a pagar" />
+                                    <h:outputLabel id="planSeleccionadoPrecio" value="#{agregarCliente.planContratado.planContratadoMonto}"/>
 
-            <p:commandButton  action="#{agregarCliente.addCliente()}" value="Si"/>
-            <p:commandButton  onclick="confirmation.hide();" value="No"/>
+                                    <p:commandButton process="@this"  onclick="confirmation.show();" value="Ingresar Cliente"/>
 
-        </h:form>
-    </p:confirmDialog> 
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab> 
+                    </p:wizard>
+                </h:form>
 
+                <p:confirmDialog id="confirmDialog" message="¿Esta seguro de agregar el cliente?" header="Nuevo Cliente" severity="alert" widgetVar="confirmation"> 
+                    <h:form>
+
+                        <p:commandButton  action="#{agregarCliente.agregarCliente}" onclick="confirmation.hide()" value="Si"/>
+                        <p:commandButton  onclick="confirmation.hide();" value="No"/>
+
+                    </h:form>
+                </p:confirmDialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
 </html>

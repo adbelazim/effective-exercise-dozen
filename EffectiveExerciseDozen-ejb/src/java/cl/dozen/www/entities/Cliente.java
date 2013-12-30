@@ -9,7 +9,6 @@ package cl.dozen.www.entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,8 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cliente.findByClienteTelefono", query = "SELECT c FROM Cliente c WHERE c.clienteTelefono = :clienteTelefono"),
     @NamedQuery(name = "Cliente.findByClienteTelefonoEmergencia", query = "SELECT c FROM Cliente c WHERE c.clienteTelefonoEmergencia = :clienteTelefonoEmergencia"),
     @NamedQuery(name = "Cliente.findByClienteSexo", query = "SELECT c FROM Cliente c WHERE c.clienteSexo = :clienteSexo"),
-    @NamedQuery(name = "Cliente.findByClienteEstadoCivil", query = "SELECT c FROM Cliente c WHERE c.clienteEstadoCivil = :clienteEstadoCivil"),
-    @NamedQuery(name = "Cliente.findByClienteContrato", query = "SELECT c FROM Cliente c WHERE c.clienteContrato = :clienteContrato")})
+    @NamedQuery(name = "Cliente.findByClienteEstadoCivil", query = "SELECT c FROM Cliente c WHERE c.clienteEstadoCivil = :clienteEstadoCivil")})
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
@@ -93,13 +90,6 @@ public class Cliente implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "cliente_estado_civil")
     private String clienteEstadoCivil;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 254)
-    @Column(name = "cliente_contrato")
-    private String clienteContrato;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "cliente")
-    private PlanContratado planContratado;
 
     public Cliente() {
     }
@@ -108,7 +98,7 @@ public class Cliente implements Serializable {
         this.clienteCodigo = clienteCodigo;
     }
 
-    public Cliente(Integer clienteCodigo, int clienteRut, String clienteNombre, String clienteApellido, Date clienteFechaNacimiento, String clienteDireccion, char clienteSexo, String clienteEstadoCivil, String clienteContrato) {
+    public Cliente(Integer clienteCodigo, int clienteRut, String clienteNombre, String clienteApellido, Date clienteFechaNacimiento, String clienteDireccion, char clienteSexo, String clienteEstadoCivil) {
         this.clienteCodigo = clienteCodigo;
         this.clienteRut = clienteRut;
         this.clienteNombre = clienteNombre;
@@ -117,7 +107,6 @@ public class Cliente implements Serializable {
         this.clienteDireccion = clienteDireccion;
         this.clienteSexo = clienteSexo;
         this.clienteEstadoCivil = clienteEstadoCivil;
-        this.clienteContrato = clienteContrato;
     }
 
     public int getClienteRut() {
@@ -208,22 +197,6 @@ public class Cliente implements Serializable {
         this.clienteEstadoCivil = clienteEstadoCivil;
     }
 
-    public String getClienteContrato() {
-        return clienteContrato;
-    }
-
-    public void setClienteContrato(String clienteContrato) {
-        this.clienteContrato = clienteContrato;
-    }
-
-    public PlanContratado getPlanContratado() {
-        return planContratado;
-    }
-
-    public void setPlanContratado(PlanContratado planContratado) {
-        this.planContratado = planContratado;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -246,7 +219,9 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.Cliente[ clienteCodigo=" + clienteCodigo + " ]";
+        return "Cliente{" + "clienteRut=" + clienteRut + ", clienteCodigo=" + clienteCodigo + ", clienteNombre=" + clienteNombre + ", clienteApellido=" + clienteApellido + ", clienteFechaNacimiento=" + clienteFechaNacimiento + ", clienteDireccion=" + clienteDireccion + ", clienteMail=" + clienteMail + ", clienteTelefono=" + clienteTelefono + ", clienteTelefonoEmergencia=" + clienteTelefonoEmergencia + ", clienteSexo=" + clienteSexo + ", clienteEstadoCivil=" + clienteEstadoCivil + '}';
     }
+
+   
     
 }
