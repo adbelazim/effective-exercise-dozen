@@ -34,29 +34,31 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Plan.findAll", query = "SELECT p FROM Plan p"),
     @NamedQuery(name = "Plan.findByPlanId", query = "SELECT p FROM Plan p WHERE p.planId = :planId"),
-    @NamedQuery(name = "Plan.findByPlanDescripcion", query = "SELECT p FROM Plan p WHERE p.planDescripcion = :planDescripcion"),
+    @NamedQuery(name = "Plan.findByPlanNombre", query = "SELECT p FROM Plan p WHERE p.planNombre = :planNombre"),
     @NamedQuery(name = "Plan.findByPlanPrecio", query = "SELECT p FROM Plan p WHERE p.planPrecio = :planPrecio"),
-    @NamedQuery(name = "Plan.findByPlanNombre", query = "SELECT p FROM Plan p WHERE p.planNombre = :planNombre")})
+    @NamedQuery(name = "Plan.findByPlanDescripcion", query = "SELECT p FROM Plan p WHERE p.planDescripcion = :planDescripcion")})
 public class Plan implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "plan_id")
+    @Column(name = "planId")
     private Integer planId;
-    @Size(max = 150)
-    @Column(name = "plan_descripcion")
-    private String planDescripcion;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "plan_precio")
-    private double planPrecio;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "plan_nombre")
+    @Size(min = 1, max = 100)
+    @Column(name = "planNombre")
     private String planNombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "planId")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "planPrecio")
+    private int planPrecio;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
+    @Column(name = "planDescripcion")
+    private String planDescripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "planplanId")
     private Collection<PlanContratado> planContratadoCollection;
 
     public Plan() {
@@ -66,10 +68,11 @@ public class Plan implements Serializable {
         this.planId = planId;
     }
 
-    public Plan(Integer planId, double planPrecio, String planNombre) {
+    public Plan(Integer planId, String planNombre, int planPrecio, String planDescripcion) {
         this.planId = planId;
-        this.planPrecio = planPrecio;
         this.planNombre = planNombre;
+        this.planPrecio = planPrecio;
+        this.planDescripcion = planDescripcion;
     }
 
     public Integer getPlanId() {
@@ -80,28 +83,28 @@ public class Plan implements Serializable {
         this.planId = planId;
     }
 
-    public String getPlanDescripcion() {
-        return planDescripcion;
-    }
-
-    public void setPlanDescripcion(String planDescripcion) {
-        this.planDescripcion = planDescripcion;
-    }
-
-    public double getPlanPrecio() {
-        return planPrecio;
-    }
-
-    public void setPlanPrecio(double planPrecio) {
-        this.planPrecio = planPrecio;
-    }
-
     public String getPlanNombre() {
         return planNombre;
     }
 
     public void setPlanNombre(String planNombre) {
         this.planNombre = planNombre;
+    }
+
+    public int getPlanPrecio() {
+        return planPrecio;
+    }
+
+    public void setPlanPrecio(int planPrecio) {
+        this.planPrecio = planPrecio;
+    }
+
+    public String getPlanDescripcion() {
+        return planDescripcion;
+    }
+
+    public void setPlanDescripcion(String planDescripcion) {
+        this.planDescripcion = planDescripcion;
     }
 
     @XmlTransient

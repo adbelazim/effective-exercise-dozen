@@ -7,21 +7,24 @@
 package cl.dozen.www.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,9 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cliente.findByClienteRut", query = "SELECT c FROM Cliente c WHERE c.clienteRut = :clienteRut"),
     @NamedQuery(name = "Cliente.findByClienteCodigo", query = "SELECT c FROM Cliente c WHERE c.clienteCodigo = :clienteCodigo"),
     @NamedQuery(name = "Cliente.findByClienteNombre", query = "SELECT c FROM Cliente c WHERE c.clienteNombre = :clienteNombre"),
-    @NamedQuery(name = "Cliente.findByClienteApellido", query = "SELECT c FROM Cliente c WHERE c.clienteApellido = :clienteApellido"),
-    @NamedQuery(name = "Cliente.findByClienteFechaNacimiento", query = "SELECT c FROM Cliente c WHERE c.clienteFechaNacimiento = :clienteFechaNacimiento"),
+    @NamedQuery(name = "Cliente.findByClienteApellidoPaterno", query = "SELECT c FROM Cliente c WHERE c.clienteApellidoPaterno = :clienteApellidoPaterno"),
+    @NamedQuery(name = "Cliente.findByClienteApellidoMaterno", query = "SELECT c FROM Cliente c WHERE c.clienteApellidoMaterno = :clienteApellidoMaterno"),
     @NamedQuery(name = "Cliente.findByClienteDireccion", query = "SELECT c FROM Cliente c WHERE c.clienteDireccion = :clienteDireccion"),
+    @NamedQuery(name = "Cliente.findByClienteComuna", query = "SELECT c FROM Cliente c WHERE c.clienteComuna = :clienteComuna"),
+    @NamedQuery(name = "Cliente.findByClienteFechaNacimiento", query = "SELECT c FROM Cliente c WHERE c.clienteFechaNacimiento = :clienteFechaNacimiento"),
     @NamedQuery(name = "Cliente.findByClienteMail", query = "SELECT c FROM Cliente c WHERE c.clienteMail = :clienteMail"),
     @NamedQuery(name = "Cliente.findByClienteTelefono", query = "SELECT c FROM Cliente c WHERE c.clienteTelefono = :clienteTelefono"),
     @NamedQuery(name = "Cliente.findByClienteTelefonoEmergencia", query = "SELECT c FROM Cliente c WHERE c.clienteTelefonoEmergencia = :clienteTelefonoEmergencia"),
@@ -45,83 +50,102 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cliente.findByClienteEstadoCivil", query = "SELECT c FROM Cliente c WHERE c.clienteEstadoCivil = :clienteEstadoCivil")})
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "cliente_rut")
-    private int clienteRut;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "cliente_codigo")
-    private Integer clienteCodigo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "cliente_nombre")
+    @Column(name = "clienteRut")
+    private Integer clienteRut;
+    @Basic(optional = false)
+    @Column(name = "clienteCodigo")
+    private int clienteCodigo;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "clienteNombre")
     private String clienteNombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "cliente_apellido")
-    private String clienteApellido;
+    @Size(min = 1, max = 45)
+    @Column(name = "clienteApellidoPaterno")
+    private String clienteApellidoPaterno;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cliente_fecha_nacimiento")
+    @Size(min = 1, max = 45)
+    @Column(name = "clienteApellidoMaterno")
+    private String clienteApellidoMaterno;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "clienteDireccion")
+    private String clienteDireccion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "clienteComuna")
+    private String clienteComuna;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "clienteFechaNacimiento")
     @Temporal(TemporalType.DATE)
     private Date clienteFechaNacimiento;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 90)
-    @Column(name = "cliente_direccion")
-    private String clienteDireccion;
-    @Size(max = 45)
-    @Column(name = "cliente_mail")
+    @Size(min = 1, max = 60)
+    @Column(name = "clienteMail")
     private String clienteMail;
-    @Column(name = "cliente_telefono")
-    private Integer clienteTelefono;
-    @Column(name = "cliente_telefono_emergencia")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "clienteTelefono")
+    private int clienteTelefono;
+    @Column(name = "clienteTelefonoEmergencia")
     private Integer clienteTelefonoEmergencia;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cliente_sexo")
-    private char clienteSexo;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "cliente_estado_civil")
+    @Column(name = "clienteSexo")
+    private String clienteSexo;
+    @Size(max = 10)
+    @Column(name = "clienteEstadoCivil")
     private String clienteEstadoCivil;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "cliente")
+    private PlanContratado planContratado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteclienteRut")
+    private Collection<HistorialPago> historialPagoCollection;
 
     public Cliente() {
     }
 
-    public Cliente(Integer clienteCodigo) {
-        this.clienteCodigo = clienteCodigo;
-    }
-
-    public Cliente(Integer clienteCodigo, int clienteRut, String clienteNombre, String clienteApellido, Date clienteFechaNacimiento, String clienteDireccion, char clienteSexo, String clienteEstadoCivil) {
-        this.clienteCodigo = clienteCodigo;
+    public Cliente(Integer clienteRut) {
         this.clienteRut = clienteRut;
-        this.clienteNombre = clienteNombre;
-        this.clienteApellido = clienteApellido;
-        this.clienteFechaNacimiento = clienteFechaNacimiento;
-        this.clienteDireccion = clienteDireccion;
-        this.clienteSexo = clienteSexo;
-        this.clienteEstadoCivil = clienteEstadoCivil;
     }
 
-    public int getClienteRut() {
+    public Cliente(Integer clienteRut, int clienteCodigo, String clienteNombre, String clienteApellidoPaterno, String clienteApellidoMaterno, String clienteDireccion, String clienteComuna, Date clienteFechaNacimiento, String clienteMail, int clienteTelefono, String clienteSexo) {
+        this.clienteRut = clienteRut;
+        this.clienteCodigo = clienteCodigo;
+        this.clienteNombre = clienteNombre;
+        this.clienteApellidoPaterno = clienteApellidoPaterno;
+        this.clienteApellidoMaterno = clienteApellidoMaterno;
+        this.clienteDireccion = clienteDireccion;
+        this.clienteComuna = clienteComuna;
+        this.clienteFechaNacimiento = clienteFechaNacimiento;
+        this.clienteMail = clienteMail;
+        this.clienteTelefono = clienteTelefono;
+        this.clienteSexo = clienteSexo;
+    }
+
+    public Integer getClienteRut() {
         return clienteRut;
     }
 
-    public void setClienteRut(int clienteRut) {
+    public void setClienteRut(Integer clienteRut) {
         this.clienteRut = clienteRut;
     }
 
-    public Integer getClienteCodigo() {
+    public int getClienteCodigo() {
         return clienteCodigo;
     }
 
-    public void setClienteCodigo(Integer clienteCodigo) {
+    public void setClienteCodigo(int clienteCodigo) {
         this.clienteCodigo = clienteCodigo;
     }
 
@@ -133,20 +157,20 @@ public class Cliente implements Serializable {
         this.clienteNombre = clienteNombre;
     }
 
-    public String getClienteApellido() {
-        return clienteApellido;
+    public String getClienteApellidoPaterno() {
+        return clienteApellidoPaterno;
     }
 
-    public void setClienteApellido(String clienteApellido) {
-        this.clienteApellido = clienteApellido;
+    public void setClienteApellidoPaterno(String clienteApellidoPaterno) {
+        this.clienteApellidoPaterno = clienteApellidoPaterno;
     }
 
-    public Date getClienteFechaNacimiento() {
-        return clienteFechaNacimiento;
+    public String getClienteApellidoMaterno() {
+        return clienteApellidoMaterno;
     }
 
-    public void setClienteFechaNacimiento(Date clienteFechaNacimiento) {
-        this.clienteFechaNacimiento = clienteFechaNacimiento;
+    public void setClienteApellidoMaterno(String clienteApellidoMaterno) {
+        this.clienteApellidoMaterno = clienteApellidoMaterno;
     }
 
     public String getClienteDireccion() {
@@ -157,6 +181,22 @@ public class Cliente implements Serializable {
         this.clienteDireccion = clienteDireccion;
     }
 
+    public String getClienteComuna() {
+        return clienteComuna;
+    }
+
+    public void setClienteComuna(String clienteComuna) {
+        this.clienteComuna = clienteComuna;
+    }
+
+    public Date getClienteFechaNacimiento() {
+        return clienteFechaNacimiento;
+    }
+
+    public void setClienteFechaNacimiento(Date clienteFechaNacimiento) {
+        this.clienteFechaNacimiento = clienteFechaNacimiento;
+    }
+
     public String getClienteMail() {
         return clienteMail;
     }
@@ -165,11 +205,11 @@ public class Cliente implements Serializable {
         this.clienteMail = clienteMail;
     }
 
-    public Integer getClienteTelefono() {
+    public int getClienteTelefono() {
         return clienteTelefono;
     }
 
-    public void setClienteTelefono(Integer clienteTelefono) {
+    public void setClienteTelefono(int clienteTelefono) {
         this.clienteTelefono = clienteTelefono;
     }
 
@@ -181,11 +221,11 @@ public class Cliente implements Serializable {
         this.clienteTelefonoEmergencia = clienteTelefonoEmergencia;
     }
 
-    public char getClienteSexo() {
+    public String getClienteSexo() {
         return clienteSexo;
     }
 
-    public void setClienteSexo(char clienteSexo) {
+    public void setClienteSexo(String clienteSexo) {
         this.clienteSexo = clienteSexo;
     }
 
@@ -197,10 +237,27 @@ public class Cliente implements Serializable {
         this.clienteEstadoCivil = clienteEstadoCivil;
     }
 
+    public PlanContratado getPlanContratado() {
+        return planContratado;
+    }
+
+    public void setPlanContratado(PlanContratado planContratado) {
+        this.planContratado = planContratado;
+    }
+
+    @XmlTransient
+    public Collection<HistorialPago> getHistorialPagoCollection() {
+        return historialPagoCollection;
+    }
+
+    public void setHistorialPagoCollection(Collection<HistorialPago> historialPagoCollection) {
+        this.historialPagoCollection = historialPagoCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (clienteCodigo != null ? clienteCodigo.hashCode() : 0);
+        hash += (clienteRut != null ? clienteRut.hashCode() : 0);
         return hash;
     }
 
@@ -211,7 +268,7 @@ public class Cliente implements Serializable {
             return false;
         }
         Cliente other = (Cliente) object;
-        if ((this.clienteCodigo == null && other.clienteCodigo != null) || (this.clienteCodigo != null && !this.clienteCodigo.equals(other.clienteCodigo))) {
+        if ((this.clienteRut == null && other.clienteRut != null) || (this.clienteRut != null && !this.clienteRut.equals(other.clienteRut))) {
             return false;
         }
         return true;
@@ -219,9 +276,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "Cliente{" + "clienteRut=" + clienteRut + ", clienteCodigo=" + clienteCodigo + ", clienteNombre=" + clienteNombre + ", clienteApellido=" + clienteApellido + ", clienteFechaNacimiento=" + clienteFechaNacimiento + ", clienteDireccion=" + clienteDireccion + ", clienteMail=" + clienteMail + ", clienteTelefono=" + clienteTelefono + ", clienteTelefonoEmergencia=" + clienteTelefonoEmergencia + ", clienteSexo=" + clienteSexo + ", clienteEstadoCivil=" + clienteEstadoCivil + '}';
+        return "cl.dozen.www.entities.Cliente[ clienteRut=" + clienteRut + " ]";
     }
-
-   
     
 }

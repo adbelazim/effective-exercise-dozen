@@ -29,12 +29,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author root
  */
 @Entity
-@Table(name = "plan_contratado")
+@Table(name = "planContratado")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PlanContratado.findAll", query = "SELECT p FROM PlanContratado p"),
-    @NamedQuery(name = "PlanContratado.findByClienteCodigo", query = "SELECT p FROM PlanContratado p WHERE p.clienteCodigo = :clienteCodigo"),
-    @NamedQuery(name = "PlanContratado.findByPlanContratadoFechaPago", query = "SELECT p FROM PlanContratado p WHERE p.planContratadoFechaPago = :planContratadoFechaPago"),
+    @NamedQuery(name = "PlanContratado.findByClienteclienteRut", query = "SELECT p FROM PlanContratado p WHERE p.clienteclienteRut = :clienteclienteRut"),
+    @NamedQuery(name = "PlanContratado.findByPlanContratadoFechaInicio", query = "SELECT p FROM PlanContratado p WHERE p.planContratadoFechaInicio = :planContratadoFechaInicio"),
     @NamedQuery(name = "PlanContratado.findByPlanContratadoMonto", query = "SELECT p FROM PlanContratado p WHERE p.planContratadoMonto = :planContratadoMonto"),
     @NamedQuery(name = "PlanContratado.findByPlanContratadoObservacion", query = "SELECT p FROM PlanContratado p WHERE p.planContratadoObservacion = :planContratadoObservacion")})
 public class PlanContratado implements Serializable {
@@ -42,61 +42,61 @@ public class PlanContratado implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cliente_codigo")
-    private Integer clienteCodigo;
+    @Column(name = "cliente_clienteRut")
+    private Integer clienteclienteRut;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "plan_contratado_fecha_pago")
+    @Column(name = "planContratadoFechaInicio")
     @Temporal(TemporalType.DATE)
-    private Date planContratadoFechaPago;
+    private Date planContratadoFechaInicio;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "plan_contratado_monto")
-    private double planContratadoMonto;
-    @Size(max = 100)
-    @Column(name = "plan_contratado_observacion")
+    @Column(name = "planContratadoMonto")
+    private int planContratadoMonto;
+    @Size(max = 90)
+    @Column(name = "planContratadoObservacion")
     private String planContratadoObservacion;
-    @JoinColumn(name = "plan_id", referencedColumnName = "plan_id")
+    @JoinColumn(name = "plan_planId", referencedColumnName = "planId")
     @ManyToOne(optional = false)
-    private Plan planId;
-    @JoinColumn(name = "cliente_codigo", referencedColumnName = "cliente_codigo", insertable = false, updatable = false)
+    private Plan planplanId;
+    @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Cliente cliente;
 
     public PlanContratado() {
     }
 
-    public PlanContratado(Integer clienteCodigo) {
-        this.clienteCodigo = clienteCodigo;
+    public PlanContratado(Integer clienteclienteRut) {
+        this.clienteclienteRut = clienteclienteRut;
     }
 
-    public PlanContratado(Integer clienteCodigo, Date planContratadoFechaPago, double planContratadoMonto) {
-        this.clienteCodigo = clienteCodigo;
-        this.planContratadoFechaPago = planContratadoFechaPago;
+    public PlanContratado(Integer clienteclienteRut, Date planContratadoFechaInicio, int planContratadoMonto) {
+        this.clienteclienteRut = clienteclienteRut;
+        this.planContratadoFechaInicio = planContratadoFechaInicio;
         this.planContratadoMonto = planContratadoMonto;
     }
 
-    public Integer getClienteCodigo() {
-        return clienteCodigo;
+    public Integer getClienteclienteRut() {
+        return clienteclienteRut;
     }
 
-    public void setClienteCodigo(Integer clienteCodigo) {
-        this.clienteCodigo = clienteCodigo;
+    public void setClienteclienteRut(Integer clienteclienteRut) {
+        this.clienteclienteRut = clienteclienteRut;
     }
 
-    public Date getPlanContratadoFechaPago() {
-        return planContratadoFechaPago;
+    public Date getPlanContratadoFechaInicio() {
+        return planContratadoFechaInicio;
     }
 
-    public void setPlanContratadoFechaPago(Date planContratadoFechaPago) {
-        this.planContratadoFechaPago = planContratadoFechaPago;
+    public void setPlanContratadoFechaInicio(Date planContratadoFechaInicio) {
+        this.planContratadoFechaInicio = planContratadoFechaInicio;
     }
 
-    public double getPlanContratadoMonto() {
+    public int getPlanContratadoMonto() {
         return planContratadoMonto;
     }
 
-    public void setPlanContratadoMonto(double planContratadoMonto) {
+    public void setPlanContratadoMonto(int planContratadoMonto) {
         this.planContratadoMonto = planContratadoMonto;
     }
 
@@ -108,12 +108,12 @@ public class PlanContratado implements Serializable {
         this.planContratadoObservacion = planContratadoObservacion;
     }
 
-    public Plan getPlanId() {
-        return planId;
+    public Plan getPlanplanId() {
+        return planplanId;
     }
 
-    public void setPlanId(Plan planId) {
-        this.planId = planId;
+    public void setPlanplanId(Plan planplanId) {
+        this.planplanId = planplanId;
     }
 
     public Cliente getCliente() {
@@ -127,7 +127,7 @@ public class PlanContratado implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (clienteCodigo != null ? clienteCodigo.hashCode() : 0);
+        hash += (clienteclienteRut != null ? clienteclienteRut.hashCode() : 0);
         return hash;
     }
 
@@ -138,7 +138,7 @@ public class PlanContratado implements Serializable {
             return false;
         }
         PlanContratado other = (PlanContratado) object;
-        if ((this.clienteCodigo == null && other.clienteCodigo != null) || (this.clienteCodigo != null && !this.clienteCodigo.equals(other.clienteCodigo))) {
+        if ((this.clienteclienteRut == null && other.clienteclienteRut != null) || (this.clienteclienteRut != null && !this.clienteclienteRut.equals(other.clienteclienteRut))) {
             return false;
         }
         return true;
@@ -146,9 +146,7 @@ public class PlanContratado implements Serializable {
 
     @Override
     public String toString() {
-        return "PlanContratado{" + "clienteCodigo=" + clienteCodigo + ", planContratadoFechaPago=" + planContratadoFechaPago + ", planContratadoMonto=" + planContratadoMonto + ", planContratadoObservacion=" + planContratadoObservacion + ", planId=" + planId + ", cliente=" + cliente + '}';
+        return "cl.dozen.www.entities.PlanContratado[ clienteclienteRut=" + clienteclienteRut + " ]";
     }
-
-    
     
 }

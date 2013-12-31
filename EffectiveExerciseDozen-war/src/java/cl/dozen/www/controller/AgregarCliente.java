@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cl.dozen.www.controller;
 
+import cl.dozen.www.cliente.ClienteNegocioLocal;
 import cl.dozen.www.entities.Cliente;
+import cl.dozen.www.entities.HistorialPago;
 import cl.dozen.www.entities.Plan;
 import cl.dozen.www.entities.PlanContratado;
 import cl.dozen.www.facades.ClienteFacadeLocal;
-import cl.dozen.www.facades.ClienteSessionLocal;
 import cl.dozen.www.facades.PlanContratadoFacadeLocal;
 import java.io.File;
 import java.util.ArrayList;
@@ -28,8 +28,11 @@ import org.primefaces.event.CaptureEvent;
 import org.primefaces.event.FlowEvent;
 import cl.dozen.www.facades.PlanFacadeLocal;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 
 /**
@@ -38,63 +41,78 @@ import javax.inject.Inject;
  */
 @Named
 @ConversationScoped
-public class AgregarCliente implements Serializable{
+public class AgregarCliente implements Serializable {
+
     @EJB
-    private ClienteSessionLocal clienteSession;
-    @EJB
-    private PlanContratadoFacadeLocal planContratadoFacade;
+    private ClienteNegocioLocal clienteNegocio;
+
     @EJB
     private ClienteFacadeLocal clienteFacade;
     //me permite obtener todos los planes desdes la DB
     @EJB
     private PlanFacadeLocal planFacade;
     //manater conversacion entre datos
-    
+
     @Inject
     private Conversation conversation;
     //cliente de la vista, del tipo entities
     private Cliente cliente;
     //lista de planes obtenidos desde al facade
     private List<Plan> planes;
+    //lista comunas
+    private List<String> comunas;
     //plan seleccionado por el cliente
     private Plan planSeleccionado;
     //relacion entre plan seleccionado con cliente
     private PlanContratado planContratado;
-    //mostrar mensajes en el servidor de aplicaciones
-    private static Logger logger = Logger.getLogger(AgregarCliente.class.getName());  
+    //numero boleta
+    private HistorialPago historialPago;
 
-    public AgregarCliente() {        
+    //mostrar mensajes en el servidor de aplicaciones
+    private static Logger logger = Logger.getLogger(AgregarCliente.class.getName());
+
+    public AgregarCliente() {
     }
-    
+
     @PostConstruct
-    public void init(){
-              
-        cliente = new Cliente(clienteSession.codCliente()+1);
- 
+    public void init() {
+
+        cliente = new Cliente();
+
         planes = planFacade.findAll();
-        
+
         planContratado = new PlanContratado();
+
+        historialPago = new HistorialPago();    
         
-        
-        
-        
+        //comunas
+        String listadoComunas = "Cerrillos-La Reina-Pudahuel-Cerro Navia-Las Condes-Quilicura-Conchalí-Lo Barnechea-Quinta Normal-El Bosque-Lo Espejo-Recoleta-Estación Central-Lo Prado-Renca-Huechuraba-Macul-San Miguel-Independencia-Maipú-San Joaquín-La Cisterna-Ñuñoa-San Ramón-La Florida-Pedro Aguirre Cerda-Santiago-La Pintana-Peñalolén-Vitacura-La Granja-Providencia-Padre Hurtado-San Bernardo-Puente Alto-Pirque-San José de Maipo";
+        String[] nombresComunas = listadoComunas.split("-");
+        comunas = new ArrayList<String>();
+        comunas.addAll(Arrays.asList(nombresComunas));
+        Collections.sort(comunas);
+
     }
-    
-    public void beginConversation()
-   {
-      if (conversation.isTransient())
-      {
-          conversation.begin();
-      }
-   }
- 
-   public void endConversation()
-   {
-      if (!conversation.isTransient())
-      {
-          conversation.end();
-      }
-   }
+
+    public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+    }
+
+    public HistorialPago getHistorialPago() {
+        return historialPago;
+    }
+
+    public void setHistorialPago(HistorialPago historialPago) {
+        this.historialPago = historialPago;
+    }
 
     public PlanContratado getPlanContratado() {
         return planContratado;
@@ -104,9 +122,14 @@ public class AgregarCliente implements Serializable{
         this.planContratado = planContratado;
     }
 
-    
-    
-    
+    public List<String> getComunas() {
+        return comunas;
+    }
+
+    public void setComunas(List<String> comunas) {
+        this.comunas = comunas;
+    }
+
     public Plan getPlanSeleccionado() {
         return planSeleccionado;
     }
@@ -114,7 +137,7 @@ public class AgregarCliente implements Serializable{
     public void setPlanSeleccionado(Plan planSeleccionado) {
         this.planSeleccionado = planSeleccionado;
     }
-    
+
     public List<cl.dozen.www.entities.Plan> getPlanes() {
         return planes;
     }
@@ -122,7 +145,7 @@ public class AgregarCliente implements Serializable{
     public void setPlanes(List<cl.dozen.www.entities.Plan> planes) {
         this.planes = planes;
     }
-    
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -130,38 +153,33 @@ public class AgregarCliente implements Serializable{
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    
-    
-    public void agregarCliente(){
+
+    public void agregarCliente() {
            // agregar cliente a la BD
-        
-        System.out.println(cliente.toString());
-        clienteFacade.create(cliente);    
-        
-        planContratado.setClienteCodigo(cliente.getClienteCodigo());
-        planContratado.setPlanId(planSeleccionado);
-        
-        System.out.println(planContratado.toString());
-        
-        planContratadoFacade.create(planContratado);
+        int cod;
+        if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "Cliente con " + cliente.getClienteRut()+" ya existe"));
+        }else{
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Exxito", "Cliente con " + cod+" ya existe"));  
+        }
         endConversation();
-    
+
     }
-    
-   public void onRowSelect() {
-        planContratado.setPlanContratadoMonto( planSeleccionado.getPlanPrecio());
+
+    public void onRowSelect() {
+        planContratado.setPlanContratadoMonto(planSeleccionado.getPlanPrecio());
     }
-    
-    public String onFlowProcess(FlowEvent event) {  
-        logger.info("Current wizard step:" + event.getOldStep());  
-        logger.info("Next step:" + event.getNewStep()); 
-        
-         logger.info(cliente.toString());
-        
-        return event.getNewStep();  
-         
-    } 
-    
-    
+
+    public String onFlowProcess(FlowEvent event) {
+        logger.info("Current wizard step:" + event.getOldStep());
+        logger.info("Next step:" + event.getNewStep());
+
+        logger.info(cliente.toString());
+
+        return event.getNewStep();
+
+    }
+
 }
