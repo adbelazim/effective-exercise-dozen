@@ -18,6 +18,7 @@
 
 
             <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
                 <f:event listener="#{agregarCliente.beginConversation()}"
                          type="preRenderView"></f:event>
 
@@ -28,7 +29,7 @@
                     <p:wizard  widgetVar="wiz" flowListener="#{agregarCliente.onFlowProcess}">
                         <p:tab id="personal" title="Información Personal">
                             <p:panel  header="Datos Cliente" >
-                                <h:panelGrid  columns="3">
+                                <h:panelGrid  columns="3" styleClass="centered" >
                                     <h:outputLabel for="rut" value="Rut"/>
                                     <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.cliente.clienteRut}"  > 
                                     </p:inputText>
