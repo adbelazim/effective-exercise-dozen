@@ -8,11 +8,7 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Effective Excercise</title>
-        <p:imageSwitch effect="fade">  
-            <ui:repeat value="#{homeManagedBeans.images}" var="image">  
-                <p:graphicImage value="../imagenes/#{image}" />
-            </ui:repeat>  
-        </p:imageSwitch>  
+
     </h:head>
     <h:body>
         <ui:composition template="../template.xhtml">
@@ -22,9 +18,10 @@
                 <ui:include src="../menu.xhtml"/>
 
             </ui:define>
-            <ui:define  name="content">                 
-
-
+            <ui:define  name="content">   
+                <p:galleria value="#{homeManagedBeans.images}" var="image" panelWidth="600" panelHeight="313" showCaption="true">  
+                    <p:graphicImage value="../imagenes/#{image}" alt="Image Description for #{image}" title="#{image}"/>  
+                </p:galleria>  
             </ui:define>
         </ui:composition>
 

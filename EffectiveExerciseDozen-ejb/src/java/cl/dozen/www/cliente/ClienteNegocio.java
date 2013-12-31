@@ -12,6 +12,7 @@ import cl.dozen.www.entities.Plan;
 import cl.dozen.www.entities.PlanContratado;
 import com.sun.xml.ws.security.impl.policy.Constants;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -79,8 +80,31 @@ public class ClienteNegocio implements ClienteNegocioLocal {
         
         persist(historialPago);
         
-        
     }
+
+    @Override
+    public void editarCliente(Cliente cLiente) {
+       
+       
+    }
+
+    @Override
+    public List<Cliente> busquedaClienteNombre(String clienteNombre) {
+        Query q = em.createNamedQuery("Cliente.findByClienteNombre").setParameter("clienteNombre", clienteNombre);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Cliente> busquedaClienteRut(int clienteRut) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Cliente> busquedaClienteCodigo(int clienteCodigo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
     
 

@@ -10,7 +10,7 @@ package cl.dozen.www.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
@@ -29,15 +29,21 @@ public class HomeManagedBeans {
     @PostConstruct
     public void init(){
         images = new ArrayList<>();  
-        images.add("nature1.jpg");  
-        images.add("nature2.jpg");  
-        images.add("nature3.jpg");  
-        images.add("nature4.jpg");
+  
+        for(int i=1;i<=4;i++) {  
+            images.add("dozen" + i + ".jpg");  
+        }
         
         
     }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
     
-    public List<String> getImages() {  
-        return images;  
-    }  
+   
 }

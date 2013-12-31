@@ -10,6 +10,7 @@ import cl.dozen.www.entities.Cliente;
 import cl.dozen.www.entities.HistorialPago;
 import cl.dozen.www.entities.Plan;
 import cl.dozen.www.entities.PlanContratado;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -21,5 +22,8 @@ public interface ClienteNegocioLocal {
 
     int crearCliente(Cliente cliente, Plan plan, PlanContratado planContratado, HistorialPago historialPago);
     void realizarPago(Cliente cliente, PlanContratado planContratado,HistorialPago historialPago);
-    
+    void editarCliente(Cliente cLiente);
+    List<Cliente> busquedaClienteNombre(String clienteNombre);
+    List<Cliente> busquedaClienteRut(int clienteRut);
+    List<Cliente> busquedaClienteCodigo(int clienteCodigo);
 }
