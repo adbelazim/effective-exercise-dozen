@@ -18,9 +18,10 @@
                 <ui:include src="../menu.xhtml"/>
 
             </ui:define>
-            <ui:define  name="content">   
-                <p:galleria value="#{homeManagedBeans.images}" var="image" panelWidth="900" panelHeight="313" showCaption="true">  
-                    <p:graphicImage value="../imagenes/#{image}" alt="Image Description for #{image}" title="#{image}"/>  
+            <ui:define  name="content">  
+                <h:outputStylesheet library="css" name="position.css"  />
+                <p:galleria styleClass="centeredFoto"  value="#{homeManagedBeans.images}" var="image" panelWidth="900" panelHeight="313" showCaption="true">  
+                    <p:graphicImage value="../imagenes/#{image}"  title="Effective Excercise"/> 
                 </p:galleria>  
             </ui:define>
         </ui:composition>
