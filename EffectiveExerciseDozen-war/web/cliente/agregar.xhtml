@@ -109,11 +109,7 @@
                                 <p:dataTable id="planes" var="plan" value="#{agregarCliente.planes}" rowKey="#{plan.planId}"  
                                              selection="#{agregarCliente.planSeleccionado}" selectionMode="single">  
 
-                                    <f:facet name="header">  
-                                        Haga Click en un Plan para seleccionar  
-                                    </f:facet>  
-
-                                    <p:column headerText="Nombre">  
+                                    <p:column headerText="Nombre" style="text-align: left; width:15px; " >   
                                         #{plan.planNombre}  
                                     </p:column>  
 
@@ -121,7 +117,7 @@
                                         #{plan.planPrecio}  
                                     </p:column>  
 
-                                    <p:column headerText="Descripcion" >  
+                                    <p:column headerText="Descripcion" style= "max-width: 300px" >  
                                         #{plan.planDescripcion}  
                                     </p:column> 
                                     <p:ajax event="rowSelect" listener="#{agregarCliente.onRowSelect}" update=":form:panelDetalle"  />  

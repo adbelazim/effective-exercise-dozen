@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pagos</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+            <ui:define name="top">
+                <ui:include src="../menu.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
+                <h:form>
+                    <p:panel  header="Ingresar Pagos" >
+                        
+                                <p:dataTable id="planes" var="plan" value="#{agregarCliente.planes}" 
+                                             rowKey="#{plan.planId}" >  
+
+                                    <f:facet name="header">  
+                                       Lista de planes  
+                                    </f:facet>  
+
+                                    <p:column headerText="Nombre">  
+                                        #{plan.planNombre}  
+                                    </p:column>  
+
+                                    <p:column headerText="Precio">  
+                                        #{plan.planPrecio}  
+                                    </p:column>  
+
+                                    <p:column headerText="Descripcion" >  
+                                        #{plan.planDescripcion}  
+                                    </p:column> 
+                                      
+                                </p:dataTable>
+                                <p:separator />
+                                
+                        <h:panelGrid  columns="3" styleClass="centered" >
+                            <h:outputLabel for="rut" value="Rut del Cliente"/>
+                            <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.cliente.clienteRut}"  > 
+                            </p:inputText>
+                            <p:message id="msgRut" for="rut"  />
+
+                            <h:outputLabel for="boleta" value="N° de Boleta"/>
+                            <p:inputText  id="boleta" value="#{agregarCliente.cliente.clienteNombre}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgBoleta" for="boleta"  />
+
+                            <h:outputLabel  for="fechaPago" value="Fecha de Pago"/>
+                            <p:calendar  pattern="dd/MM/yyyy" id="fechaPago" value="#{agregarCliente.planContratado.planContratadoFechaInicio}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                            </p:calendar>
+                            <p:message id="msgFechaPago" for="fechaPago" /> 
+
+                            <h:outputLabel  for="monto" value="Monto" />
+                            <p:inputText id ="monto"  value="#{agregarCliente.cliente.clienteApellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgMonto" for="monto"  />
+
+                            <h:outputLabel for="observaciones" value="Observaciones" />
+                            <p:inputTextarea  id="observaciones" value="#{agregarCliente.planContratado.planContratadoObservacion}"/>
+                            <p:message id="msgObs" for="observaciones" /> 
+                            
+                           <p:commandButton   value="Ingresar Pago"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+
