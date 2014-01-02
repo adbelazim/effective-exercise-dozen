@@ -43,30 +43,30 @@
                                 
                         <h:panelGrid  columns="3" styleClass="centered" >
                             <h:outputLabel for="rut" value="Rut del Cliente"/>
-                            <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.cliente.clienteRut}"  > 
+                            <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarPago.rut}"  > 
                             </p:inputText>
                             <p:message id="msgRut" for="rut"  />
 
                             <h:outputLabel for="boleta" value="N° de Boleta"/>
-                            <p:inputText  id="boleta" value="#{agregarCliente.cliente.clienteNombre}" required="true" requiredMessage="Campo requerido">
+                            <p:inputText  id="boleta" value="#{agregarPago.numBoleta}" required="true" requiredMessage="Campo requerido">
                             </p:inputText>
                             <p:message id="msgBoleta" for="boleta"  />
 
                             <h:outputLabel  for="fechaPago" value="Fecha de Pago"/>
-                            <p:calendar  pattern="dd/MM/yyyy" id="fechaPago" value="#{agregarCliente.planContratado.planContratadoFechaInicio}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                            <p:calendar  pattern="dd/MM/yyyy" id="fechaPago" value="#{agregarPago.fecha}" required="true" requiredMessage="Campo requerido" navigator="true" >
                             </p:calendar>
                             <p:message id="msgFechaPago" for="fechaPago" /> 
 
                             <h:outputLabel  for="monto" value="Monto" />
-                            <p:inputText id ="monto"  value="#{agregarCliente.cliente.clienteApellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                            <p:inputText id ="monto"  value="#{agregarPago.monto}" required="true" requiredMessage="Campo requerido">
                             </p:inputText>
                             <p:message id="msgMonto" for="monto"  />
 
                             <h:outputLabel for="observaciones" value="Observaciones" />
-                            <p:inputTextarea  id="observaciones" value="#{agregarCliente.planContratado.planContratadoObservacion}"/>
+                            <p:inputTextarea  id="observaciones" value="#{agregarPago.observaciones}"/>
                             <p:message id="msgObs" for="observaciones" /> 
                             
-                           <p:commandButton   value="Ingresar Pago"/>
+                            <p:commandButton   value="Ingresar Pago" action="#{agregarPago.agregarPago()}"/>
                         </h:panelGrid>
                     </p:panel>
                 </h:form>

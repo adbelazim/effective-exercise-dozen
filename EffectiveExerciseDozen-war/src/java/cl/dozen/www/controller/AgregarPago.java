@@ -8,7 +8,10 @@ package cl.dozen.www.controller;
 
 import cl.dozen.www.entities.Cliente;
 import cl.dozen.www.entities.HistorialPago;
+import cl.dozen.www.facades.HistorialPagoFacade;
+import cl.dozen.www.facades.HistorialPagoFacadeLocal;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -19,8 +22,11 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AgregarPago {
+    @EJB
+    private HistorialPagoFacadeLocal historialPagoFacade;
     private HistorialPago historialPago;
     private Cliente cliente;
+    private int rut;
     private int numBoleta;
     private Date fecha;
     private int monto;
@@ -28,6 +34,14 @@ public class AgregarPago {
     
 
     public AgregarPago() {
+    }
+
+    public int getRut() {
+        return rut;
+    }
+
+    public void setRut(int rut) {
+        this.rut = rut;
     }
 
     
@@ -81,9 +95,12 @@ public class AgregarPago {
     }
     
     public void agregarPago(){
-           
-        historialPago = new HistorialPago(numBoleta, fecha, );
-        pago.setHistorialPagoObservacion(observaciones);
+        cliente = new Cliente(rut);
+        historialPago = new HistorialPago(numBoleta, fecha, monto );
+        historialPago.setHistorialPagoObservacion(observaciones);
+        historialPago.setClienteclienteRut(cliente);
+        historialPagoFacade.create(historialPago);
+        
     }
     
 }
