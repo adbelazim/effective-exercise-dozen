@@ -10,43 +10,33 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author rob_sandova
+ * @author sergio
  */
 @Entity
 @Table(name = "asistencia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Asistencia.findAll", query = "SELECT a FROM Asistencia a"),
-    @NamedQuery(name = "Asistencia.findByClienteclienteRut", query = "SELECT a FROM Asistencia a WHERE a.clienteclienteRut = :clienteclienteRut"),
-    @NamedQuery(name = "Asistencia.findByAsistenciaFecha", query = "SELECT a FROM Asistencia a WHERE a.asistenciaFecha = :asistenciaFecha"),
+    @NamedQuery(name = "Asistencia.findByClienteclienteRut", query = "SELECT a FROM Asistencia a WHERE a.asistenciaPK.clienteclienteRut = :clienteclienteRut"),
+    @NamedQuery(name = "Asistencia.findByAsistenciaFecha", query = "SELECT a FROM Asistencia a WHERE a.asistenciaPK.asistenciaFecha = :asistenciaFecha"),
     @NamedQuery(name = "Asistencia.findByAsistenciaMaquina", query = "SELECT a FROM Asistencia a WHERE a.asistenciaMaquina = :asistenciaMaquina"),
     @NamedQuery(name = "Asistencia.findByAsistenciaClase", query = "SELECT a FROM Asistencia a WHERE a.asistenciaClase = :asistenciaClase")})
 public class Asistencia implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "cliente_clienteRut")
-    private Integer clienteclienteRut;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "asistencia_fecha")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date asistenciaFecha;
+    @EmbeddedId
+    protected AsistenciaPK asistenciaPK;
     @Basic(optional = false)
     @NotNull
     @Column(name = "asistencia_maquina")
@@ -56,37 +46,36 @@ public class Asistencia implements Serializable {
     @Column(name = "asistencia_clase")
     private boolean asistenciaClase;
     @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Cliente cliente;
 
     public Asistencia() {
     }
 
-    public Asistencia(Integer clienteclienteRut) {
-        this.clienteclienteRut = clienteclienteRut;
+    public Asistencia(AsistenciaPK asistenciaPK) {
+        this.asistenciaPK = asistenciaPK;
     }
 
-    public Asistencia(Integer clienteclienteRut, Date asistenciaFecha, boolean asistenciaMaquina, boolean asistenciaClase) {
-        this.clienteclienteRut = clienteclienteRut;
-        this.asistenciaFecha = asistenciaFecha;
+    public Asistencia(AsistenciaPK asistenciaPK, boolean asistenciaMaquina, boolean asistenciaClase) {
+        this.asistenciaPK = asistenciaPK;
         this.asistenciaMaquina = asistenciaMaquina;
         this.asistenciaClase = asistenciaClase;
     }
 
-    public Integer getClienteclienteRut() {
-        return clienteclienteRut;
+    public Asistencia(int clienteclienteRut, Date asistenciaFecha) {
+        this.asistenciaPK = new AsistenciaPK(clienteclienteRut, asistenciaFecha);
     }
 
-    public void setClienteclienteRut(Integer clienteclienteRut) {
-        this.clienteclienteRut = clienteclienteRut;
+    public Asistencia(Asistencia asistenciapk, boolean maquinaAsistencia, boolean claseAsistencia) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Date getAsistenciaFecha() {
-        return asistenciaFecha;
+    public AsistenciaPK getAsistenciaPK() {
+        return asistenciaPK;
     }
 
-    public void setAsistenciaFecha(Date asistenciaFecha) {
-        this.asistenciaFecha = asistenciaFecha;
+    public void setAsistenciaPK(AsistenciaPK asistenciaPK) {
+        this.asistenciaPK = asistenciaPK;
     }
 
     public boolean getAsistenciaMaquina() {
@@ -116,7 +105,7 @@ public class Asistencia implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (clienteclienteRut != null ? clienteclienteRut.hashCode() : 0);
+        hash += (asistenciaPK != null ? asistenciaPK.hashCode() : 0);
         return hash;
     }
 
@@ -127,7 +116,7 @@ public class Asistencia implements Serializable {
             return false;
         }
         Asistencia other = (Asistencia) object;
-        if ((this.clienteclienteRut == null && other.clienteclienteRut != null) || (this.clienteclienteRut != null && !this.clienteclienteRut.equals(other.clienteclienteRut))) {
+        if ((this.asistenciaPK == null && other.asistenciaPK != null) || (this.asistenciaPK != null && !this.asistenciaPK.equals(other.asistenciaPK))) {
             return false;
         }
         return true;
@@ -135,7 +124,7 @@ public class Asistencia implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.Asistencia[ clienteclienteRut=" + clienteclienteRut + " ]";
+        return "cl.dozen.www.entities.Asistencia[ asistenciaPK=" + asistenciaPK + " ]";
     }
     
 }

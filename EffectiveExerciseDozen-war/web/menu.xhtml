@@ -8,39 +8,14 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:menubar>  
-                <p:submenu label="File" icon="ui-icon-document">  
-                    <p:submenu label="New" icon="ui-icon-contact">  
-                        <p:menuitem value="Project" url="#" />  
-                        <p:menuitem value="Other" url="#" />  
-                    </p:submenu>  
-                    <p:menuitem value="Open" url="#" />  
-                    <p:separator />  
-                    <p:menuitem value="Quit" url="#" />  
-                </p:submenu>  
-
-                <p:submenu label="Edit" icon="ui-icon-pencil">  
-                    <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />  
-                    <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />  
-                </p:submenu>  
-
-                <p:submenu label="Help" icon="ui-icon-help">  
-                    <p:menuitem value="Contents" url="#" />  
-                    <p:submenu label="Search" icon="ui-icon-search">  
-                        <p:submenu label="Text">  
-                            <p:menuitem value="Workspace" url="#" />  
-                        </p:submenu>  
-                        <p:menuitem value="File" url="#" />  
-                    </p:submenu>  
-                </p:submenu>  
-
-
-
-                <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />  
-
-            </p:menubar> 
+            <p:tabMenu>  
+                <p:menuitem value="Información Personal" url="/ui/tabMenu.jsf" />  
+                <p:menuitem value="Clientes" url="/ui/tabMenuDemos.jsf" />  
+                <p:menuitem value="Entrenadores" url="/ui/tabMenuDocumentation.jsf" />  
+                <p:menuitem value="Tomar Horario" url="/ui/tabMenuSupport.jsf" />  
+                <p:menuitem value="Asistencia" url="/ui/tabMenuSocial.jsf"  />  
+            </p:tabMenu>  
         </h:form>
-
     </h:body>
 </html>
 

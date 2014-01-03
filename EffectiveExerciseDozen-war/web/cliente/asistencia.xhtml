@@ -13,36 +13,36 @@
             <ui:define name="top">
                 <ui:include src="../menu.xhtml"/>
             </ui:define>
-            
+
             <ui:define name="content">
-             <h:outputStylesheet library="css" name="position.css"  />
-        <h:form id="form">
-            <p:growl id="growl" showDetail="true" sticky="true" />  
-            <p:panel  header="Datos Cliente" >
-                <h:panelGrid columns= "3" styleClass = "centered" >
-   
-            <h:outputLabel for="rut" value="Rut Cliente"/>
-            <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarAsistencia.clienteRut}"  > 
-            </p:inputText>
-            <p:message id="msgRut" for="rut"  />
-  
-            <h:outputText value="Maquinas: " />  
-            <p:selectBooleanCheckbox id = "id1" value="#{agregarAsistencia.maquinaAsistencia}" /> 
-            <p:message id="msgMaq" for="id1"  />
-            <h:outputText value="Clases: " />  
-            <p:selectBooleanCheckbox id="id2" value="#{agregarAsistencia.claseAsistencia}">  
-            <p:message id="msgCl" for="id2"  />
-            </p:selectBooleanCheckbox>  
-            
-            
-            <h:outputLabel/>
-            <p:commandButton value="agregar" action="#{agregarAsistencia.integrarAsistencia()}" update="growl" />
-          
-            
-            </h:panelGrid>
-            </p:panel>
-            </h:form>
-        </ui:define>
+                <h:outputStylesheet library="css" name="position.css"  />
+                <h:form id="form">
+                    <p:growl id="growl" showDetail="true" sticky="true" />  
+                    <p:panel  header="Datos Cliente" >
+                        <h:panelGrid columns= "3" styleClass = "centered" >
+
+                            <h:outputLabel for="rut" value="Rut Cliente"/>
+                            <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarAsistencia.clienteRut}"  > 
+                            </p:inputText>
+                            <p:message id="msgRut" for="rut"  />
+
+                            <h:outputText value="Maquinas: " />  
+                            <p:selectBooleanCheckbox id = "id1" value="#{agregarAsistencia.maquinaAsistencia}" /> 
+                            <p:message id="msgMaq" for="id1"  />
+                            <h:outputText value="Clases: " />  
+                            <p:selectBooleanCheckbox id="id2" value="#{agregarAsistencia.claseAsistencia}">  
+                                <p:message id="msgCl" for="id2"  />
+                            </p:selectBooleanCheckbox>  
+
+
+                            <h:outputLabel/>
+                            <p:commandButton value="agregar" action="#{agregarAsistencia.integrarAsistencia()}" update="growl" />
+
+
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+            </ui:define>
         </ui:composition>
     </h:body>    
 </html>

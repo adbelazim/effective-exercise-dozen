@@ -12,7 +12,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author rob_sandova
+ * @author sergio
  */
 @Local
 public interface ClienteFacadeLocal {

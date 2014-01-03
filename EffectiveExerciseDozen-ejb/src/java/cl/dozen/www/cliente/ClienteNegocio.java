@@ -10,7 +10,6 @@ import cl.dozen.www.entities.Cliente;
 import cl.dozen.www.entities.HistorialPago;
 import cl.dozen.www.entities.Plan;
 import cl.dozen.www.entities.PlanContratado;
-import com.sun.xml.ws.security.impl.policy.Constants;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
