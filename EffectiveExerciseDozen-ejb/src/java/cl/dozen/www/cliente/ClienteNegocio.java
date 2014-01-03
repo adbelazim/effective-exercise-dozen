@@ -46,6 +46,7 @@ public class ClienteNegocio implements ClienteNegocioLocal {
 
         planContratado.setClienteclienteRut(cliente.getClienteRut());
         planContratado.setPlanplanId(plan);
+        planContratado.setPlanContratadoFechaInicio(new Date());
         
         System.out.println(cliente.toString());
         System.out.println(plan.toString());
@@ -83,26 +84,47 @@ public class ClienteNegocio implements ClienteNegocioLocal {
     }
 
     @Override
-    public void editarCliente(Cliente cLiente) {
-       
+    public void editarCliente(Cliente cLiente) { 
        
     }
 
     @Override
     public List<Cliente> busquedaClienteNombre(String clienteNombre) {
-        Query q = em.createNamedQuery("Cliente.findByClienteNombre").setParameter("clienteNombre", clienteNombre);
+        Query q = em.createNamedQuery("Cliente.findByClienteNombre").setParameter("clienteNombre", clienteNombre);  
         return q.getResultList();
     }
 
     @Override
     public List<Cliente> busquedaClienteRut(int clienteRut) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Query q = em.createNamedQuery("Cliente.findByClienteRut").setParameter("clienteRut", clienteRut);  
+        return q.getResultList();
     }
 
     @Override
     public List<Cliente> busquedaClienteCodigo(int clienteCodigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query q = em.createNamedQuery("Cliente.findByClienteCodigo").setParameter("clienteCodigo", clienteCodigo);  
+        return q.getResultList();
     }
+
+    @Override
+    public List<Cliente> busquedaClienteApellidoPaterno(String clienteApellidoPaterno) {
+        Query q = em.createNamedQuery("Cliente.findByClienteApellidoPaterno").setParameter("clienteApellidoPaterno", "%"+clienteApellidoPaterno+"%");  
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Cliente> busquedaClienteApellidoMaterno(String clienteApellidoMaterno) {
+        Query q = em.createNamedQuery("Cliente.findByClienteApellidoMaterno").setParameter("clienteApellidoMaterno", clienteApellidoMaterno);  
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Cliente> busquedaClientePlan(PlanContratado planContratado) {
+        return null;
+    }
+
+   
     
     
     

@@ -169,7 +169,7 @@ public class AgregarCliente implements Serializable {
         
             
         
-            //agregar cliente a la BD
+//agregar cliente a la BD
         int cod;
         if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
             FacesContext context = FacesContext.getCurrentInstance();

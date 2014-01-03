@@ -3,28 +3,69 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Pagos</title>
     </h:head>
     <h:body>
         <ui:composition template="../template.xhtml">
-
             <ui:define name="top">
                 <ui:include src="../menu.xhtml"/>
-
             </ui:define>
-
 
             <ui:define name="content">
+                <h:form id="form">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Buscar"></p:outputLabel>
+                        <p:inputText value="#{buscarCliente.buscado}"/>
+                        <p:commandButton update=":form:clientes" action="#{buscarCliente.buscar}" value="Buscar"/>
 
-                
+                    </h:panelGrid>
 
+                    <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{buscarCliente.opcion}">  
+                        <f:selectItem itemLabel="Codigo" itemValue="codigo" />  
+                        <f:selectItem itemLabel="Rut" itemValue="rut" />  
+                        <f:selectItem itemLabel="Apellido Paterno" itemValue="apellido" />  
+                    </p:selectOneRadio> 
+                    <p:dataTable id="clientes" var="cliente" value="#{buscarCliente.clientes}" rowKey="#{cliente.clienteCodigo}"  
+                                 selection="#{buscarCliente.clienteSeleccionado}" selectionMode="single">  
+
+                        <f:facet name="header">  
+                            Clientes  
+                        </f:facet>  
+
+                        <p:column headerText="Codigo">  
+                            #{cliente.clienteCodigo}  
+                        </p:column>  
+
+                        <p:column headerText="Rut">  
+                            #{cliente.clienteRut}  
+                        </p:column>  
+
+                        <p:column headerText="Nombre" >  
+                            #{cliente.clienteNombre}  
+                        </p:column> 
+
+                        <p:column headerText="Apellido paterno" >  
+                            #{cliente.clienteApellidoPaterno}  
+                        </p:column>
+
+                        <p:column headerText="Realizar Pago" >  
+                            <p:commandButton action="#{buscarCliente.realizarPago()}" value="Realizar pago"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog id="modalPago" header="Realizar pago" widgetVar="dlg2" modal="true" height="100">  
+                    <h:outputText value="This is a Modal Dialog." />  
+                </p:dialog>
 
 
             </ui:define>
+
         </ui:composition>
-        Hello from Facelets
+
     </h:body>
 </html>
 

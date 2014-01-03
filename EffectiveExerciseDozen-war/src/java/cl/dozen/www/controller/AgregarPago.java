@@ -6,11 +6,18 @@
 
 package cl.dozen.www.controller;
 
+import cl.dozen.www.cliente.ClienteNegocioLocal;
 import cl.dozen.www.entities.Cliente;
 import cl.dozen.www.entities.HistorialPago;
+import cl.dozen.www.entities.Plan;
+import cl.dozen.www.entities.PlanContratado;
+import cl.dozen.www.facades.ClienteFacadeLocal;
 import cl.dozen.www.facades.HistorialPagoFacade;
 import cl.dozen.www.facades.HistorialPagoFacadeLocal;
+import cl.dozen.www.facades.PlanFacadeLocal;
 import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -23,59 +30,78 @@ import javax.inject.Named;
 @RequestScoped
 public class AgregarPago {
     @EJB
-    private HistorialPagoFacadeLocal historialPagoFacade;
+    ClienteNegocioLocal clienteNegocioLocal;
+     @EJB
+    private ClienteFacadeLocal clienteFacade;
+    //me permite obtener todos los planes desdes la DB
+    
+    @EJB
+    private PlanFacadeLocal planFacade;
+    //manater conversacion entre datos
+    private List<Plan> planes;
+    private Plan planSeleccionado;
+    //relacion entre plan seleccionado con cliente
+    private PlanContratado planContratado;
     private HistorialPago historialPago;
     private Cliente cliente;
-    private int rut;
-    private int numBoleta;
-    private Date fecha;
-    private int monto;
-    private String observaciones;
-    
+    private Integer clienteRut;
 
-    public AgregarPago() {
+    public ClienteNegocioLocal getClienteNegocioLocal() {
+        return clienteNegocioLocal;
     }
 
-    public int getRut() {
-        return rut;
+    public Integer getClienteRut() {
+        return clienteRut;
     }
 
-    public void setRut(int rut) {
-        this.rut = rut;
+    public void setClienteRut(Integer clienteRut) {
+        this.clienteRut = clienteRut;
     }
 
     
-
-    public int getNumBoleta() {
-        return numBoleta;
+    
+    public void setClienteNegocioLocal(ClienteNegocioLocal clienteNegocioLocal) {
+        this.clienteNegocioLocal = clienteNegocioLocal;
     }
 
-    public void setNumBoleta(int numBoleta) {
-        this.numBoleta = numBoleta;
+    public ClienteFacadeLocal getClienteFacade() {
+        return clienteFacade;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public void setClienteFacade(ClienteFacadeLocal clienteFacade) {
+        this.clienteFacade = clienteFacade;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public PlanFacadeLocal getPlanFacade() {
+        return planFacade;
     }
 
-    public int getMonto() {
-        return monto;
+    public void setPlanFacade(PlanFacadeLocal planFacade) {
+        this.planFacade = planFacade;
     }
 
-    public void setMonto(int monto) {
-        this.monto = monto;
+    public List<Plan> getPlanes() {
+        return planes;
     }
 
-    public String getObservaciones() {
-        return observaciones;
+    public void setPlanes(List<Plan> planes) {
+        this.planes = planes;
     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public Plan getPlanSeleccionado() {
+        return planSeleccionado;
+    }
+
+    public void setPlanSeleccionado(Plan planSeleccionado) {
+        this.planSeleccionado = planSeleccionado;
+    }
+
+    public PlanContratado getPlanContratado() {
+        return planContratado;
+    }
+
+    public void setPlanContratado(PlanContratado planContratado) {
+        this.planContratado = planContratado;
     }
 
     public HistorialPago getHistorialPago() {
@@ -93,14 +119,30 @@ public class AgregarPago {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+   
     
-    public void agregarPago(){
-        cliente = new Cliente(rut);
-        historialPago = new HistorialPago(numBoleta, fecha, monto );
-        historialPago.setHistorialPagoObservacion(observaciones);
-        historialPago.setClienteclienteRut(cliente);
-        historialPagoFacade.create(historialPago);
+    
+    @PostConstruct
+    public void init() {
+
+        cliente = new Cliente();
         
+        planes = planFacade.findAll();
+
+        planContratado = new PlanContratado();
+
+        historialPago = new HistorialPago();    
+    }
+   
+    public void agregarPago(){
+        cliente.setClienteRut(clienteRut);
+        
+        clienteNegocioLocal.realizarPago(cliente, planContratado, historialPago);
+      
+        
+    }
+     public void onRowSelect() {
+        planContratado.setPlanContratadoMonto(planSeleccionado.getPlanPrecio());
     }
     
 }

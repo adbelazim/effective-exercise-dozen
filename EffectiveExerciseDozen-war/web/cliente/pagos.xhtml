@@ -16,58 +16,68 @@
 
             <ui:define name="content">
                 <h:outputStylesheet library="css" name="position.css"  />
-                <h:form>
+
+                <h:form id="formPagos">
                     <p:panel  header="Ingresar Pagos" >
-                        
-                                <p:dataTable id="planes" var="plan" value="#{agregarCliente.planes}" 
-                                             rowKey="#{plan.planId}" >  
 
-                                    <f:facet name="header">  
-                                       Lista de planes  
-                                    </f:facet>  
+                        <p:dataTable id="planes" var="plan" value="#{agregarPago.planes}" rowKey="#{plan.planId}"  
+                                     selection="#{agregarPago.planSeleccionado}" selectionMode="single">  
 
-                                    <p:column headerText="Nombre">  
-                                        #{plan.planNombre}  
-                                    </p:column>  
+                            <f:facet name="header">  
+                                Lista de planes  
+                            </f:facet>  
 
-                                    <p:column headerText="Precio">  
-                                        #{plan.planPrecio}  
-                                    </p:column>  
+                            <p:column headerText="Nombre">  
+                                #{plan.planNombre}  
+                            </p:column>  
 
-                                    <p:column headerText="Descripcion" >  
-                                        #{plan.planDescripcion}  
-                                    </p:column> 
-                                      
-                                </p:dataTable>
-                                <p:separator />
+                            <p:column headerText="Precio">  
+                                #{plan.planPrecio}  
+                            </p:column>  
+
+                            <p:column headerText="Descripcion" >  
+                                #{plan.planDescripcion}  
+                            </p:column> 
+                            <p:ajax event="rowSelect" listener="#{agregarPago.onRowSelect}" update=":formPagos:panelDetalle"  />
+                        </p:dataTable>
+                        <p:separator />
+
+                        <p:panel id="panelDetalle" header="Detalle del Plan" >
+                            <h:panelGrid  columns="3" styleClass="centered" >
+
+                                <h:outputLabel for="histNumeroBoleta" value="Numero boleta" />
+                                <p:inputText  id="histNumeroBoleta" value="#{agregarPago.historialPago.historialPagoNumeroBoleta}">
+                                    <p:ajax event="blur" update="msgNumeroBoleta" />
+                                </p:inputText>
+                                <p:message id="msgNumeroBoleta" for="histNumeroBoleta" />
                                 
-                        <h:panelGrid  columns="3" styleClass="centered" >
-                            <h:outputLabel for="rut" value="Rut del Cliente"/>
-                            <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarPago.rut}"  > 
-                            </p:inputText>
-                            <p:message id="msgRut" for="rut"  />
+                                <h:outputLabel for="histClienteRut" value="Rut Cliente" />
+                                <p:inputText  id="histClienteRut" value="#{agregarPago.clienteRut}">
+                                    <p:ajax event="blur" update="msghistClienteRut" />
+                                </p:inputText>
+                                <p:message id="msghistClienteRut" for="histClienteRut" />
 
-                            <h:outputLabel for="boleta" value="N° de Boleta"/>
-                            <p:inputText  id="boleta" value="#{agregarPago.numBoleta}" required="true" requiredMessage="Campo requerido">
-                            </p:inputText>
-                            <p:message id="msgBoleta" for="boleta"  />
+                                <h:outputLabel for="planSelNom" value="Nombre del Plan" />
+                                <p:inputText readonly="true" id="planSelNom" value="#{agregarPago.planSeleccionado.planNombre}"/>
+                                <p:message id="msgplanSelNom" for="planSelNom" />  
 
-                            <h:outputLabel  for="fechaPago" value="Fecha de Pago"/>
-                            <p:calendar  pattern="dd/MM/yyyy" id="fechaPago" value="#{agregarPago.fecha}" required="true" requiredMessage="Campo requerido" navigator="true" >
-                            </p:calendar>
-                            <p:message id="msgFechaPago" for="fechaPago" /> 
+                                <h:outputLabel for="planSelPre" value="Precio" />
+                                <p:inputText  id="planSelPre" value="#{agregarPago.planContratado.planContratadoMonto}">
+                                    <p:ajax event="blur" update="msgPrecio" />
+                                </p:inputText>
+                                <p:message id="msgPrecio" for="planSelPre" /> 
 
-                            <h:outputLabel  for="monto" value="Monto" />
-                            <p:inputText id ="monto"  value="#{agregarPago.monto}" required="true" requiredMessage="Campo requerido">
-                            </p:inputText>
-                            <p:message id="msgMonto" for="monto"  />
+                                <h:outputLabel for="planObs" value="Observaciones" />
+                                <p:inputTextarea  id="planObs" value="#{agregarPago.planContratado.planContratadoObservacion}"/>
+                                <p:message id="msgplanObs" for="planObs" />
 
-                            <h:outputLabel for="observaciones" value="Observaciones" />
-                            <p:inputTextarea  id="observaciones" value="#{agregarPago.observaciones}"/>
-                            <p:message id="msgObs" for="observaciones" /> 
-                            
-                            <p:commandButton   value="Ingresar Pago" action="#{agregarPago.agregarPago()}"/>
-                        </h:panelGrid>
+
+
+
+
+                                <p:commandButton   value="Ingresar Pago" action="#{agregarPago.agregarPago}"/>
+                            </h:panelGrid>
+                        </p:panel>
                     </p:panel>
                 </h:form>
             </ui:define>

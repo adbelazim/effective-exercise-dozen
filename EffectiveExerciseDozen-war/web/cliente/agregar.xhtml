@@ -15,8 +15,6 @@
                 <ui:include src="../menu.xhtml"/>
 
             </ui:define>
-
-
             <ui:define name="content">
                 <h:outputStylesheet library="css" name="position.css"  />
                 <f:event listener="#{agregarCliente.beginConversation()}"
@@ -138,10 +136,7 @@
                                         <p:inputTextarea  id="planObs" value="#{agregarCliente.planContratado.planContratadoObservacion}"/>
                                         <p:message id="msgplanObs" for="planObs" /> 
 
-                                        <h:outputLabel  for="fechaini" value="Inicio"/>
-                                        <p:calendar  pattern="dd/MM/yyyy" id="fechaini" value="#{agregarCliente.planContratado.planContratadoFechaInicio}" required="true" requiredMessage="Campo requerido" navigator="true" >
-                                        </p:calendar>
-                                        <p:message id="msgFechaini" for="fechaini" /> 
+    
 
                                         <h:outputLabel for="planSelPre" value="Precio" />
                                         <p:inputText  id="planSelPre" value="#{agregarCliente.planContratado.planContratadoMonto}">
