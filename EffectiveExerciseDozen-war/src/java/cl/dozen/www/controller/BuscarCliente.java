@@ -9,10 +9,11 @@ package cl.dozen.www.controller;
 import cl.dozen.www.cliente.ClienteNegocioLocal;
 import cl.dozen.www.entities.Cliente;
 import cl.dozen.www.facades.ClienteFacadeLocal;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
@@ -20,8 +21,8 @@ import javax.inject.Named;
  * @author root
  */
 @Named
-@RequestScoped
-public class BuscarCliente {
+@SessionScoped
+public class BuscarCliente implements Serializable{
     @EJB
     private ClienteNegocioLocal clienteNegocio;
     @EJB
@@ -40,8 +41,10 @@ public class BuscarCliente {
     
     @PostConstruct
     public void init(){
-        clientes = clienteFacade.findAll();
+       
+        clienteSeleccionado = new Cliente();
     }
+    
 
     public List<Cliente> getClientes() {
         return clientes;
@@ -85,7 +88,7 @@ public class BuscarCliente {
         
             case "codigo":
                 
-                clientes = clienteNegocio.busquedaClienteCodigo(Integer.parseInt(buscado));
+                clientes =  clienteNegocio.busquedaClienteCodigo(Integer.parseInt(buscado));
                 break;
                 
             case "rut":
@@ -104,10 +107,15 @@ public class BuscarCliente {
 
     }
     
-    public String realizarPago(){
-    
-        return null;
+    public void actualizar(){
         
+        System.out.println(clienteSeleccionado.toString());
+        clienteFacade.edit(clienteSeleccionado);
+        
+    }
+    
+    public void realizarPago(){
+       // clienteFacade.edit(clienteSeleccionado);
         
     }
     
