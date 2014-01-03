@@ -6,7 +6,7 @@
 
 package cl.dozen.www.facades;
 
-import cl.dozen.www.entities.Cliente;
+import cl.dozen.www.entities.Asistencia;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author rob_sandova
  */
 @Stateless
-public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFacadeLocal {
+public class AsistenciaFacade extends AbstractFacade<Asistencia> implements AsistenciaFacadeLocal {
     @PersistenceContext(unitName = "EffectiveExerciseDozen-ejbPU")
     private EntityManager em;
 
@@ -25,8 +25,8 @@ public class ClienteFacade extends AbstractFacade<Cliente> implements ClienteFac
         return em;
     }
 
-    public ClienteFacade() {
-        super(Cliente.class);
+    public AsistenciaFacade() {
+        super(Asistencia.class);
     }
     
 }

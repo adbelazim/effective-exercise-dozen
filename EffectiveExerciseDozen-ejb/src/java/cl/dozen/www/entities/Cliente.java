@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author root
+ * @author rob_sandova
  */
 @Entity
 @Table(name = "cliente")
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByClienteRut", query = "SELECT c FROM Cliente c WHERE c.clienteRut = :clienteRut"),
     @NamedQuery(name = "Cliente.findByClienteCodigo", query = "SELECT c FROM Cliente c WHERE c.clienteCodigo = :clienteCodigo"),
     @NamedQuery(name = "Cliente.findByClienteNombre", query = "SELECT c FROM Cliente c WHERE c.clienteNombre = :clienteNombre"),
-    @NamedQuery(name = "Cliente.findByClienteApellidoPaterno", query = "SELECT c FROM Cliente c WHERE c.clienteApellidoPaterno LIKE :clienteApellidoPaterno"),
+    @NamedQuery(name = "Cliente.findByClienteApellidoPaterno", query = "SELECT c FROM Cliente c WHERE c.clienteApellidoPaterno = :clienteApellidoPaterno"),
     @NamedQuery(name = "Cliente.findByClienteApellidoMaterno", query = "SELECT c FROM Cliente c WHERE c.clienteApellidoMaterno = :clienteApellidoMaterno"),
     @NamedQuery(name = "Cliente.findByClienteDireccion", query = "SELECT c FROM Cliente c WHERE c.clienteDireccion = :clienteDireccion"),
     @NamedQuery(name = "Cliente.findByClienteComuna", query = "SELECT c FROM Cliente c WHERE c.clienteComuna = :clienteComuna"),
@@ -107,6 +107,8 @@ public class Cliente implements Serializable {
     @Size(max = 10)
     @Column(name = "clienteEstadoCivil")
     private String clienteEstadoCivil;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "cliente")
+    private Asistencia asistencia;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "cliente")
     private PlanContratado planContratado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteclienteRut")
@@ -235,6 +237,14 @@ public class Cliente implements Serializable {
 
     public void setClienteEstadoCivil(String clienteEstadoCivil) {
         this.clienteEstadoCivil = clienteEstadoCivil;
+    }
+
+    public Asistencia getAsistencia() {
+        return asistencia;
+    }
+
+    public void setAsistencia(Asistencia asistencia) {
+        this.asistencia = asistencia;
     }
 
     public PlanContratado getPlanContratado() {
