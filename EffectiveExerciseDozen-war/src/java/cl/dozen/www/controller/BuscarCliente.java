@@ -10,8 +10,13 @@ import cl.dozen.www.cliente.ClienteNegocioLocal;
 import cl.dozen.www.entities.Asistencia;
 import cl.dozen.www.entities.AsistenciaPK;
 import cl.dozen.www.entities.Cliente;
+import cl.dozen.www.entities.HistorialPago;
+import cl.dozen.www.entities.Plan;
+import cl.dozen.www.entities.PlanContratado;
 import cl.dozen.www.facades.AsistenciaFacadeLocal;
 import cl.dozen.www.facades.ClienteFacadeLocal;
+import cl.dozen.www.facades.PlanContratadoFacadeLocal;
+import cl.dozen.www.facades.PlanFacadeLocal;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +34,10 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class BuscarCliente implements Serializable{
+    @EJB
+    private PlanFacadeLocal planFacade;
+    @EJB
+    private PlanContratadoFacadeLocal planContratadoFacade;
     @EJB
     private AsistenciaFacadeLocal asistenciaFacade;
     @EJB
@@ -53,6 +62,14 @@ public class BuscarCliente implements Serializable{
     private boolean maquinaAsistencia;  
     private boolean claseAsistencia; 
    
+    //datos pago
+    
+    
+    private HistorialPago historialPago;
+    
+    private Plan plan;
+    private PlanContratado planContratado;
+   
 
     public BuscarCliente() {
     }
@@ -61,6 +78,10 @@ public class BuscarCliente implements Serializable{
     public void init(){
        
         clienteSeleccionado = new Cliente();
+        historialPago = new HistorialPago();
+        planContratado = new PlanContratado();
+        
+        
     }
 
     public ClienteNegocioLocal getClienteNegocio() {
@@ -143,6 +164,30 @@ public class BuscarCliente implements Serializable{
     public void setClienteSeleccionado(Cliente clienteSeleccionado) {
         this.clienteSeleccionado = clienteSeleccionado;
     }
+
+    public HistorialPago getHistorialPago() {
+        return historialPago;
+    }
+
+    public void setHistorialPago(HistorialPago historialPago) {
+        this.historialPago = historialPago;
+    }
+
+    public PlanContratado getPlanContratado() {
+        return planContratado;
+    }
+
+    public void setPlanContratado(PlanContratado planContratado) {
+        this.planContratado = planContratado;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
     
     
     public void buscar(){
@@ -204,10 +249,28 @@ public class BuscarCliente implements Serializable{
         
     }
     
-    public void realizarPago(){
-       // clienteFacade.edit(clienteSeleccionado);
+    public void agregarPago(){        
+        System.out.println(clienteSeleccionado.toString());
+        
+        clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);      
+        
+        FacesContext context;
+       context = FacesContext.getCurrentInstance();
+       context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
+       historialPago.setHistorialPagoNumeroBoleta(0);
         
     }
+    
+    public void actualizarPlan(){
+         planContratado = planContratadoFacade.find(clienteSeleccionado.getClienteRut());
+         plan = planFacade.find(planContratado.getPlanplanId().getPlanId());
+         
+    }
+//    public void realizarPago(){
+//        
+//       // clienteFacade.edit(clienteSeleccionado);
+//        
+//    }
     
     
 }

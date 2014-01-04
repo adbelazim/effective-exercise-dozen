@@ -57,11 +57,14 @@
                             #{cliente.clienteApellidoMaterno}  
                         </p:column>
 
-                        <p:column headerText="Opciones" >  
+                        <p:column headerText="Opciones" style="width:20px">  
                             <p:commandButton update=":actualizarCliente:panelEditar" oncomplete="dialogEditarCliente.show()"  value="Editar" >
                                 <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
                             </p:commandButton>
                             <p:commandButton update=":agregarAsistencia:panelAsistencia" oncomplete="dialogIngresarAsistencia.show()"  value="Asistencia" >
+                                <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
+                            </p:commandButton>
+                            <p:commandButton update=":realizarPago:panelPago" oncomplete="dialogRealizarPago.show()"  value="Pago" action="#{buscarCliente.actualizarPlan}" >
                                 <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
                             </p:commandButton>
                         </p:column>
@@ -88,6 +91,47 @@
 
                             <h:outputLabel/>
                             <p:commandButton value="agregar" action="#{buscarCliente.integrarAsistencia()}" onclick="confirmation.hide();" update="growl" />
+
+                        </h:panelGrid>
+
+                    </h:form>
+                </p:dialog>
+                
+                
+                
+                <p:dialog id="dialogPago" modal="true" header="Realizar Pago" widgetVar="dialogRealizarPago" >  
+                    <h:form id="realizarPago">
+                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                        <h:panelGrid  id="panelPago" columns="3" styleClass="centered" >            
+                            <h:outputLabel for="histNumeroBoleta" value="Numero boleta" />
+                            <p:inputText  id="histNumeroBoleta" value="#{buscarCliente.historialPago.historialPagoNumeroBoleta}">
+                                    <p:ajax event="blur" update="msgNumeroBoleta" />
+                                </p:inputText>
+                                <p:message id="msgNumeroBoleta" for="histNumeroBoleta" />
+                                
+                                <h:outputLabel for="histClienteRut" value="Rut Cliente" />
+                                <p:inputText  id="histClienteRut" readonly="true" value="#{buscarCliente.clienteSeleccionado.clienteRut}">
+                                    <p:ajax event="blur" update="msghistClienteRut" />
+                                </p:inputText>
+                                <p:message id="msghistClienteRut" for="histClienteRut" />
+
+                                <h:outputLabel for="planSelNom" value="Nombre del Plan" />
+                                <p:inputText readonly="true" id="planSelNom" value="#{buscarCliente.plan.planNombre}"/>
+                                <p:message id="msgplanSelNom" for="planSelNom" />  
+
+                                <h:outputLabel for="planSelPre" value="Precio" />
+                                <p:inputText  id="planSelPre" readonly="true" value="#{buscarCliente.plan.planPrecio}">
+                                    <p:ajax event="blur" update="msgPrecio" />
+                                </p:inputText>
+                                <p:message id="msgPrecio" for="planSelPre" /> 
+
+                                <h:outputLabel for="planObs" value="Observaciones" />
+                                <p:inputTextarea  id="planObs" value="#{buscarCliente.planContratado.planContratadoObservacion}"/>
+                                <p:message id="msgplanObs" for="planObs" />
+
+
+                            <h:outputLabel/>
+                            <p:commandButton value="Pagar" action="#{buscarCliente.agregarPago}" onclick="confirmation.hide();" update="growl" />
 
                         </h:panelGrid>
 

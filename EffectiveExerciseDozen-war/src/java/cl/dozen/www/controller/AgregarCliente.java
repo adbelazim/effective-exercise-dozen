@@ -165,10 +165,7 @@ public class AgregarCliente implements Serializable {
     }
 
     public void agregarCliente() {
- 
-        
-            
-        
+    
 //agregar cliente a la BD
         int cod;
         if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
