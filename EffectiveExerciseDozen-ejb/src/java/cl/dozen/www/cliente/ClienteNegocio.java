@@ -73,9 +73,8 @@ public class ClienteNegocio implements ClienteNegocioLocal {
         
         Query q2 = em.createNativeQuery("select clienteCodigo from cliente where clienteRut = ?1").setParameter(1,cliente.getClienteRut());
         
-        int cl = (int)(q2.getResultList().get(0));
+        int cl = (int)(q2.getResultList().get(0));       
         
-        System.out.println("cod"+cl);
         
         return cl;
     }

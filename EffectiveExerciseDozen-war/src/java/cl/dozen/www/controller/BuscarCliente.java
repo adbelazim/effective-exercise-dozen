@@ -149,7 +149,7 @@ public class BuscarCliente implements Serializable{
         
         clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);      
         
-        FacesContext context;
+       FacesContext context;
        context = FacesContext.getCurrentInstance();
        context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
        historialPago.setHistorialPagoNumeroBoleta(0);
