@@ -181,6 +181,12 @@ public class AgregarCliente implements Serializable {
 
 //agregar cliente a la BD
         int cod;
+        int rut;
+        String aux;
+        String [] rutSeparado = clienteRut.split("-");
+        aux = rutSeparado[0];
+        rut = Integer.parseInt(aux);
+        cliente.setClienteRut(rut);
         if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error", "Cliente con " + cliente.getClienteRut() + " ya existe"));

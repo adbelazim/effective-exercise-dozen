@@ -38,18 +38,21 @@
                                    
                                     <h:outputLabel for="nombre" value="Nombre"/>
                                     <p:inputText  id="nombre" value="#{agregarCliente.cliente.clienteNombre}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="nombreValidator"/>
                                     </p:inputText>
                                     <p:message id="msgNombre" for="nombre"  />
 
-                                    <h:outputLabel  for="apellido_paterno" value="Apellido Paterno" />
-                                    <p:inputText id ="apellido_paterno"  value="#{agregarCliente.cliente.clienteApellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                                    <h:outputLabel  for="apellidoPaterno" value="Apellido Paterno" />
+                                    <p:inputText id ="apellidoPaterno"  value="#{agregarCliente.cliente.clienteApellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="apellidoPaternoValidator"/>
                                     </p:inputText>
-                                    <p:message id="msgApellidoPaterno" for="apellido_paterno"  />
+                                    <p:message id="msgApellidoPaterno" for="apellidoPaterno"  />
 
-                                    <h:outputLabel  for="apellido_materno" value="Apellido Materno" />
-                                    <p:inputText id ="apellido_materno"  value="#{agregarCliente.cliente.clienteApellidoMaterno}" required="true" requiredMessage="Campo requerido">
+                                    <h:outputLabel  for="apellidoMaterno" value="Apellido Materno" />
+                                    <p:inputText id ="apellidoMaterno"  value="#{agregarCliente.cliente.clienteApellidoMaterno}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="apellidoMaternoValidator"/>
                                     </p:inputText>
-                                    <p:message id="msgApellido_materno" for="apellido_materno"  />
+                                    <p:message id="msgApellidoMaterno" for="apellidoMaterno"  />
 
                                     <h:outputLabel  for="fechanac" value="Fecha Nacimiento"/>
                                     <p:calendar  pattern="dd/MM/yyyy"  yearRange="1900" id="fechanac" value="#{agregarCliente.cliente.clienteFechaNacimiento}" required="true" requiredMessage="Campo requerido" navigator="true" >
@@ -163,7 +166,7 @@
                                 <p:panelGrid columns="2">
 
                                     <h:outputLabel for="rutConfirm" value="Rut"/>
-                                    <h:outputLabel  id="rutConfirm" value="#{agregarCliente.cliente.clienteRut}"/>
+                                    <h:outputLabel  id="rutConfirm" value="#{agregarCliente.clienteRut}"/>
 
                                     <h:outputLabel for="nombreConfirm" value="Nombre"/>
                                     <h:outputLabel  id="nombreConfirm" value="#{agregarCliente.cliente.clienteNombre}" />
