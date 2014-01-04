@@ -67,6 +67,8 @@ public class AgregarCliente implements Serializable {
     private PlanContratado planContratado;
     //numero boleta
     private HistorialPago historialPago;
+    
+    private String clienteRut;
 
     //mostrar mensajes en el servidor de aplicaciones
     private static Logger logger = Logger.getLogger(AgregarCliente.class.getName());
@@ -78,6 +80,7 @@ public class AgregarCliente implements Serializable {
     public void init() {
 
         cliente = new Cliente();
+        clienteRut = "1-9";
         cliente.setClienteNombre("Danilo");
         cliente.setClienteApellidoPaterno("Aburto");
         cliente.setClienteApellidoMaterno("Gonzalez");
@@ -98,12 +101,22 @@ public class AgregarCliente implements Serializable {
         //comunas
         String listadoComunas = "Cerrillos-La Reina-Pudahuel-Cerro Navia-Las Condes-Quilicura-Conchalí-Lo Barnechea-Quinta Normal-El Bosque-Lo Espejo-Recoleta-Estación Central-Lo Prado-Renca-Huechuraba-Macul-San Miguel-Independencia-Maipú-San Joaquín-La Cisterna-Ñuñoa-San Ramón-La Florida-Pedro Aguirre Cerda-Santiago-La Pintana-Peñalolén-Vitacura-La Granja-Providencia-Padre Hurtado-San Bernardo-Puente Alto-Pirque-San José de Maipo";
         String[] nombresComunas = listadoComunas.split("-");
-        comunas = new ArrayList<String>();
+        comunas = new ArrayList<>();
         comunas.addAll(Arrays.asList(nombresComunas));
         Collections.sort(comunas);
 
     }
 
+    public String getClienteRut() {
+        return clienteRut;
+    }
+
+    public void setClienteRut(String clienteRut) {
+        this.clienteRut = clienteRut;
+    }
+
+    
+    
     public void beginConversation() {
         if (conversation.isTransient()) {
             conversation.begin();

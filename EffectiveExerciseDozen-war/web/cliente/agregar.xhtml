@@ -22,7 +22,7 @@
                 <f:event listener="#{agregarCliente.beginConversation()}"
                          type="preRenderView"></f:event>
 
-                <h:form id="form">
+                <h:form id="formAgregar">
                    <p:growl id="growl" showDetail="true" sticky="true" />  
 
                     
@@ -31,10 +31,11 @@
                             <p:panel  header="Datos Cliente" >
                                 <h:panelGrid  columns="3" styleClass="centered" >
                                     <h:outputLabel for="rut" value="Rut"/>
-                                    <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.cliente.clienteRut}"  > 
-                                    </p:inputText>
+                                    <p:inputMask required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarCliente.clienteRut}"  mask="99999999-*" > 
+                                        <f:validator validatorId="rutValidator"/>
+                                    </p:inputMask>
                                     <p:message id="msgRut" for="rut"  />
-
+                                   
                                     <h:outputLabel for="nombre" value="Nombre"/>
                                     <p:inputText  id="nombre" value="#{agregarCliente.cliente.clienteNombre}" required="true" requiredMessage="Campo requerido">
                                     </p:inputText>
@@ -64,6 +65,7 @@
 
                                     <h:outputLabel for="email" value="Email"/>
                                     <p:inputText id ="email"  value="#{agregarCliente.cliente.clienteMail}" required="true" requiredMessage="Campo requerido">
+                                    <f:validator validatorId="emailValidator" />
                                     </p:inputText>
                                     <p:message id="msgEmail" for="email"  />
 
@@ -120,7 +122,7 @@
                                     <p:column headerText="Descripcion" style= "max-width: 300px" >  
                                         #{plan.planDescripcion}  
                                     </p:column> 
-                                    <p:ajax event="rowSelect" listener="#{agregarCliente.onRowSelect}" update=":form:panelDetalle"  />  
+                                    <p:ajax event="rowSelect" listener="#{agregarCliente.onRowSelect}" update=":formAgregar:panelDetalle"  />  
                                 </p:dataTable>
                                 <p:separator />
                                 <p:panel id="panelDetalle" header="Detalle del Plan" >
@@ -214,7 +216,7 @@
                 <p:confirmDialog id="confirmDialog" message="¿Esta seguro de agregar el cliente?" header="Nuevo Cliente" severity="alert" widgetVar="confirmation"> 
                     <h:form>
 
-                        <p:commandButton  action="#{agregarCliente.agregarCliente}" onclick="confirmation.hide()" value="Si" update=":form:growl"/>
+                        <p:commandButton  action="#{agregarCliente.agregarCliente}" onclick="confirmation.hide()" value="Si" update=":formAgregar:growl"/>
                         <p:commandButton  onclick="confirmation.hide();" value="No"/>
 
                     </h:form>
