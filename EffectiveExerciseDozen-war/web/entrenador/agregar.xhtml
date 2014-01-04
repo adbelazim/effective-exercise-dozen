@@ -20,33 +20,37 @@
                 <f:event listener="#{agregarEntrenador.beginConversation()}"
                          type="preRenderView"></f:event>
 
-                <h:form id="form">
-                   <p:growl id="growl" showDetail="true" sticky="true" />  
+                <h:form id="formAgregar">
+                    <p:growl id="growl" showDetail="true" sticky="true" />  
 
-                    
-                   <p:wizard  widgetVar="wiz" flowListener="#{agregarEntrenador.onFlowProcess}">
+
+                    <p:wizard  widgetVar="wiz" flowListener="#{agregarEntrenador.onFlowProcess}">
                         <p:tab id="personal" title="Información Personal">
                             <p:panel  header="Datos Entrenador" >
                                 <h:panelGrid  columns="3" styleClass="centered" >
                                     <h:outputLabel for="rut" value="Rut"/>
-                                    <p:inputText required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarEntrenador.rut}"  > 
-                                    </p:inputText>
+                                    <p:inputMask required="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarEntrenador.rut}"  mask="99999999-*" > 
+                                        <f:validator validatorId="rutValidator"/>
+                                    </p:inputMask>
                                     <p:message id="msgRut" for="rut"  />
 
                                     <h:outputLabel for="nombre" value="Nombre"/>
                                     <p:inputText  id="nombre" value="#{agregarEntrenador.nombre}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="nombreValidator"/>
                                     </p:inputText>
                                     <p:message id="msgNombre" for="nombre"  />
 
-                                    <h:outputLabel  for="apellido_paterno" value="Apellido Paterno" />
-                                    <p:inputText id ="apellido_paterno"  value="#{agregarEntrenador.apellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                                    <h:outputLabel  for="apellidoPaterno" value="Apellido Paterno" />
+                                    <p:inputText id ="apellidoPaterno"  value="#{agregarEntrenador.apellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="apellidoPaternoValidator"/>
                                     </p:inputText>
-                                    <p:message id="msgApellidoPaterno" for="apellido_paterno"  />
+                                    <p:message id="msgApellidoPaterno" for="apellidoPaterno"  />
 
-                                    <h:outputLabel  for="apellido_materno" value="Apellido Materno" />
-                                    <p:inputText id ="apellido_materno"  value="#{agregarEntrenador.apellidoMaterno}" required="true" requiredMessage="Campo requerido">
+                                    <h:outputLabel  for="apellidoMaterno" value="Apellido Materno" />
+                                    <p:inputText id ="apellidoMaterno"  value="#{agregarEntrenador.apellidoMaterno}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="apellidoMaternoValidator"/>
                                     </p:inputText>
-                                    <p:message id="msgApellido_materno" for="apellido_materno"  />                                     
+                                    <p:message id="msgApellidoMaterno" for="apellidoMaterno"  />                                     
 
                                     <h:outputLabel  for="sexo" value="Sexo"/>
                                     <p:selectOneRadio  id="sexo" value="#{agregarEntrenador.sexo}" required="true" requiredMessage="Campo requerido">  
@@ -57,6 +61,7 @@
 
                                     <h:outputLabel for="email" value="Email"/>
                                     <p:inputText id ="email"  value="#{agregarEntrenador.mail}" required="true" requiredMessage="Campo requerido">
+                                        <f:validator validatorId="emailValidator" />
                                     </p:inputText>
                                     <p:message id="msgEmail" for="email"  />                                    
 
@@ -68,12 +73,12 @@
                                     <h:outputLabel for="telcont" value="Telefono Contacto" />
                                     <p:inputText id="telcont" value="#{agregarEntrenador.telefono}" required="true" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido" >
                                         <f:validateLength minimum="7"/>
-                                        </p:inputText>
+                                    </p:inputText>
                                     <p:message id="msgTelcont" for="telcont"  />                          
                                 </h:panelGrid>
                             </p:panel>
                         </p:tab>
-                  
+
                         <p:tab id="confirmacion" title="Confirmacion">  
                             <p:panel header="Datos Entrenador" >
                                 <p:panelGrid columns="2">
@@ -89,24 +94,24 @@
 
                                     <h:outputLabel  for="apellidoMConfirm" value="Apellido Materno" />
                                     <h:outputLabel id ="apellidoMConfirm"  value="#{agregarEntrenador.apellidoMaterno}" />
-                                    
+
                                     <h:outputLabel  for="sexoConfirm" value="Sexo"/>
                                     <h:outputLabel  id="sexoConfirm" value="#{agregarEntrenador.sexo}"/>  
 
 
                                     <h:outputLabel for="emailConfirm" value="Email"/>
                                     <h:outputLabel id ="emailConfirm"  value="#{agregarEntrenador.mail}" />     
-                                    
-                                    
+
+
                                     <h:outputLabel  for="direccionConfirm" value="Dirección " />
                                     <h:outputLabel id ="direccionConfirm"  value="#{agregarEntrenador.direccion}" />
 
-                                                                   
+
                                     <h:outputLabel for="telcontConfirm" value="Telefono Contacto" />
                                     <h:outputLabel id="telcontConfirm" value="#{agregarEntrenador.telefono}"/>                                   
-                                    
 
-                                    <p:commandButton process="@this"  onclick="confirmation.show();" value="Ingresar Cliente"/>
+
+                                    <p:commandButton process="@this"  onclick="confirmation.show();" value="Ingresar Entrenador"/>
 
                                 </p:panelGrid>
                             </p:panel>
@@ -117,7 +122,7 @@
                 <p:confirmDialog id="confirmDialog" message="¿Esta seguro de agregar el Entrenador?" header="Nuevo Entrenador" severity="alert" widgetVar="confirmation"> 
                     <h:form>
 
-                        <p:commandButton  action="#{agregarEntrenador.ingresarEntrenador()}" onclick="confirmation.hide()" value="Si" update=":form:growl"/>
+                        <p:commandButton  action="#{agregarEntrenador.ingresarEntrenador()}" onclick="confirmation.hide()" value="Si" update=":formAgregar:growl"/>
                         <p:commandButton  onclick="confirmation.hide();" value="No"/>
 
                     </h:form>

@@ -6,6 +6,7 @@
 
 package cl.dozen.www.controller;
 
+import cl.dozen.www.cliente.entrenador.EntrenadorNegocioLocal;
 import cl.dozen.www.entities.Entrenador;
 import cl.dozen.www.facades.EntrenadorFacadeLocal;
 import java.io.Serializable;
@@ -27,11 +28,13 @@ import org.primefaces.event.FlowEvent;
 @ConversationScoped
 public class AgregarEntrenador implements Serializable{
     @EJB
+    private EntrenadorNegocioLocal entrenadorNegocio;
+    @EJB
     private EntrenadorFacadeLocal entrenadorFacade;
     @Inject
     private Conversation conversation;
     private Entrenador entrenador;
-    private int rut;
+    private String rut;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -40,13 +43,13 @@ public class AgregarEntrenador implements Serializable{
     private String sexo;
     private String mail;
 
-    public int getRut() {
+    public String getRut() {
         return rut;
     }
 
-    public void setRut(int rut) {
+    public void setRut(String rut) {
         this.rut = rut;
-    }
+    }   
 
     public String getNombre() {
         return nombre;
@@ -108,12 +111,26 @@ public class AgregarEntrenador implements Serializable{
     }
     
     public void ingresarEntrenador(){
-        
-        entrenador = new Entrenador (rut, nombre, apellidoPaterno, apellidoMaterno, telefono, sexo, mail);
+        int rutEntero;
+        int respuestaRut;
+        String aux;
+        String [] rutSeparado = rut.split("-");
+        aux = rutSeparado[0];
+        rutEntero = Integer.parseInt(aux);
+        entrenador = new Entrenador (rutEntero, nombre, apellidoPaterno, apellidoMaterno, telefono, sexo, mail);
         entrenador.setEntrenadorDireccion(Direccion);
-        entrenadorFacade.create(entrenador);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Exito", "Entrenador agregado con exito"));  
+        respuestaRut = entrenadorNegocio.verificarEntrenador(entrenador);
+        if(respuestaRut == -1){
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Ojo", "El entrenador ya existe, Ingrese uno nuevo")); 
+        }
+        else{
+            entrenadorFacade.create(entrenador);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Exito", "Entrenador agregado con exito"));  
+        }
+        
+        
                        
     }
     
