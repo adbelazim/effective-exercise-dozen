@@ -18,10 +18,11 @@
                 <h:outputStylesheet library="css" name="position.css"  />
 
                 <h:form id="formPagos">
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
                     <p:panel  header="Ingresar Pagos" >
 
-                        <p:dataTable id="planes" var="plan" value="#{agregarPago.planes}" rowKey="#{plan.planId}"  
-                                     selection="#{agregarPago.planSeleccionado}" selectionMode="single">  
+                        <p:dataTable id="planes" var="plan" value="#{cambiarPlan.planes}" rowKey="#{plan.planId}"  
+                                     selection="#{cambiarPlan.planSeleccionado}" selectionMode="single">  
 
                             <f:facet name="header">  
                                 Lista de planes  
@@ -35,10 +36,10 @@
                                 #{plan.planPrecio}  
                             </p:column>  
 
-                            <p:column headerText="Descripcion" >  
+                            <p:column headerText="Descripcion" style="width:20px" >  
                                 #{plan.planDescripcion}  
                             </p:column> 
-                            <p:ajax event="rowSelect" listener="#{agregarPago.onRowSelect}" update=":formPagos:panelDetalle"  />
+                            <p:ajax event="rowSelect" listener="#{cambiarPlan.onRowSelect}" update=":formPagos:panelDetalle"  />
                         </p:dataTable>
                         <p:separator />
 
@@ -46,38 +47,40 @@
                             <h:panelGrid  columns="3" styleClass="centered" >
 
                                 <h:outputLabel for="histNumeroBoleta" value="Numero boleta" />
-                                <p:inputText  id="histNumeroBoleta" value="#{agregarPago.historialPago.historialPagoNumeroBoleta}">
+                                <p:inputText  id="histNumeroBoleta" value="#{cambiarPlan.historialPago.historialPagoNumeroBoleta}">
                                     <p:ajax event="blur" update="msgNumeroBoleta" />
                                 </p:inputText>
                                 <p:message id="msgNumeroBoleta" for="histNumeroBoleta" />
-                                
+
                                 <h:outputLabel for="histClienteRut" value="Rut Cliente" />
-                                <p:inputText  id="histClienteRut" value="#{agregarPago.clienteRut}">
+                                <p:inputText  id="histClienteRut" value="#{cambiarPlan.clienteRut}">
                                     <p:ajax event="blur" update="msghistClienteRut" />
                                 </p:inputText>
                                 <p:message id="msghistClienteRut" for="histClienteRut" />
 
                                 <h:outputLabel for="planSelNom" value="Nombre del Plan" />
-                                <p:inputText readonly="true" id="planSelNom" value="#{agregarPago.planSeleccionado.planNombre}"/>
+                                <p:inputText readonly="true" id="planSelNom" value="#{cambiarPlan.planSeleccionado.planNombre}"/>
                                 <p:message id="msgplanSelNom" for="planSelNom" />  
 
                                 <h:outputLabel for="planSelPre" value="Precio" />
-                                <p:inputText  id="planSelPre" value="#{agregarPago.planContratado.planContratadoMonto}">
+                                <p:inputText  id="planSelPre" value="#{cambiarPlan.planContratado.planContratadoMonto}">
                                     <p:ajax event="blur" update="msgPrecio" />
                                 </p:inputText>
                                 <p:message id="msgPrecio" for="planSelPre" /> 
 
                                 <h:outputLabel for="planObs" value="Observaciones" />
-                                <p:inputTextarea  id="planObs" value="#{agregarPago.planContratado.planContratadoObservacion}"/>
+                                <p:inputTextarea  id="planObs" value="#{cambiarPlan.planContratado.planContratadoObservacion}"/>
                                 <p:message id="msgplanObs" for="planObs" />
 
 
 
 
 
-                                <p:commandButton   value="Ingresar Pago" action="#{agregarPago.agregarPago}"/>
+                                
                             </h:panelGrid>
+                            
                         </p:panel>
+                        <p:commandButton   value="Ingresar Pago" action="#{cambiarPlan.agregarPago}" onclick="confirmation.hide();" update="growl"/>
                     </p:panel>
                 </h:form>
             </ui:define>

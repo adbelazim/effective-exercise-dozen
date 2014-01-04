@@ -84,7 +84,85 @@ public class BuscarCliente implements Serializable{
         
     }
 
-    public ClienteNegocioLocal getClienteNegocio() {
+    
+    public void buscar(){
+    
+        
+        System.out.println("opcion "+opcion+"buscado "+buscado);
+        
+        switch(opcion){
+        
+            case "codigo":
+                try{
+                    clientes =  clienteNegocio.busquedaClienteCodigo(Integer.parseInt(buscado));
+                }
+                catch(NumberFormatException ex){
+                    clientes =  clienteNegocio.busquedaClienteCodigo(-1);
+                     
+                }
+                break;
+                
+            case "rut":
+                try{
+                    clientes = clienteNegocio.busquedaClienteRut(Integer.parseInt(buscado));
+                }
+                catch(NumberFormatException ex){
+                    clientes = clienteNegocio.busquedaClienteRut(-1);
+                }
+                break;
+                
+            case "apellido":
+                clientes = clienteNegocio.busquedaClienteApellidoPaterno(buscado);
+                break;
+                
+            default:
+                
+                break;
+        }
+
+    }
+    
+    public void actualizar(){
+        
+        System.out.println(clienteSeleccionado.toString());
+        clienteFacade.edit(clienteSeleccionado);
+        FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        context.addMessage(null , new FacesMessage("", "Datos actualizados"));
+
+    }
+    public void integrarAsistencia(){
+       System.out.println(claseAsistencia); 
+       
+       clienteRut = clienteSeleccionado.getClienteRut();
+       asistenciapk = new AsistenciaPK(clienteRut, new Date());       
+       asistencia = new Asistencia(asistenciapk, maquinaAsistencia, claseAsistencia);
+       asistenciaFacade.create(asistencia);
+       FacesContext context;
+       context = FacesContext.getCurrentInstance();
+       context.addMessage(null , new FacesMessage("Exito", "Asistencia agregada con exito")); 
+        
+    }
+    
+    public void agregarPago(){        
+        System.out.println(clienteSeleccionado.toString());
+        
+        clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);      
+        
+        FacesContext context;
+       context = FacesContext.getCurrentInstance();
+       context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
+       historialPago.setHistorialPagoNumeroBoleta(0);
+        
+    }
+    
+    public void actualizarPlan(){
+         planContratado = planContratadoFacade.find(clienteSeleccionado.getClienteRut());
+         plan = planFacade.find(planContratado.getPlanplanId().getPlanId());
+         
+    }
+
+     public ClienteNegocioLocal getClienteNegocio() {
         return clienteNegocio;
     }
 
@@ -188,89 +266,5 @@ public class BuscarCliente implements Serializable{
     public void setPlan(Plan plan) {
         this.plan = plan;
     }
-    
-    
-    public void buscar(){
-    
-        
-        System.out.println("opcion "+opcion+"buscado "+buscado);
-        
-        switch(opcion){
-        
-            case "codigo":
-                try{
-                    clientes =  clienteNegocio.busquedaClienteCodigo(Integer.parseInt(buscado));
-                }
-                catch(NumberFormatException ex){
-                    clientes =  clienteNegocio.busquedaClienteCodigo(-1);
-                     
-                }
-                break;
-                
-            case "rut":
-                try{
-                    clientes = clienteNegocio.busquedaClienteRut(Integer.parseInt(buscado));
-                }
-                catch(NumberFormatException ex){
-                    clientes = clienteNegocio.busquedaClienteRut(-1);
-                }
-                break;
-                
-            case "apellido":
-                clientes = clienteNegocio.busquedaClienteApellidoPaterno(buscado);
-                break;
-                
-            default:
-                
-                break;
-        }
-
-    }
-    
-    public void actualizar(){
-        
-        System.out.println(clienteSeleccionado.toString());
-        clienteFacade.edit(clienteSeleccionado);
-        FacesContext context;
-        context = FacesContext.getCurrentInstance();
-        context.addMessage(null , new FacesMessage("", "Datos actualizados"));
-
-    }
-    public void integrarAsistencia(){
-       System.out.println(claseAsistencia); 
-       
-       clienteRut = clienteSeleccionado.getClienteRut();
-       asistenciapk = new AsistenciaPK(clienteRut, new Date());       
-       asistencia = new Asistencia(asistenciapk, maquinaAsistencia, claseAsistencia);
-       asistenciaFacade.create(asistencia);
-       FacesContext context;
-       context = FacesContext.getCurrentInstance();
-       context.addMessage(null , new FacesMessage("Exito", "Asistencia agregada con exito")); 
-        
-    }
-    
-    public void agregarPago(){        
-        System.out.println(clienteSeleccionado.toString());
-        
-        clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);      
-        
-        FacesContext context;
-       context = FacesContext.getCurrentInstance();
-       context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
-       historialPago.setHistorialPagoNumeroBoleta(0);
-        
-    }
-    
-    public void actualizarPlan(){
-         planContratado = planContratadoFacade.find(clienteSeleccionado.getClienteRut());
-         plan = planFacade.find(planContratado.getPlanplanId().getPlanId());
-         
-    }
-//    public void realizarPago(){
-//        
-//       // clienteFacade.edit(clienteSeleccionado);
-//        
-//    }
-    
     
 }

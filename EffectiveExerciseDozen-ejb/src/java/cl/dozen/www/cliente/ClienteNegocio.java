@@ -29,10 +29,20 @@ public class ClienteNegocio implements ClienteNegocioLocal {
     public void persist(Object object) {
         em.persist(object);
     }
-    
+     public void edit(Object object) {
+        em.merge(object);
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+     @Override
+    public void cambiarPlan(Cliente cliente, PlanContratado planContratado, Plan plan) {
+        planContratado.setClienteclienteRut(cliente.getClienteRut());
+        planContratado.setPlanplanId(plan);
+        planContratado.setPlanContratadoFechaInicio(new Date());
+       edit(planContratado);
+    }
 
     @Override
     public int crearCliente(Cliente cliente, Plan plan, PlanContratado planContratado, HistorialPago historialPago) {
@@ -81,6 +91,7 @@ public class ClienteNegocio implements ClienteNegocioLocal {
         persist(historialPago);
         
     }
+  
 
     @Override
     public void editarCliente(Cliente cLiente) { 
@@ -123,6 +134,7 @@ public class ClienteNegocio implements ClienteNegocioLocal {
         return null;
     }
 
+   
    
     
     

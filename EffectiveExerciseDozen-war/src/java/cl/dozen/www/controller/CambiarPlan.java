@@ -14,12 +14,15 @@ import cl.dozen.www.entities.PlanContratado;
 import cl.dozen.www.facades.ClienteFacadeLocal;
 import cl.dozen.www.facades.HistorialPagoFacade;
 import cl.dozen.www.facades.HistorialPagoFacadeLocal;
+import cl.dozen.www.facades.PlanContratadoFacadeLocal;
 import cl.dozen.www.facades.PlanFacadeLocal;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -28,7 +31,9 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class AgregarPago {
+public class CambiarPlan {
+    @EJB
+    private PlanContratadoFacadeLocal planContratadoFacade;
     @EJB
     ClienteNegocioLocal clienteNegocioLocal;
      @EJB
@@ -45,8 +50,33 @@ public class AgregarPago {
     private HistorialPago historialPago;
     private Cliente cliente;
     private Integer clienteRut;
+   
+    @PostConstruct
+    public void init() {
 
-    public ClienteNegocioLocal getClienteNegocioLocal() {
+        cliente = new Cliente();
+        
+        planes = planFacade.findAll();
+
+        planContratado = new PlanContratado();
+
+        historialPago = new HistorialPago();    
+    }
+   
+    public void agregarPago(){
+        cliente.setClienteRut(clienteRut);
+        clienteNegocioLocal.realizarPago(cliente, planContratado, historialPago);
+        clienteNegocioLocal.cambiarPlan(cliente, planContratado, planSeleccionado);
+       FacesContext context;
+       context = FacesContext.getCurrentInstance();
+       context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
+        
+    }
+     public void onRowSelect() {
+        planContratado.setPlanContratadoMonto(planSeleccionado.getPlanPrecio());
+    }
+     
+     public ClienteNegocioLocal getClienteNegocioLocal() {
         return clienteNegocioLocal;
     }
 
@@ -118,31 +148,6 @@ public class AgregarPago {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-   
-    
-    
-    @PostConstruct
-    public void init() {
-
-        cliente = new Cliente();
-        
-        planes = planFacade.findAll();
-
-        planContratado = new PlanContratado();
-
-        historialPago = new HistorialPago();    
-    }
-   
-    public void agregarPago(){
-        cliente.setClienteRut(clienteRut);
-        
-        clienteNegocioLocal.realizarPago(cliente, planContratado, historialPago);
-      
-        
-    }
-     public void onRowSelect() {
-        planContratado.setPlanContratadoMonto(planSeleccionado.getPlanPrecio());
     }
     
 }

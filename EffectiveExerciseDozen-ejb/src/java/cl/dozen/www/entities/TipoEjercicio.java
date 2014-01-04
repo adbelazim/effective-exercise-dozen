@@ -7,9 +7,7 @@
 package cl.dozen.www.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "TipoEjercicio.findAll", query = "SELECT t FROM TipoEjercicio t"),
     @NamedQuery(name = "TipoEjercicio.findByTipoEjercicioId", query = "SELECT t FROM TipoEjercicio t WHERE t.tipoEjercicioId = :tipoEjercicioId"),
-    @NamedQuery(name = "TipoEjercicio.findByTipoEjercicioNombre", query = "SELECT t FROM TipoEjercicio t WHERE t.tipoEjercicioNombre = :tipoEjercicioNombre")})
+    @NamedQuery(name = "TipoEjercicio.findByTipoEjercicioNombre", query = "SELECT t FROM TipoEjercicio t WHERE t.tipoEjercicioNombre = :tipoEjercicioNombre"),
+    @NamedQuery(name = "TipoEjercicio.findByTipoEjercicioDescripcion", query = "SELECT t FROM TipoEjercicio t WHERE t.tipoEjercicioDescripcion = :tipoEjercicioDescripcion")})
 public class TipoEjercicio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,8 +44,11 @@ public class TipoEjercicio implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "tipoEjercicioNombre")
     private String tipoEjercicioNombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoEjerciciotipoEjercicioId")
-    private Collection<Ejercicio> ejercicioCollection;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
+    @Column(name = "tipoEjercicioDescripcion")
+    private String tipoEjercicioDescripcion;
 
     public TipoEjercicio() {
     }
@@ -57,9 +57,10 @@ public class TipoEjercicio implements Serializable {
         this.tipoEjercicioId = tipoEjercicioId;
     }
 
-    public TipoEjercicio(Integer tipoEjercicioId, String tipoEjercicioNombre) {
+    public TipoEjercicio(Integer tipoEjercicioId, String tipoEjercicioNombre, String tipoEjercicioDescripcion) {
         this.tipoEjercicioId = tipoEjercicioId;
         this.tipoEjercicioNombre = tipoEjercicioNombre;
+        this.tipoEjercicioDescripcion = tipoEjercicioDescripcion;
     }
 
     public Integer getTipoEjercicioId() {
@@ -78,13 +79,12 @@ public class TipoEjercicio implements Serializable {
         this.tipoEjercicioNombre = tipoEjercicioNombre;
     }
 
-    @XmlTransient
-    public Collection<Ejercicio> getEjercicioCollection() {
-        return ejercicioCollection;
+    public String getTipoEjercicioDescripcion() {
+        return tipoEjercicioDescripcion;
     }
 
-    public void setEjercicioCollection(Collection<Ejercicio> ejercicioCollection) {
-        this.ejercicioCollection = ejercicioCollection;
+    public void setTipoEjercicioDescripcion(String tipoEjercicioDescripcion) {
+        this.tipoEjercicioDescripcion = tipoEjercicioDescripcion;
     }
 
     @Override

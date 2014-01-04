@@ -76,7 +76,7 @@ public class AgregarCliente implements Serializable {
 
     @PostConstruct
     public void init() {
-        
+
         cliente = new Cliente();
         cliente.setClienteNombre("Danilo");
         cliente.setClienteApellidoPaterno("Aburto");
@@ -88,13 +88,13 @@ public class AgregarCliente implements Serializable {
         cliente.setClienteMail("danilo@usach.cl");
         cliente.setClienteSexo("Masculino");
         cliente.setClienteTelefono(1234567);
-    
+
         planes = planFacade.findAll();
 
         planContratado = new PlanContratado();
 
-        historialPago = new HistorialPago();    
-        
+        historialPago = new HistorialPago();
+
         //comunas
         String listadoComunas = "Cerrillos-La Reina-Pudahuel-Cerro Navia-Las Condes-Quilicura-Conchalí-Lo Barnechea-Quinta Normal-El Bosque-Lo Espejo-Recoleta-Estación Central-Lo Prado-Renca-Huechuraba-Macul-San Miguel-Independencia-Maipú-San Joaquín-La Cisterna-Ñuñoa-San Ramón-La Florida-Pedro Aguirre Cerda-Santiago-La Pintana-Peñalolén-Vitacura-La Granja-Providencia-Padre Hurtado-San Bernardo-Puente Alto-Pirque-San José de Maipo";
         String[] nombresComunas = listadoComunas.split("-");
@@ -163,17 +163,17 @@ public class AgregarCliente implements Serializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
+      
     public void agregarCliente() {
-    
+
 //agregar cliente a la BD
         int cod;
         if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Error", "Cliente con " + cliente.getClienteRut()+" ya existe"));
-        }else{
+            context.addMessage(null, new FacesMessage("Error", "Cliente con " + cliente.getClienteRut() + " ya existe"));
+        } else {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Exxito", "Cliente agregado con exito, su código es:" + cod));  
+            context.addMessage(null, new FacesMessage("Exxito", "Cliente agregado con exito, su código es:" + cod));
         }
         endConversation();
 

@@ -23,6 +23,7 @@ public interface ClienteNegocioLocal {
     int crearCliente(Cliente cliente, Plan plan, PlanContratado planContratado, HistorialPago historialPago);
     void realizarPago(Cliente cliente, PlanContratado planContratado,HistorialPago historialPago);
   
+    void cambiarPlan(Cliente cliente, PlanContratado planContratado, Plan plan);
     void editarCliente(Cliente cLiente);
     List<Cliente> busquedaClienteNombre(String clienteNombre);
     List<Cliente> busquedaClienteApellidoPaterno(String clienteApellidoPaterno);
