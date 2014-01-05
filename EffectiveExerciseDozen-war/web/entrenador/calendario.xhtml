@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+
+            <ui:define name="top">
+                <ui:include src="../menu.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <p:layout style="min-width:400px;min-height:300px;" id="layout">  
+                    <p:layoutUnit position="west" resizable="true" size="10000" minSize="400" maxSize="500">  
+                        <h:form id="form" >  
+
+                            <p:growl id="growl" showDetail="true"/>                 
+                            <p:calendar value="#{crearCalendario.date1}" mode="inline" id="inlineCal">  
+                                <p:ajax event="dateSelect" listener="#{crearCalendario.handleDateSelect}" update="growl" />  
+                            </p:calendar>  
+
+                        </h:form>   
+                    </p:layoutUnit>  
+
+                    <p:layoutUnit position="center">
+                        <p:layout style="min-width:200px;min-height:100px;" id="layout1">
+                            <p:layoutUnit position="west" resizable="true" size="200" minSize="100" maxSize="200">
+                                hola
+                            </p:layoutUnit>
+                            <p:layoutUnit position="center">
+                                
+                            </p:layoutUnit>
+                            
+                            
+                        </p:layout>
+            
+
+                        <h:form>
+
+                            <h:outputLabel for="comuna" value="Boque Horario"/>
+                            <p:selectOneMenu  id="bloque" value="#{crearCalendario.bloque}" >  
+                                <f:selectItems value="#{crearCalendario.bloques}"/>
+                            </p:selectOneMenu>
+                            <p:message id="msgBloque" for="bloque"  />
+                        </h:form>
+                    </p:layoutUnit>  
+                </p:layout>  
+
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

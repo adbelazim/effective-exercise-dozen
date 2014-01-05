@@ -6,64 +6,113 @@
 
 package cl.dozen.www.controller;
 
+import cl.dozen.www.entities.Ejercicio;
 import cl.dozen.www.entities.TipoEjercicio;
 import cl.dozen.www.facades.TipoEjercicioFacadeLocal;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
  *
- * @author root
+ * @author sergio
  */
 @Named
 @RequestScoped
 public class AgregarEjercicio {
     @EJB
     private TipoEjercicioFacadeLocal tipoEjercicioFacade;
+    private String nombre;
+    private String comentario;
+    private TipoEjercicio tipoEjercicioSelecciondo;
+    private List<TipoEjercicio> tipoEjercicios;
+    private Ejercicio ejercicio;
+    private String link;
     
-    private TipoEjercicio tipoEjercicio;
-    private String tipoEjercicioNombre;
-    private String tipoEjercicioDescripcion;
+    public AgregarEjercicio() {
+    
+    }
     
     @PostConstruct
-    
     public void init(){
-        tipoEjercicio = new TipoEjercicio();
+        ejercicio = new Ejercicio();
+        tipoEjercicios = tipoEjercicioFacade.findAll();
+        
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
     
-    public void agregarTipoEjercicio(){
-        tipoEjercicio.setTipoEjercicioNombre(tipoEjercicioNombre);
-        tipoEjercicio.setTipoEjercicioDescripcion(tipoEjercicioDescripcion);
-        tipoEjercicioFacade.create(tipoEjercicio);
-    
-    
+    public TipoEjercicioFacadeLocal getTipoEjercicioFacade() {
+        return tipoEjercicioFacade;
     }
 
-    public String getTipoEjercicioDescripcion() {
-        return tipoEjercicioDescripcion;
+    public void setTipoEjercicioFacade(TipoEjercicioFacadeLocal tipoEjercicioFacade) {
+        this.tipoEjercicioFacade = tipoEjercicioFacade;
     }
 
-    public void setTipoEjercicioDescripcion(String tipoEjercicioDescripcion) {
-        this.tipoEjercicioDescripcion = tipoEjercicioDescripcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    
-    public TipoEjercicio getTipoEjercicio() {
-        return tipoEjercicio;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setTipoEjercicio(TipoEjercicio tipoEjercicio) {
-        this.tipoEjercicio = tipoEjercicio;
+    public String getComentario() {
+        return comentario;
     }
 
-    public String getTipoEjercicioNombre() {
-        return tipoEjercicioNombre;
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
-    public void setTipoEjercicioNombre(String tipoEjercicioNombre) {
-        this.tipoEjercicioNombre = tipoEjercicioNombre;
+    public TipoEjercicio getTipoEjercicioSelecciondo() {
+        return tipoEjercicioSelecciondo;
+    }
+
+    public void setTipoEjercicioSelecciondo(TipoEjercicio tipoEjercicioSelecciondo) {
+        this.tipoEjercicioSelecciondo = tipoEjercicioSelecciondo;
+    }
+
+    public List<cl.dozen.www.entities.TipoEjercicio> getTipoEjercicios() {
+        return tipoEjercicios;
+    }
+
+    public void setTipoEjercicios(List<cl.dozen.www.entities.TipoEjercicio> tipoEjercicios) {
+        this.tipoEjercicios = tipoEjercicios;
+    }
+
+    public Ejercicio getEjercicio() {
+        return ejercicio;
+    }
+
+    public void setEjercicio(Ejercicio ejercicio) {
+        this.ejercicio = ejercicio;
+    }
+
+   
+ 
+    public void onRowSelect(){
+        ejercicio.setEjercicioId(tipoEjercicioSelecciondo.getTipoEjercicioId());
+        
+    }
+    public void ingresarEjercicio(){
+        ejercicio.setEjercicioDescripcion(comentario);
+        ejercicio.setEjercicioNombre(nombre);
+        ejercicio.setEjercicioLink(link);
+        FacesContext context;
+        context = FacesContext.getCurrentInstance();
+        context.addMessage(null , new FacesMessage("Exito", "Ejercicio Creado"));
     }
     
     

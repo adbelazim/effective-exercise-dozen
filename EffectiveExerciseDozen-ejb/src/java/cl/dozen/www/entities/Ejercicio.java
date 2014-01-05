@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author root
+ * @author sergio
  */
 @Entity
 @Table(name = "ejercicio")
@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Ejercicio.findAll", query = "SELECT e FROM Ejercicio e"),
     @NamedQuery(name = "Ejercicio.findByEjercicioId", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioId = :ejercicioId"),
     @NamedQuery(name = "Ejercicio.findByEjercicioNombre", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioNombre = :ejercicioNombre"),
-    @NamedQuery(name = "Ejercicio.findByEjercicioDescripcion", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioDescripcion = :ejercicioDescripcion")})
+    @NamedQuery(name = "Ejercicio.findByEjercicioDescripcion", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioDescripcion = :ejercicioDescripcion"),
+    @NamedQuery(name = "Ejercicio.findByEjercicioLink", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioLink = :ejercicioLink")})
 public class Ejercicio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,7 +44,7 @@ public class Ejercicio implements Serializable {
     private Integer ejercicioId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 100)
     @Column(name = "ejercicioNombre")
     private String ejercicioNombre;
     @Basic(optional = false)
@@ -51,6 +52,9 @@ public class Ejercicio implements Serializable {
     @Size(min = 1, max = 1000)
     @Column(name = "ejercicioDescripcion")
     private String ejercicioDescripcion;
+    @Size(max = 200)
+    @Column(name = "ejercicioLink")
+    private String ejercicioLink;
     @JoinColumn(name = "tipoEjercicio_tipoEjercicioId", referencedColumnName = "tipoEjercicioId")
     @ManyToOne(optional = false)
     private TipoEjercicio tipoEjerciciotipoEjercicioId;
@@ -90,6 +94,14 @@ public class Ejercicio implements Serializable {
 
     public void setEjercicioDescripcion(String ejercicioDescripcion) {
         this.ejercicioDescripcion = ejercicioDescripcion;
+    }
+
+    public String getEjercicioLink() {
+        return ejercicioLink;
+    }
+
+    public void setEjercicioLink(String ejercicioLink) {
+        this.ejercicioLink = ejercicioLink;
     }
 
     public TipoEjercicio getTipoEjerciciotipoEjercicioId() {

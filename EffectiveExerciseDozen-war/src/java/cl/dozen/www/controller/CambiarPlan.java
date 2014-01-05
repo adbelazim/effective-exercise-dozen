@@ -64,9 +64,9 @@ public class CambiarPlan {
     }
    
     public void agregarPago(){
-        cliente.setClienteRut(clienteRut);
-        clienteNegocioLocal.realizarPago(cliente, planContratado, historialPago);
-        clienteNegocioLocal.cambiarPlan(cliente, planContratado, planSeleccionado);
+       cliente.setClienteRut(clienteRut);
+       clienteNegocioLocal.realizarPago(cliente, planContratado, historialPago);
+       clienteNegocioLocal.cambiarPlan(cliente, planContratado, planSeleccionado);
        FacesContext context;
        context = FacesContext.getCurrentInstance();
        context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 

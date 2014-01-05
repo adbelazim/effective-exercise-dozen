@@ -7,7 +7,9 @@
 package cl.dozen.www.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,14 +17,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author root
+ * @author sergio
  */
 @Entity
 @Table(name = "tipoEjercicio")
@@ -46,9 +50,11 @@ public class TipoEjercicio implements Serializable {
     private String tipoEjercicioNombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1000)
+    @Size(min = 1, max = 45)
     @Column(name = "tipoEjercicioDescripcion")
     private String tipoEjercicioDescripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoEjerciciotipoEjercicioId")
+    private Collection<Ejercicio> ejercicioCollection;
 
     public TipoEjercicio() {
     }
@@ -85,6 +91,15 @@ public class TipoEjercicio implements Serializable {
 
     public void setTipoEjercicioDescripcion(String tipoEjercicioDescripcion) {
         this.tipoEjercicioDescripcion = tipoEjercicioDescripcion;
+    }
+
+    @XmlTransient
+    public Collection<Ejercicio> getEjercicioCollection() {
+        return ejercicioCollection;
+    }
+
+    public void setEjercicioCollection(Collection<Ejercicio> ejercicioCollection) {
+        this.ejercicioCollection = ejercicioCollection;
     }
 
     @Override
