@@ -6,7 +6,7 @@
 
 package cl.dozen.www.facades;
 
-import cl.dozen.www.entities.Cliente;
+import cl.dozen.www.entities.Evaluacion;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,19 +15,19 @@ import javax.ejb.Local;
  * @author root
  */
 @Local
-public interface ClienteFacadeLocal {
+public interface EvaluacionFacadeLocal {
 
-    void create(Cliente cliente);
+    void create(Evaluacion evaluacion);
 
-    void edit(Cliente cliente);
+    void edit(Evaluacion evaluacion);
 
-    void remove(Cliente cliente);
+    void remove(Evaluacion evaluacion);
 
-    Cliente find(Object id);
+    Evaluacion find(Object id);
 
-    List<Cliente> findAll();
+    List<Evaluacion> findAll();
 
-    List<Cliente> findRange(int[] range);
+    List<Evaluacion> findRange(int[] range);
 
     int count();
     

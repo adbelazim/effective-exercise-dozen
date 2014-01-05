@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" >
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Effective Excercise</title>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+
+
+            <ui:define name="top">
+                <ui:include src="../menu.xhtml"/>
+
+            </ui:define>
+            <ui:define  name="content"> 
+                <h:outputStylesheet library="css" name="position.css"  />
+                <h:form id="formBuscar">                    
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Buscar"></p:outputLabel>
+                        <p:inputText value="#{agregarAsistencia.buscado}"/>
+                        <p:commandButton update="clientes" action="#{agregarAsistencia.buscar}" value="Buscar"/>
+                    </h:panelGrid>
+
+
+                    <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{agregarAsistencia.opcion}">  
+                        <f:selectItem itemLabel="Codigo" itemValue="codigo" />  
+                        <f:selectItem itemLabel="Rut" itemValue="rut" />  
+                        <f:selectItem itemLabel="Apellido Paterno" itemValue="apellido" />  
+                    </p:selectOneRadio> 
+
+                    <p:dataTable id="clientes" paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"   var="cliente" value="#{agregarAsistencia.clientes}">  
+
+                        <f:facet name="header">  
+                            Clientes  
+                        </f:facet>  
+
+                        <p:column headerText="Codigo">  
+                            #{cliente.clienteCodigo}  
+                        </p:column>  
+
+                        <p:column headerText="Rut">  
+                            #{cliente.clienteRut}  
+                        </p:column>  
+
+                        <p:column headerText="Nombre" >  
+                            #{cliente.clienteNombre}  
+                        </p:column> 
+
+                        <p:column headerText="Apellido paterno" >  
+                            #{cliente.clienteApellidoPaterno}  
+                        </p:column>
+
+
+                        <p:column headerText="Apellido materno" >  
+                            #{cliente.clienteApellidoMaterno}  
+                        </p:column>
+
+                        <p:column headerText="Acción" style="width:20px">  
+                           
+                            <p:commandButton update=":agregarAsistencia:panelAsistencia" oncomplete="dialogIngresarAsistencia.show()"  value="Asistencia" >
+                                <f:setPropertyActionListener value="#{cliente}" target="#{agregarAsistencia.clienteSeleccionado}" />  
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+                <p:dialog id="dialogAsistencia" modal="true" header="Ingresar Asistencia" widgetVar="dialogIngresarAsistencia" >  
+                    <h:form id="agregarAsistencia">
+                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                        <h:panelGrid  id="panelAsistencia" columns="3" styleClass="centered" >            
+                            <h:outputLabel for="rut" value="Rut Cliente"/>
+                            <p:inputText required="true" readonly="true" requiredMessage="Campo Requerido" id="rut" value="#{agregarAsistencia.clienteSeleccionado.clienteRut}"  > 
+                            </p:inputText>
+                            <p:message id="msgRut" for="rut"  />
+
+                            <h:outputText value="Maquinas: " />  
+                            <p:selectBooleanCheckbox id = "id1" value="#{agregarAsistencia.maquinaAsistencia}" /> 
+                            <p:message id="msgMaq" for="id1"  />
+                            <h:outputText value="Clases: " />  
+                            <p:selectBooleanCheckbox id="id2" value="#{agregarAsistencia.claseAsistencia}" >  
+                                <p:message id="msgCl" for="id2"  />
+                            </p:selectBooleanCheckbox>  
+
+
+                            <h:outputLabel/>
+                            <p:commandButton value="agregar" action="#{agregarAsistencia.integrarAsistencia()}" onclick="confirmation.hide();" update="growl" />
+
+                        </h:panelGrid>
+
+                    </h:form>
+                </p:dialog>
+                
+                
+
+                
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>
+
+

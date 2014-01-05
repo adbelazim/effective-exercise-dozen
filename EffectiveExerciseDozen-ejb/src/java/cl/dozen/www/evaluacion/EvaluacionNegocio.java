@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 
-package cl.dozen.www.facades;
+package cl.dozen.www.evaluacion;
 
-import cl.dozen.www.entities.Entrenador;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,17 +15,16 @@ import javax.persistence.PersistenceContext;
  * @author root
  */
 @Stateless
-public class EntrenadorFacade extends AbstractFacade<Entrenador> implements EntrenadorFacadeLocal {
+public class EvaluacionNegocio implements EvaluacionNegocioLocal {
     @PersistenceContext(unitName = "EffectiveExerciseDozen-ejbPU")
     private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
-    public EntrenadorFacade() {
-        super(Entrenador.class);
+    public void persist(Object object) {
+        em.persist(object);
     }
     
+    
+    
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
 }

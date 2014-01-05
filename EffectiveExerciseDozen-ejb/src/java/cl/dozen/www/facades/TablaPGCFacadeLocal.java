@@ -6,7 +6,7 @@
 
 package cl.dozen.www.facades;
 
-import cl.dozen.www.entities.Cliente;
+import cl.dozen.www.entities.TablaPGC;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,19 +15,19 @@ import javax.ejb.Local;
  * @author root
  */
 @Local
-public interface ClienteFacadeLocal {
+public interface TablaPGCFacadeLocal {
 
-    void create(Cliente cliente);
+    void create(TablaPGC tablaPGC);
 
-    void edit(Cliente cliente);
+    void edit(TablaPGC tablaPGC);
 
-    void remove(Cliente cliente);
+    void remove(TablaPGC tablaPGC);
 
-    Cliente find(Object id);
+    TablaPGC find(Object id);
 
-    List<Cliente> findAll();
+    List<TablaPGC> findAll();
 
-    List<Cliente> findRange(int[] range);
+    List<TablaPGC> findRange(int[] range);
 
     int count();
     

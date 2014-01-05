@@ -15,6 +15,7 @@
             </ui:define>
 
             <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
                 <h:form id="formBuscar">                    
                     <h:panelGrid columns="3">
                         <p:outputLabel value="Buscar"></p:outputLabel>
@@ -57,86 +58,17 @@
                             #{cliente.clienteApellidoMaterno}  
                         </p:column>
 
-                        <p:column headerText="Opciones" style="width:20px">  
+                        <p:column headerText="Acción" style="width:20px">  
                             <p:commandButton update=":actualizarCliente:panelEditar" oncomplete="dialogEditarCliente.show()"  value="Editar" >
                                 <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
                             </p:commandButton>
-                            <p:commandButton update=":agregarAsistencia:panelAsistencia" oncomplete="dialogIngresarAsistencia.show()"  value="Asistencia" >
-                                <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
-                            </p:commandButton>
-                            <p:commandButton update=":realizarPago:panelPago" oncomplete="dialogRealizarPago.show()"  value="Pago" action="#{buscarCliente.actualizarPlan}" >
-                                <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
-                            </p:commandButton>
+                         
+                            
+                            
                         </p:column>
                     </p:dataTable>
                 </h:form>
 
-                <p:dialog id="dialogAsistencia" modal="true" header="Ingresar Asistencia" widgetVar="dialogIngresarAsistencia" >  
-                    <h:form id="agregarAsistencia">
-                        <p:growl id="growl" showDetail="true" sticky="true" /> 
-                        <h:panelGrid  id="panelAsistencia" columns="3" styleClass="centered" >            
-                            <h:outputLabel for="rut" value="Rut Cliente"/>
-                            <p:inputText required="true" readonly="true" requiredMessage="Campo Requerido" id="rut" value="#{buscarCliente.clienteSeleccionado.clienteRut}"  > 
-                            </p:inputText>
-                            <p:message id="msgRut" for="rut"  />
-
-                            <h:outputText value="Maquinas: " />  
-                            <p:selectBooleanCheckbox id = "id1" value="#{buscarCliente.maquinaAsistencia}" /> 
-                            <p:message id="msgMaq" for="id1"  />
-                            <h:outputText value="Clases: " />  
-                            <p:selectBooleanCheckbox id="id2" value="#{buscarCliente.claseAsistencia}" >  
-                                <p:message id="msgCl" for="id2"  />
-                            </p:selectBooleanCheckbox>  
-
-
-                            <h:outputLabel/>
-                            <p:commandButton value="agregar" action="#{buscarCliente.integrarAsistencia()}" onclick="confirmation.hide();" update="growl" />
-
-                        </h:panelGrid>
-
-                    </h:form>
-                </p:dialog>
-                
-                
-                
-                <p:dialog id="dialogPago" modal="true" header="Realizar Pago" widgetVar="dialogRealizarPago" >  
-                    <h:form id="realizarPago">
-                        <p:growl id="growl" showDetail="true" sticky="true" /> 
-                        <h:panelGrid  id="panelPago" columns="3" styleClass="centered" >            
-                            <h:outputLabel for="histNumeroBoleta" value="Numero boleta" />
-                            <p:inputText  id="histNumeroBoleta" value="#{buscarCliente.historialPago.historialPagoNumeroBoleta}">
-                                    <p:ajax event="blur" update="msgNumeroBoleta" />
-                                </p:inputText>
-                                <p:message id="msgNumeroBoleta" for="histNumeroBoleta" />
-                                
-                                <h:outputLabel for="histClienteRut" value="Rut Cliente" />
-                                <p:inputText  id="histClienteRut" readonly="true" value="#{buscarCliente.clienteSeleccionado.clienteRut}">
-                                    <p:ajax event="blur" update="msghistClienteRut" />
-                                </p:inputText>
-                                <p:message id="msghistClienteRut" for="histClienteRut" />
-
-                                <h:outputLabel for="planSelNom" value="Nombre del Plan" />
-                                <p:inputText readonly="true" id="planSelNom" value="#{buscarCliente.plan.planNombre}"/>
-                                <p:message id="msgplanSelNom" for="planSelNom" />  
-
-                                <h:outputLabel for="planSelPre" value="Precio" />
-                                <p:inputText  id="planSelPre" readonly="true" value="#{buscarCliente.plan.planPrecio}">
-                                    <p:ajax event="blur" update="msgPrecio" />
-                                </p:inputText>
-                                <p:message id="msgPrecio" for="planSelPre" /> 
-
-                                <h:outputLabel for="planObs" value="Observaciones" />
-                                <p:inputTextarea  id="planObs" value="#{buscarCliente.planContratado.planContratadoObservacion}"/>
-                                <p:message id="msgplanObs" for="planObs" />
-
-
-                            <h:outputLabel/>
-                            <p:commandButton value="Pagar" action="#{buscarCliente.agregarPago}" onclick="confirmation.hide();" update="growl" />
-
-                        </h:panelGrid>
-
-                    </h:form>
-                </p:dialog>
 
                 <p:dialog id="dialogEditar" modal="true" header="Editar cliente" widgetVar="dialogEditarCliente" >  
                     <h:form id="actualizarCliente">
@@ -163,7 +95,7 @@
                             <p:message id="msgApellido_materno" for="apellido_materno"  />
 
                             <h:outputLabel  for="fechanac" value="Fecha Nacimiento"/>
-                            <p:calendar  pattern="dd/MM/yyyy"  yearRange="1900" id="fechanac" value="#{buscarCliente.clienteSeleccionado.clienteFechaNacimiento}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                            <p:calendar   yearRange="1900" id="fechanac" value="#{buscarCliente.clienteSeleccionado.clienteFechaNacimiento}" required="true" requiredMessage="Campo requerido" navigator="true" >
                             </p:calendar>
                             <p:message id="msgFechanac" for="fechanac" /> 
 

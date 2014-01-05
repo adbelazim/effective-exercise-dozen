@@ -7,20 +7,15 @@
 package cl.dozen.www.controller;
 
 import cl.dozen.www.cliente.ClienteNegocioLocal;
-import cl.dozen.www.entities.Asistencia;
-import cl.dozen.www.entities.AsistenciaPK;
 import cl.dozen.www.entities.Cliente;
-import cl.dozen.www.entities.HistorialPago;
-import cl.dozen.www.facades.AsistenciaFacadeLocal;
-import cl.dozen.www.facades.ClienteFacadeLocal;
+import cl.dozen.www.entities.Evaluacion;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -29,15 +24,11 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class BuscarCliente implements Serializable{
+public class AgregarEvaluacion implements Serializable {
     @EJB
-    private AsistenciaFacadeLocal asistenciaFacade;
-    @EJB
-    private ClienteNegocioLocal clienteNegocio;
-    @EJB
-    private ClienteFacadeLocal clienteFacade;
-    
-    
+    ClienteNegocioLocal clienteNegocio;
+            
+            
     
     private List<Cliente> clientes;
     
@@ -47,33 +38,24 @@ public class BuscarCliente implements Serializable{
     
     private Cliente clienteSeleccionado;
     
-    //Datos de la asistencia
+    //datos evaluacion
     
-    Asistencia asistencia;
-    AsistenciaPK asistenciapk;
+    private String fecha;
+    private Evaluacion evaluacion;
+    private int edad;
     
-    private Integer clienteRut;
-    private boolean maquinaAsistencia;  
-    private boolean claseAsistencia; 
-   
-    //datos pago
+    public AgregarEvaluacion(){
     
-    
-    private HistorialPago historialPago;
-
-
-   
-
-    public BuscarCliente() {
+ 
     }
     
     @PostConstruct
     public void init(){
        
         clienteSeleccionado = new Cliente();
-        
+        evaluacion = new Evaluacion();
+   
     }
-
     
     public void buscar(){
     
@@ -112,66 +94,48 @@ public class BuscarCliente implements Serializable{
 
     }
     
-
-    public void actualizar(){
+    public void obtenerDatosEvaluacion(){
+        DateFormat df =  DateFormat.getDateInstance();
+        this.edad = calcularEdad(clienteSeleccionado.getClienteFechaNacimiento());
+        String s =  df.format(clienteSeleccionado.getClienteFechaNacimiento());
+        this.fecha = s;
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        calendar.
         
-        System.out.println(clienteSeleccionado.toString());
-        clienteFacade.edit(clienteSeleccionado);
-        FacesContext context;
-        context = FacesContext.getCurrentInstance();
-        context.addMessage(null , new FacesMessage("", "Datos actualizados"));
-
+        
+    
+    
     }
     
+    public int calcularEdad(Date fechaNacimiento){
+      //  fechaNacimiento = clienteSeleccionado.getClienteFechaNacimiento();
+        Date fechaActual;  
+        int dia1,dia2;
+        int mes1,mes2;
+        int año1,año2;
+        año1 = fechaNacimiento.getYear();
+        mes1 = fechaNacimiento.getMonth();
+        dia1 = fechaNacimiento.getDay();
+                
+        fechaActual = new Date();
+        
+        System.out.println("fecha actual es" + fechaActual.toString());
+        año2 = fechaActual.getYear();
+        mes2 = fechaActual.getMonth();
+        dia2 = fechaActual.getDay();
+        edad = (año2 - año1 - 1) + (mes2 == mes1 ? (dia2 >= dia1 ? 1 : 0) : mes2 >= mes1 ? 1 : 0); 
+        
+        return edad;
+    }
 
-     public ClienteNegocioLocal getClienteNegocio() {
+    public ClienteNegocioLocal getClienteNegocio() {
         return clienteNegocio;
     }
 
     public void setClienteNegocio(ClienteNegocioLocal clienteNegocio) {
         this.clienteNegocio = clienteNegocio;
     }
-
-    public ClienteFacadeLocal getClienteFacade() {
-        return clienteFacade;
-    }
-
-    public void setClienteFacade(ClienteFacadeLocal clienteFacade) {
-        this.clienteFacade = clienteFacade;
-    }
-
-    public Asistencia getAsistencia() {
-        return asistencia;
-    }
-
-    public void setAsistencia(Asistencia asistencia) {
-        this.asistencia = asistencia;
-    }
-
-    public Integer getClienteRut() {
-        return clienteRut;
-    }
-
-    public void setClienteRut(Integer clienteRut) {
-        this.clienteRut = clienteRut;
-    }
-
-    public boolean isMaquinaAsistencia() {
-        return maquinaAsistencia;
-    }
-
-    public void setMaquinaAsistencia(boolean maquinaAsistencia) {
-        this.maquinaAsistencia = maquinaAsistencia;
-    }
-
-    public boolean isClaseAsistencia() {
-        return claseAsistencia;
-    }
-
-    public void setClaseAsistencia(boolean claseAsistencia) {
-        this.claseAsistencia = claseAsistencia;
-    }
-    
 
     public List<Cliente> getClientes() {
         return clientes;
@@ -205,13 +169,30 @@ public class BuscarCliente implements Serializable{
         this.clienteSeleccionado = clienteSeleccionado;
     }
 
-    public HistorialPago getHistorialPago() {
-        return historialPago;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setHistorialPago(HistorialPago historialPago) {
-        this.historialPago = historialPago;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
+    public Evaluacion getEvaluacion() {
+        return evaluacion;
+    }
+
+    public void setEvaluacion(Evaluacion evaluacion) {
+        this.evaluacion = evaluacion;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+    
+    
     
 }

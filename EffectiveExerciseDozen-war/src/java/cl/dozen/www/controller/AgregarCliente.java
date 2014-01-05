@@ -87,7 +87,7 @@ public class AgregarCliente implements Serializable {
         cliente.setClienteComuna("Santiago");
         cliente.setClienteDireccion("Pasaje La luna #274");
         cliente.setClienteEstadoCivil("Soltero");
-        cliente.setClienteFechaNacimiento(new Date());
+        //cliente.setClienteFechaNacimiento(new Date());
         cliente.setClienteMail("danilo@usach.cl");
         cliente.setClienteSexo("Masculino");
         cliente.setClienteTelefono(1234567);
