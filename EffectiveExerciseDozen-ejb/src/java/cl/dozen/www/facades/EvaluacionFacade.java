@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author root
+ * @author rob_sandova
  */
 @Stateless
 public class EvaluacionFacade extends AbstractFacade<Evaluacion> implements EvaluacionFacadeLocal {

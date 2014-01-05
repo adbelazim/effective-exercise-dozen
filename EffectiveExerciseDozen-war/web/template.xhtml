@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,11 +18,21 @@
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content"></ui:insert>
+            <ui:insert name="content">
+                
+            </ui:insert>
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom"></ui:insert>
+            <ui:insert name="bottom">
+                <p:layout>
+                    <p:layoutUnit position="west" resizable="true" size="800" minSize="400" maxSize="600">                        
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center">
+                        
+                    </p:layoutUnit>
+                </p:layout>  
+            </ui:insert>
         </div>
 
     </h:body>

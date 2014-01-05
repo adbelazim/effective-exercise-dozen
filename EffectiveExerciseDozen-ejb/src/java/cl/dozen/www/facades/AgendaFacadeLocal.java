@@ -12,7 +12,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author sergio
+ * @author rob_sandova
  */
 @Local
 public interface AgendaFacadeLocal {
