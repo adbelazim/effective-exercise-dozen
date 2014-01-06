@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author sergio
+ * @author root
  */
 @Stateless
 public class EjercicioFacade extends AbstractFacade<Ejercicio> implements EjercicioFacadeLocal {

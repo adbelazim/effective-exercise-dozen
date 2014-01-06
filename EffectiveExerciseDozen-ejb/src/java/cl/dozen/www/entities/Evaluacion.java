@@ -45,6 +45,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Evaluacion.findByEvaluacionPGC", query = "SELECT e FROM Evaluacion e WHERE e.evaluacionPGC = :evaluacionPGC"),
     @NamedQuery(name = "Evaluacion.findByEvaluacionIMC", query = "SELECT e FROM Evaluacion e WHERE e.evaluacionIMC = :evaluacionIMC"),
     @NamedQuery(name = "Evaluacion.findByEvaluacionSuma", query = "SELECT e FROM Evaluacion e WHERE e.evaluacionSuma = :evaluacionSuma"),
+    @NamedQuery(name = "Evaluacion.findByEvaluacionAbdominal", query = "SELECT e FROM Evaluacion e WHERE e.evaluacionAbdominal = :evaluacionAbdominal"),
     @NamedQuery(name = "Evaluacion.findByEvaluacionObservacion", query = "SELECT e FROM Evaluacion e WHERE e.evaluacionObservacion = :evaluacionObservacion")})
 public class Evaluacion implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -94,15 +95,19 @@ public class Evaluacion implements Serializable {
     @NotNull
     @Column(name = "evaluacionSuma")
     private int evaluacionSuma;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "evaluacionAbdominal")
+    private int evaluacionAbdominal;
     @Size(max = 200)
     @Column(name = "evaluacionObservacion")
     private String evaluacionObservacion;
-    @JoinColumn(name = "entrenador_entrenadorRut", referencedColumnName = "entrenadorRut")
-    @ManyToOne(optional = false)
-    private Entrenador entrenadorentrenadorRut;
     @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut")
     @ManyToOne(optional = false)
     private Cliente clienteclienteRut;
+    @JoinColumn(name = "entrenador_entrenadorRut", referencedColumnName = "entrenadorRut")
+    @ManyToOne(optional = false)
+    private Entrenador entrenadorentrenadorRut;
 
     public Evaluacion() {
     }
@@ -111,7 +116,7 @@ public class Evaluacion implements Serializable {
         this.evaluacionId = evaluacionId;
     }
 
-    public Evaluacion(Integer evaluacionId, Date evaluacionFecha, float evaluacionEstatura, float evaluacionPeso, int evaluacionBiceps, int evaluacionIliaco, int evaluacionTriceps, int evaluacionEscapular, float evaluacionPGC, float evaluacionIMC, int evaluacionSuma) {
+    public Evaluacion(Integer evaluacionId, Date evaluacionFecha, float evaluacionEstatura, float evaluacionPeso, int evaluacionBiceps, int evaluacionIliaco, int evaluacionTriceps, int evaluacionEscapular, float evaluacionPGC, float evaluacionIMC, int evaluacionSuma, int evaluacionAbdominal) {
         this.evaluacionId = evaluacionId;
         this.evaluacionFecha = evaluacionFecha;
         this.evaluacionEstatura = evaluacionEstatura;
@@ -123,6 +128,7 @@ public class Evaluacion implements Serializable {
         this.evaluacionPGC = evaluacionPGC;
         this.evaluacionIMC = evaluacionIMC;
         this.evaluacionSuma = evaluacionSuma;
+        this.evaluacionAbdominal = evaluacionAbdominal;
     }
 
     public Integer getEvaluacionId() {
@@ -213,6 +219,14 @@ public class Evaluacion implements Serializable {
         this.evaluacionSuma = evaluacionSuma;
     }
 
+    public int getEvaluacionAbdominal() {
+        return evaluacionAbdominal;
+    }
+
+    public void setEvaluacionAbdominal(int evaluacionAbdominal) {
+        this.evaluacionAbdominal = evaluacionAbdominal;
+    }
+
     public String getEvaluacionObservacion() {
         return evaluacionObservacion;
     }
@@ -221,20 +235,20 @@ public class Evaluacion implements Serializable {
         this.evaluacionObservacion = evaluacionObservacion;
     }
 
-    public Entrenador getEntrenadorentrenadorRut() {
-        return entrenadorentrenadorRut;
-    }
-
-    public void setEntrenadorentrenadorRut(Entrenador entrenadorentrenadorRut) {
-        this.entrenadorentrenadorRut = entrenadorentrenadorRut;
-    }
-
     public Cliente getClienteclienteRut() {
         return clienteclienteRut;
     }
 
     public void setClienteclienteRut(Cliente clienteclienteRut) {
         this.clienteclienteRut = clienteclienteRut;
+    }
+
+    public Entrenador getEntrenadorentrenadorRut() {
+        return entrenadorentrenadorRut;
+    }
+
+    public void setEntrenadorentrenadorRut(Entrenador entrenadorentrenadorRut) {
+        this.entrenadorentrenadorRut = entrenadorentrenadorRut;
     }
 
     @Override

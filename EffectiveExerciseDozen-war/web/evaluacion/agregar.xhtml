@@ -63,8 +63,8 @@
                         </p:column>
 
                         <p:column headerText="Opciones" style="width:20px">  
-                           
-                            <p:commandButton update=":evaluacion:layoutEvaluacion" oncomplete="dialogRealizarEvaluacion.show()"  value="Evaluacion" action="#{agregarEvaluacion.obtenerDatosEvaluacion}" >
+
+                            <p:commandButton update=":evaluacion:panelEvaluacion" oncomplete="dialogRealizarEvaluacion.show()"  value="Evaluacion" action="#{agregarEvaluacion.obtenerDatosEvaluacion}" >
                                 <f:setPropertyActionListener value="#{cliente}" target="#{agregarEvaluacion.clienteSeleccionado}" />  
                             </p:commandButton>
                         </p:column>
@@ -75,113 +75,127 @@
                     <h:form id="evaluacion">
                         <p:growl id="growl" showDetail="true" sticky="true" /> 
 
-                        <p:layout style="min-width:800px;min-height:500px;" id="layoutEvaluacion">  
-                            <p:layoutUnit position="west" header="Datos Personales" resizable="true" size = "300" >  
-                                <h:panelGrid columns="2">
-                                    <h:outputLabel for="clienteRut" value="Rut"/>
+                        <p:panel id="panelEvaluacion">
+                            <p:panel id="arriba" header="Datos Personales">
+
+
+                                <h:panelGrid columns="4">
+
+                                    <h:outputLabel for="clienteRut" value="Rut" styleClass="centered"/>
                                     <h:outputLabel  id="clienteRut" value="#{agregarEvaluacion.clienteSeleccionado.clienteRut}"/>
 
-                                    <h:outputLabel for="clienteNombre" value="Nombre"/>
+                                    <h:outputLabel for="clienteNombre" value="Nombre" styleClass="centered"/>
                                     <h:outputLabel  id="clienteNombre" value="#{agregarEvaluacion.clienteSeleccionado.clienteNombre}" />
 
-                                    <h:outputLabel  for="clienteApellidoPaterno" value="Apellido Paterno" />
+                                    <h:outputLabel  for="clienteApellidoPaterno" value="Apellido Paterno" styleClass="centered"/>
                                     <h:outputLabel id ="clienteApellidoPaterno"  value="#{agregarEvaluacion.clienteSeleccionado.clienteApellidoPaterno}" />
 
-                                    <h:outputLabel  for="clienteApellidoMaterno" value="Apellido Materno" />
+                                    <h:outputLabel  for="clienteApellidoMaterno" value="Apellido Materno" styleClass="centered"/>
                                     <h:outputLabel id ="clienteApellidoMaterno"  value="#{agregarEvaluacion.clienteSeleccionado.clienteApellidoMaterno}" />
 
-                                    
-
                                 </h:panelGrid>
-                            </p:layoutUnit>  
+                            </p:panel>
 
-                            <p:layoutUnit position="center" header="Datos Evaluacion" size="400" >
+
+
+                            <p:panel id="medio" header="Datos Evaluación">
                                 <h:panelGrid columns="3" styleClass="centered">
-                                    <h:outputLabel for="fecha" value="Fecha" />
+                                    <h:outputLabel for="fecha" value="Fecha Nacimiento" />
                                     <p:inputText  id="fecha" value="#{agregarEvaluacion.fecha}" size="10"/>
                                     <p:message id="msgfecha" for="fecha" />
                                     
-                                    <h:outputLabel for="nombreEntrenador" value="Nombre Entrenador" />
-                                    <p:inputText  id="nombreEntrenador" value="Rodrigo Bastias" />
-                                    <p:message id="msgnombreEntrenador" for="nombreEntrenador" />
                                     
-                                    
-
+                                    <h:outputLabel for="rutEntrenador" value="Rut Entrenador (sin dígito verificador)"/>
+                                    <p:inputText required="true" requiredMessage="Campo Requerido" id="rutEntrenador" value="#{agregarEvaluacion.entrenador.entrenadorRut}" /> 
+                                           
+                                    <p:message id="msgRut" for="rutEntrenador"  />    
+                                   
                                 </h:panelGrid>
                                 <h:panelGrid columns="6" styleClass="centered">
 
                                     <h:outputLabel for="sexo" value="Sexo" />
-                                    <p:inputText  id="sexo" value="4" size="10"/>
+                                    <p:inputText  readonly="true" id="sexo" value="#{agregarEvaluacion.clienteSeleccionado.clienteSexo}" size="10"/>
                                     <p:message id="msgsexo" for="sexo" /> 
 
+
                                     <h:outputLabel for="edad" value="Edad" />
-                                    <p:inputText  id="edad" value="#{agregarEvaluacion.edad}" size="10"/>
+                                    <p:inputText readonly="true" id="edad" value="#{agregarEvaluacion.edad}" size="10"/>
                                     <p:message id="msgedad" for="edad" /> 
 
                                     <h:outputLabel for="peso" value="Peso" />
-                                    <p:inputText  id="peso" value="4" size="10"/>
+                                    <p:inputText  id="peso" value="#{agregarEvaluacion.evaluacion.evaluacionPeso}" size="10"/>
                                     <p:message id="msgpeso" for="peso" /> 
 
                                     <h:outputLabel for="estatura" value="Estatura" />
-                                    <p:inputText  id="estatura" value="4" size="10"/>
+                                    <p:inputText  id="estatura" value="#{agregarEvaluacion.evaluacion.evaluacionEstatura}" size="10"/>
                                     <p:message id="msgestatura" for="estatura" /> 
 
                                 </h:panelGrid>
-                                
+
                                 <h:panelGrid columns="3" styleClass="centered">
-                                    
+
                                     <h:outputLabel for="observacion" value="Observacion" />
-                                    <p:inputTextarea  id="observacion" value="Buena"/>
+                                    <p:inputTextarea  id="observacion" value="#{agregarEvaluacion.evaluacion.evaluacionObservacion}"/>
                                     <p:message id="msgobservacion" for="observacion" />
-                                    
+
                                 </h:panelGrid>
 
 
-                            </p:layoutUnit > 
+                            </p:panel>
 
 
-                            <p:layoutUnit position="south" size="150" header="Grasa" resizable="true" >
-                                <h:panelGrid columns="9" styleClass="centered">
+
+                            <p:panel id="Abajo" header="Resultados">
+                                <h:panelGrid columns="15" styleClass="centered">
                                     <h:outputLabel for="triceps" value="Triceps" />
-                                    <p:inputText  id="triceps" value="4" size="4"/>
+                                    <p:inputText  id="triceps" value="#{agregarEvaluacion.evaluacion.evaluacionTriceps}" size="4"/>
                                     <p:message id="msgtriceps" for="triceps" /> 
 
                                     <h:outputLabel for="biceps" value="Biceps" />
-                                    <p:inputText  id="biceps" value="4" size="4"/>
+                                    <p:inputText  id="biceps" value="#{agregarEvaluacion.evaluacion.evaluacionBiceps}" size="4"/>
                                     <p:message id="msgbiceps" for="biceps" /> 
 
                                     <h:outputLabel for="SEscapular" value="S.Escapular" />
-                                    <p:inputText  id="SEscapular" value="4" size="4"/>
+                                    <p:inputText  id="SEscapular" value="#{agregarEvaluacion.evaluacion.evaluacionEscapular}" size="4"/>
                                     <p:message id="msgSEscapular" for="SEscapular" /> 
 
                                     <h:outputLabel for="SIliaco" value="S.Iliaco" />
-                                    <p:inputText  id="SIliaco" value="4" size="4"/>
-                                    <p:message id="msgSIliaco" for="SIliaco" /> 
+                                    <p:inputText  id="SIliaco" value="#{agregarEvaluacion.evaluacion.evaluacionIliaco}" size="4"/>
+                                    <p:message id="msgSIliaco" for="SIliaco" />
+
+                                    <h:outputLabel for="abdominal" value="Abdominal" />
+                                    <p:inputText  id="abdominal" value="#{agregarEvaluacion.evaluacion.evaluacionAbdominal}" size="4"/>
+                                    <p:message id="msgabdominal" for="abdominal" />
+                                </h:panelGrid>
+
+                                <h:panelGrid id="calculos" columns="12">
+                                    <p:commandButton update="calculos" oncomplete="dialogRealizarEvaluacion.show()"  value="Calcular" action="#{agregarEvaluacion.realizarEvaluacion}" />
+
+                                    <h:outputLabel for="suma" value="Suma" />
+                                    <p:inputText  id="suma" value="#{agregarEvaluacion.suma}" size="4"/>
+                                    <p:message id="msgsuma" for="suma" /> 
 
                                     <h:outputLabel for="imc" value="IMC" />
-                                    <p:inputText  id="imc" value="4" size="4"/>
+                                    <p:inputText  id="imc" value="#{agregarEvaluacion.imc}" size="4"/>
                                     <p:message id="msgimc" for="imc" /> 
 
                                     <h:outputLabel for="pgc" value="PGC" />
-                                    <p:inputText  id="pgc" value="4" size="4"/>
+                                    <p:inputText  id="pgc" value="#{agregarEvaluacion.pgc}" size="4"/>
                                     <p:message id="msgpgc" for="pgc" /> 
-
 
                                 </h:panelGrid>
 
-                            </p:layoutUnit>
-                        </p:layout>
 
+                            </p:panel>
+                            
+                            
+                            <h:outputLabel/>
+                            <p:commandButton value="Evaluacion" action="#{agregarEvaluacion.ingresarEvaluacion}" onclick="confirmation.hide();" update="growl" />
 
-
-
-                        <h:outputLabel/>
-                        <p:commandButton value="Evaluacion" action="#{agregarEvaluacion.evaluacion}" onclick="confirmation.hide();" update="growl" />
+                        </p:panel>
 
                     </h:form>
                 </p:dialog>
-
-
 
             </ui:define>
         </ui:composition>

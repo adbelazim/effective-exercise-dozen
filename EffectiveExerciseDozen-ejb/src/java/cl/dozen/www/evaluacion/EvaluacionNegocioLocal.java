@@ -5,7 +5,11 @@
  */
 
 package cl.dozen.www.evaluacion;
-
+import cl.dozen.www.entities.Cliente;
+import cl.dozen.www.entities.Evaluacion;
+import cl.dozen.www.entities.TablaPGC;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,4 +19,13 @@ import javax.ejb.Local;
 @Local
 public interface EvaluacionNegocioLocal {
     
+    /**
+     *
+     * @param evaluacion 
+     */
+    void agregarEvaluacion(Evaluacion evaluacion);
+    int calcularEdad(Date fechaNacimiento);
+    int calcularSuma(Evaluacion evaluacion);
+    float calcularIMC(Evaluacion evaluacion);
+    float calcularPGC(Evaluacion evaluacion, List<TablaPGC> tablaPGCs, Cliente cliente);
 }
