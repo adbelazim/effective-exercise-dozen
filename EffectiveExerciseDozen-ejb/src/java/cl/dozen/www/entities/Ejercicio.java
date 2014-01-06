@@ -7,9 +7,7 @@
 package cl.dozen.www.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,16 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author sergio
+ * @author rob_sandova
  */
 @Entity
 @Table(name = "ejercicio")
@@ -40,13 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ejercicio.findByEjercicioDescripcion", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioDescripcion = :ejercicioDescripcion"),
     @NamedQuery(name = "Ejercicio.findByEjercicioLink", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioLink = :ejercicioLink")})
 public class Ejercicio implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1000)
-    @Column(name = "ejercicioDescripci\u00f3n")
-    private String ejercicioDescripción;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ejercicioejercicioId")
-    private Collection<RutinaEjercicioEspecializada> rutinaEjercicioEspecializadaCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -145,24 +134,9 @@ public class Ejercicio implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.Ejercicio[ ejercicioId=" + ejercicioId + " ]";
+        return "Ejercicio{" + "ejercicioId=" + ejercicioId + ", ejercicioNombre=" + ejercicioNombre + ", ejercicioDescripcion=" + ejercicioDescripcion + ", ejercicioLink=" + ejercicioLink + ", tipoEjerciciotipoEjercicioId=" + tipoEjerciciotipoEjercicioId + '}';
     }
 
-    public String getEjercicioDescripción() {
-        return ejercicioDescripción;
-    }
-
-    public void setEjercicioDescripción(String ejercicioDescripción) {
-        this.ejercicioDescripción = ejercicioDescripción;
-    }
-
-    @XmlTransient
-    public Collection<RutinaEjercicioEspecializada> getRutinaEjercicioEspecializadaCollection() {
-        return rutinaEjercicioEspecializadaCollection;
-    }
-
-    public void setRutinaEjercicioEspecializadaCollection(Collection<RutinaEjercicioEspecializada> rutinaEjercicioEspecializadaCollection) {
-        this.rutinaEjercicioEspecializadaCollection = rutinaEjercicioEspecializadaCollection;
-    }
+    
     
 }

@@ -20,7 +20,7 @@
                     <p:growl id="growl" showDetail="true" sticky="true" /> 
                     <p:panel  header="Ingresar Ejercicio" >
 
-                        <p:dataTable id="tipos" var="plan" value="#{agregarEjercicio.tipoEjercicios}" rowKey="#{plan.tipoEjercicioId}"  
+                        <p:dataTable id="ejercicio" var="plan" value="#{agregarEjercicio.tipoEjercicios}" rowKey="#{plan.tipoEjercicioId}"  
                                      selection="#{agregarEjercicio.tipoEjercicioSelecciondo}" selectionMode="single">  
 
                             <f:facet name="header">  

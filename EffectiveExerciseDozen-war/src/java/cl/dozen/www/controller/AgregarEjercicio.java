@@ -8,11 +8,14 @@ package cl.dozen.www.controller;
 
 import cl.dozen.www.entities.Ejercicio;
 import cl.dozen.www.entities.TipoEjercicio;
+import cl.dozen.www.facades.EjercicioFacadeLocal;
 import cl.dozen.www.facades.TipoEjercicioFacadeLocal;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -22,8 +25,10 @@ import javax.inject.Named;
  * @author sergio
  */
 @Named
-@RequestScoped
-public class AgregarEjercicio {
+@SessionScoped
+public class AgregarEjercicio implements Serializable{
+    @EJB
+    private EjercicioFacadeLocal ejercicioFacade;
     @EJB
     private TipoEjercicioFacadeLocal tipoEjercicioFacade;
     private String nombre;
@@ -103,13 +108,15 @@ public class AgregarEjercicio {
    
  
     public void onRowSelect(){
-        ejercicio.setEjercicioId(tipoEjercicioSelecciondo.getTipoEjercicioId());
+        ejercicio.setTipoEjerciciotipoEjercicioId(tipoEjercicioSelecciondo);
         
     }
     public void ingresarEjercicio(){
         ejercicio.setEjercicioDescripcion(comentario);
         ejercicio.setEjercicioNombre(nombre);
         ejercicio.setEjercicioLink(link);
+        System.out.println(ejercicio.toString());
+        ejercicioFacade.create(ejercicio);
         FacesContext context;
         context = FacesContext.getCurrentInstance();
         context.addMessage(null , new FacesMessage("Exito", "Ejercicio Creado"));

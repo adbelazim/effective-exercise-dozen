@@ -144,7 +144,9 @@ public class RutinaEjercicioEspecializada implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.RutinaEjercicioEspecializada[ idrutinaEjercicioEspecializadaId=" + idrutinaEjercicioEspecializadaId + " ]";
+        return "RutinaEjercicioEspecializada{" + "idrutinaEjercicioEspecializadaId=" + idrutinaEjercicioEspecializadaId + ", rutinaEjercicioEspecializadaRepeticion=" + rutinaEjercicioEspecializadaRepeticion + ", rutinaEjercicioEspecializadaSerie=" + rutinaEjercicioEspecializadaSerie + ", rutinaEjercicioEspecializadaPeso=" + rutinaEjercicioEspecializadaPeso + ", rutinaEjercicioEspecializadaObservacion=" + rutinaEjercicioEspecializadaObservacion + ", rutinaEspecializadarutinaEspecializadaId=" + rutinaEspecializadarutinaEspecializadaId + ", ejercicioejercicioId=" + ejercicioejercicioId + '}';
     }
+
+    
     
 }

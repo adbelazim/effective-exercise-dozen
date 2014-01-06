@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Asignar Ejercicio a Rutinas</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+            <ui:define name="top">
+                <ui:include src="../menu.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
+                
+                <h:form id="formPagos">
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
+                    <p:panel  header="Seleccionar Ejercicio" >
+
+                        <p:dataTable id="rutina" var="rutina" value="#{asignarEjercicioRutinaEsp.listaRutina}" rowKey="#{rutina.rutinaEspecializadaId}"  
+                                     selection="#{asignarEjercicioRutinaEsp.rutinaSeleccionada}" selectionMode="single" >  
+
+                            <f:facet name="header">  
+                                Rutinas 
+                            </f:facet>  
+
+                            <p:column headerText="Nombre">  
+                                #{rutina.rutinaEspecializadaNombre}  
+                            </p:column>  
+
+                            <p:column headerText="Descripcion">  
+                                #{rutina.rutinaEspecializadaDescripcion}  
+                            </p:column>
+                            <p:column headerText="Objetivo">  
+                                #{rutina.rutinaEspecializadaObjetivo}  
+                            </p:column>
+                            
+                            <p:ajax event="rowSelect" listener="#{asignarEjercicioRutinaEsp.onRowSelectRutina()}" update=":formPagos:panelDetalle"  />
+                        </p:dataTable>            
+                        
+                        
+                        <p:dataTable id="ejercicio" var="ejercicio" value="#{asignarEjercicioRutinaEsp.ejercicios}" rowKey="#{ejercicio.ejercicioId}"  
+                                     selection="#{asignarEjercicioRutinaEsp.ejercicioSeleccionado}" selectionMode="single" >  
+
+                            <f:facet name="header">  
+                                Ejercicios 
+                            </f:facet>  
+
+                            <p:column headerText="Nombre">  
+                                #{ejercicio.ejercicioNombre}  
+                            </p:column>  
+
+                            <p:column headerText="Descripcion">  
+                                #{ejercicio.ejercicioDescripcion}  
+                            </p:column>
+
+                            <p:ajax event="rowSelect" listener="#{asignarEjercicioRutinaEsp.onRowSelectEjercicio()}" update=":formPagos:panelDetalle"  />
+                        </p:dataTable>
+                      
+
+                        <p:panel id="panelDetalle" header="Datos rutina especializada " >
+                            <h:panelGrid  columns="3" styleClass="centered" >
+
+                                <h:outputLabel for="repeticiones" value="Repeticiones " />
+                                <p:inputText  id="repeticiones" value="#{asignarEjercicioRutinaEsp.repeticion}">
+                                    <p:ajax event="blur" update="msgRepeticiones" />
+                                </p:inputText>
+                                <p:message id="msgRepeticiones" for="repeticiones" />
+
+                                <h:outputLabel for="serie" value="Series " />
+                                <p:inputText  id="serie" value="#{asignarEjercicioRutinaEsp.serie}"/>
+                                <p:message id="msgDescripcion" for="serie" />
+
+                                <h:outputLabel for="peso" value="Peso " />
+                                <p:inputText  id="peso" value="#{asignarEjercicioRutinaEsp.peso}">
+                                    <p:ajax event="blur" update="msgPeso" />
+                                </p:inputText>
+                                <p:message id="msgPeso" for="peso" />
+
+                                 <h:outputLabel for="peso" value="Observaciones" />
+                                 <p:inputTextarea  id="obs" value="#{asignarEjercicioRutinaEsp.observacion}">
+                                    <p:ajax event="blur" update="msgObs" />
+                                </p:inputTextarea>
+                                <p:message id="msgObs" for="obs" />
+                                                                
+                                
+                                <h:outputLabel for="ejSel" value="Ejercicio Seleccionado " />
+                                <p:inputText readonly="true" id="ejSel" value="#{asignarEjercicioRutinaEsp.ejercicioSeleccionado.ejercicioNombre}">
+                                    <p:ajax event="blur" update="msgEjSel" />
+                                </p:inputText>
+                                <p:message id="msgEjSel" for="ejSel" />                            
+
+                                <h:outputLabel for="rutinaSel" value="Rutina Seleccionada " />
+                                <p:inputText readonly="true" id="rutinaSel" value="#{asignarEjercicioRutinaEsp.rutinaSeleccionada.rutinaEspecializadaNombre}">
+                                    <p:ajax event="blur" update="msgRutinaSel" />
+                                </p:inputText>
+                                <p:message id="msgRutinaSel" for="rutinaSel" /> 
+                            </h:panelGrid>
+
+                        </p:panel>
+                        <p:commandButton   value="Agregar" action="#{asignarEjercicioRutinaEsp.agregar()}"  update="growl"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>    
+</html>
+
+
+
