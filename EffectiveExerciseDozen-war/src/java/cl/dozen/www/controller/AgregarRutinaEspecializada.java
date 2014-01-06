@@ -106,7 +106,7 @@ public class AgregarRutinaEspecializada {
                 
                 
     }
-    public void agregarRutina(){
+    public void agregarRutina(){        
         entrenador.setEntrenadorRut(rutEntrenador);
         rutina.setEntrenadorentrenadorRut(entrenador);
         rutina.setRutinaEspecializadaNombre(nombreRutinaEsp);

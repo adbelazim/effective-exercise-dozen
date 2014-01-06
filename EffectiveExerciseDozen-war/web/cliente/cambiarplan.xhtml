@@ -63,7 +63,7 @@
                                 <p:message id="msgplanSelNom" for="planSelNom" />  
 
                                 <h:outputLabel for="planSelPre" value="Precio" />
-                                <p:inputText  id="planSelPre" value="#{cambiarPlan.planContratado.planContratadoMonto}">
+                                <p:inputText readonly="true" id="planSelPre" value="#{cambiarPlan.planContratado.planContratadoMonto}">
                                     <p:ajax event="blur" update="msgPrecio" />
                                 </p:inputText>
                                 <p:message id="msgPrecio" for="planSelPre" /> 

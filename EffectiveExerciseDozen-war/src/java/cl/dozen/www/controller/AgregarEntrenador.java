@@ -122,7 +122,8 @@ public class AgregarEntrenador implements Serializable{
         respuestaRut = entrenadorNegocio.verificarEntrenador(entrenador);
         if(respuestaRut == -1){
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Ojo", "El entrenador ya existe, Ingrese uno nuevo")); 
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Ojo", "El entrenador ya existe, Ingrese uno nuevo"));
+            
         }
         else{
             entrenadorFacade.create(entrenador);

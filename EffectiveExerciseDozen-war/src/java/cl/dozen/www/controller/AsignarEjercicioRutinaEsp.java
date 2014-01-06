@@ -74,8 +74,12 @@ public class AsignarEjercicioRutinaEsp implements Serializable{
       }
 
       public void agregar(){
-          System.out.println("");
-          
+          if(serie<0 || repeticion<0 || peso<0){
+              FacesContext context;
+              context = FacesContext.getCurrentInstance();
+              context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Ojo","Datos invalidos"));
+          }
+          else{
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaSerie(serie);
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaRepeticion(repeticion);
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaPeso(peso);
@@ -85,6 +89,7 @@ public class AsignarEjercicioRutinaEsp implements Serializable{
           FacesContext context;
           context = FacesContext.getCurrentInstance();
           context.addMessage(null , new FacesMessage("Exito", "Ejercicio asignado a la rutina"));
+          }
       }
     public EjercicioFacadeLocal getEjercicioFacade() {
         return ejercicioFacade;

@@ -106,6 +106,7 @@ public class AgregarPago implements Serializable {
     public void agregarPago(){        
         System.out.println(clienteSeleccionado.toString());
         
+        
         clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);      
         
        FacesContext context;

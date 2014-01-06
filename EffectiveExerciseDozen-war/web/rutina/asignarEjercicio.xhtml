@@ -66,7 +66,7 @@
                             <h:panelGrid  columns="3" styleClass="centered" >
 
                                 <h:outputLabel for="repeticiones" value="Repeticiones " />
-                                <p:inputText  id="repeticiones" value="#{asignarEjercicioRutinaEsp.repeticion}">
+                                <p:inputText  id="repeticiones" value="#{asignarEjercicioRutinaEsp.repeticion}" requiredMessage="Datos invalido">
                                     <p:ajax event="blur" update="msgRepeticiones" />
                                 </p:inputText>
                                 <p:message id="msgRepeticiones" for="repeticiones" />
