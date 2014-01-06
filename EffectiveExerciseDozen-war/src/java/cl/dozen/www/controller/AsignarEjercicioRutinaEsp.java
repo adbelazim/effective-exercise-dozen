@@ -74,6 +74,7 @@ public class AsignarEjercicioRutinaEsp implements Serializable{
       }
 
       public void agregar(){
+          System.out.println("");
           
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaSerie(serie);
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaRepeticion(repeticion);

@@ -36,7 +36,7 @@
                                 #{rutina.rutinaEspecializadaDescripcion}  
                             </p:column>
                             <p:column headerText="Objetivo">  
-                                #{rutina.rutinaEspecializadaObjetivo}  
+                                #{rutina.rutinaEspecializadaObjetivo} 
                             </p:column>
                             
                             <p:ajax event="rowSelect" listener="#{asignarEjercicioRutinaEsp.onRowSelectRutina()}" update=":formPagos:panelDetalle"  />
@@ -71,9 +71,11 @@
                                 </p:inputText>
                                 <p:message id="msgRepeticiones" for="repeticiones" />
 
-                                <h:outputLabel for="serie" value="Series " />
-                                <p:inputText  id="serie" value="#{asignarEjercicioRutinaEsp.serie}"/>
-                                <p:message id="msgDescripcion" for="serie" />
+                                <h:outputLabel for="series" value="Series " />
+                                <p:inputText  id="series" value="#{asignarEjercicioRutinaEsp.serie}">
+                                    <p:ajax event="blur" update="msgRepeticiones" />
+                                </p:inputText>
+                                <p:message id="msgSeries" for="series" />
 
                                 <h:outputLabel for="peso" value="Peso " />
                                 <p:inputText  id="peso" value="#{asignarEjercicioRutinaEsp.peso}">
