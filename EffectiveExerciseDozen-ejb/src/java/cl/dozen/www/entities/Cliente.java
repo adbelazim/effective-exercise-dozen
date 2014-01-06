@@ -50,6 +50,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByClienteEstadoCivil", query = "SELECT c FROM Cliente c WHERE c.clienteEstadoCivil = :clienteEstadoCivil")})
 public class Cliente implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteclienteRut")
+    private Collection<RutinaEspecialAsignada> rutinaEspecialAsignadaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clienteclienteRut")
     private Collection<Evaluacion> evaluacionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private Collection<Asistencia> asistenciaCollection;
@@ -290,9 +292,10 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.Cliente[ clienteRut=" + clienteRut + " ]";
+        return "Cliente{" + "evaluacionCollection=" + evaluacionCollection + ", asistenciaCollection=" + asistenciaCollection + ", clienteRut=" + clienteRut + ", clienteCodigo=" + clienteCodigo + ", clienteNombre=" + clienteNombre + ", clienteApellidoPaterno=" + clienteApellidoPaterno + ", clienteApellidoMaterno=" + clienteApellidoMaterno + ", clienteDireccion=" + clienteDireccion + ", clienteComuna=" + clienteComuna + ", clienteFechaNacimiento=" + clienteFechaNacimiento + ", clienteMail=" + clienteMail + ", clienteTelefono=" + clienteTelefono + ", clienteTelefonoEmergencia=" + clienteTelefonoEmergencia + ", clienteSexo=" + clienteSexo + ", clienteEstadoCivil=" + clienteEstadoCivil + ", asistencia=" + asistencia + ", planContratado=" + planContratado + ", historialPagoCollection=" + historialPagoCollection + '}';
     }
 
+  
     @XmlTransient
     public Collection<Asistencia> getAsistenciaCollection() {
         return asistenciaCollection;
@@ -309,6 +312,15 @@ public class Cliente implements Serializable {
 
     public void setEvaluacionCollection(Collection<Evaluacion> evaluacionCollection) {
         this.evaluacionCollection = evaluacionCollection;
+    }
+
+    @XmlTransient
+    public Collection<RutinaEspecialAsignada> getRutinaEspecialAsignadaCollection() {
+        return rutinaEspecialAsignadaCollection;
+    }
+
+    public void setRutinaEspecialAsignadaCollection(Collection<RutinaEspecialAsignada> rutinaEspecialAsignadaCollection) {
+        this.rutinaEspecialAsignadaCollection = rutinaEspecialAsignadaCollection;
     }
     
 }

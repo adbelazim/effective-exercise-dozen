@@ -23,14 +23,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author rob_sandova
+ * @author sergio
  */
 @Entity
 @Table(name = "rutinaEjercicioEspecializada")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RutinaEjercicioEspecializada.findAll", query = "SELECT r FROM RutinaEjercicioEspecializada r"),
-    @NamedQuery(name = "RutinaEjercicioEspecializada.findByIdrutinaEjercicioEspecializadaId", query = "SELECT r FROM RutinaEjercicioEspecializada r WHERE r.idrutinaEjercicioEspecializadaId = :idrutinaEjercicioEspecializadaId"),
+    @NamedQuery(name = "RutinaEjercicioEspecializada.findByRutinaEjercicioEspecializadaId", query = "SELECT r FROM RutinaEjercicioEspecializada r WHERE r.rutinaEjercicioEspecializadaId = :rutinaEjercicioEspecializadaId"),
     @NamedQuery(name = "RutinaEjercicioEspecializada.findByRutinaEjercicioEspecializadaRepeticion", query = "SELECT r FROM RutinaEjercicioEspecializada r WHERE r.rutinaEjercicioEspecializadaRepeticion = :rutinaEjercicioEspecializadaRepeticion"),
     @NamedQuery(name = "RutinaEjercicioEspecializada.findByRutinaEjercicioEspecializadaSerie", query = "SELECT r FROM RutinaEjercicioEspecializada r WHERE r.rutinaEjercicioEspecializadaSerie = :rutinaEjercicioEspecializadaSerie"),
     @NamedQuery(name = "RutinaEjercicioEspecializada.findByRutinaEjercicioEspecializadaPeso", query = "SELECT r FROM RutinaEjercicioEspecializada r WHERE r.rutinaEjercicioEspecializadaPeso = :rutinaEjercicioEspecializadaPeso"),
@@ -40,8 +40,8 @@ public class RutinaEjercicioEspecializada implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idrutinaEjercicioEspecializadaId")
-    private Integer idrutinaEjercicioEspecializadaId;
+    @Column(name = "rutinaEjercicioEspecializadaId")
+    private Integer rutinaEjercicioEspecializadaId;
     @Column(name = "rutinaEjercicioEspecializadaRepeticion")
     private Integer rutinaEjercicioEspecializadaRepeticion;
     @Column(name = "rutinaEjercicioEspecializadaSerie")
@@ -49,7 +49,7 @@ public class RutinaEjercicioEspecializada implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "rutinaEjercicioEspecializadaPeso")
     private Float rutinaEjercicioEspecializadaPeso;
-    @Size(max = 500)
+    @Size(max = 1000)
     @Column(name = "rutinaEjercicioEspecializadaObservacion")
     private String rutinaEjercicioEspecializadaObservacion;
     @JoinColumn(name = "rutinaEspecializada_rutinaEspecializadaId", referencedColumnName = "rutinaEspecializadaId")
@@ -62,16 +62,16 @@ public class RutinaEjercicioEspecializada implements Serializable {
     public RutinaEjercicioEspecializada() {
     }
 
-    public RutinaEjercicioEspecializada(Integer idrutinaEjercicioEspecializadaId) {
-        this.idrutinaEjercicioEspecializadaId = idrutinaEjercicioEspecializadaId;
+    public RutinaEjercicioEspecializada(Integer rutinaEjercicioEspecializadaId) {
+        this.rutinaEjercicioEspecializadaId = rutinaEjercicioEspecializadaId;
     }
 
-    public Integer getIdrutinaEjercicioEspecializadaId() {
-        return idrutinaEjercicioEspecializadaId;
+    public Integer getRutinaEjercicioEspecializadaId() {
+        return rutinaEjercicioEspecializadaId;
     }
 
-    public void setIdrutinaEjercicioEspecializadaId(Integer idrutinaEjercicioEspecializadaId) {
-        this.idrutinaEjercicioEspecializadaId = idrutinaEjercicioEspecializadaId;
+    public void setRutinaEjercicioEspecializadaId(Integer rutinaEjercicioEspecializadaId) {
+        this.rutinaEjercicioEspecializadaId = rutinaEjercicioEspecializadaId;
     }
 
     public Integer getRutinaEjercicioEspecializadaRepeticion() {
@@ -125,7 +125,7 @@ public class RutinaEjercicioEspecializada implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idrutinaEjercicioEspecializadaId != null ? idrutinaEjercicioEspecializadaId.hashCode() : 0);
+        hash += (rutinaEjercicioEspecializadaId != null ? rutinaEjercicioEspecializadaId.hashCode() : 0);
         return hash;
     }
 
@@ -136,7 +136,7 @@ public class RutinaEjercicioEspecializada implements Serializable {
             return false;
         }
         RutinaEjercicioEspecializada other = (RutinaEjercicioEspecializada) object;
-        if ((this.idrutinaEjercicioEspecializadaId == null && other.idrutinaEjercicioEspecializadaId != null) || (this.idrutinaEjercicioEspecializadaId != null && !this.idrutinaEjercicioEspecializadaId.equals(other.idrutinaEjercicioEspecializadaId))) {
+        if ((this.rutinaEjercicioEspecializadaId == null && other.rutinaEjercicioEspecializadaId != null) || (this.rutinaEjercicioEspecializadaId != null && !this.rutinaEjercicioEspecializadaId.equals(other.rutinaEjercicioEspecializadaId))) {
             return false;
         }
         return true;
@@ -144,9 +144,7 @@ public class RutinaEjercicioEspecializada implements Serializable {
 
     @Override
     public String toString() {
-        return "RutinaEjercicioEspecializada{" + "idrutinaEjercicioEspecializadaId=" + idrutinaEjercicioEspecializadaId + ", rutinaEjercicioEspecializadaRepeticion=" + rutinaEjercicioEspecializadaRepeticion + ", rutinaEjercicioEspecializadaSerie=" + rutinaEjercicioEspecializadaSerie + ", rutinaEjercicioEspecializadaPeso=" + rutinaEjercicioEspecializadaPeso + ", rutinaEjercicioEspecializadaObservacion=" + rutinaEjercicioEspecializadaObservacion + ", rutinaEspecializadarutinaEspecializadaId=" + rutinaEspecializadarutinaEspecializadaId + ", ejercicioejercicioId=" + ejercicioejercicioId + '}';
+        return "cl.dozen.www.entities.RutinaEjercicioEspecializada[ rutinaEjercicioEspecializadaId=" + rutinaEjercicioEspecializadaId + " ]";
     }
-
-    
     
 }

@@ -14,10 +14,13 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -25,12 +28,14 @@ import javax.inject.Named;
  * @author sergio
  */
 @Named
-@SessionScoped
+@ConversationScoped
 public class AgregarEjercicio implements Serializable{
     @EJB
     private EjercicioFacadeLocal ejercicioFacade;
     @EJB
     private TipoEjercicioFacadeLocal tipoEjercicioFacade;
+    @Inject
+    private Conversation conversation;
     private String nombre;
     private String comentario;
     private TipoEjercicio tipoEjercicioSelecciondo;
@@ -111,6 +116,17 @@ public class AgregarEjercicio implements Serializable{
         ejercicio.setTipoEjerciciotipoEjercicioId(tipoEjercicioSelecciondo);
         
     }
+     public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+    }
     public void ingresarEjercicio(){
         ejercicio.setEjercicioDescripcion(comentario);
         ejercicio.setEjercicioNombre(nombre);
@@ -120,6 +136,7 @@ public class AgregarEjercicio implements Serializable{
         FacesContext context;
         context = FacesContext.getCurrentInstance();
         context.addMessage(null , new FacesMessage("Exito", "Ejercicio Creado"));
+        endConversation();
     }
     
     

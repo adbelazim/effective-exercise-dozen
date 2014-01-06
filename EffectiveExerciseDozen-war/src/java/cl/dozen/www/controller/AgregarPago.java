@@ -106,13 +106,21 @@ public class AgregarPago implements Serializable {
     public void agregarPago(){        
         System.out.println(clienteSeleccionado.toString());
         
+       if(clienteNegocio.comprobarBoleta(historialPago) == -1){
+            FacesContext context;
+            context = FacesContext.getCurrentInstance();
+            context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "El Numero de boleta ya existe"));
+       }
+       else{
+           clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);
+           FacesContext context;
+           context = FacesContext.getCurrentInstance();
+           context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
+           historialPago.setHistorialPagoNumeroBoleta(0);
+       }
+             
         
-        clienteNegocio.realizarPago(clienteSeleccionado, planContratado, historialPago);      
-        
-       FacesContext context;
-       context = FacesContext.getCurrentInstance();
-       context.addMessage(null , new FacesMessage("Exito", "Pago Realizado")); 
-       historialPago.setHistorialPagoNumeroBoleta(0);
+       
         
     }
     

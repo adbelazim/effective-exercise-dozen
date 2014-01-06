@@ -63,6 +63,8 @@ public class ClienteNegocio implements ClienteNegocioLocal {
         System.out.println(historialPago.toString());
         
         
+      
+        
         // se inserta en la BD
         persist(cliente);
         persist(planContratado);
@@ -86,6 +88,8 @@ public class ClienteNegocio implements ClienteNegocioLocal {
         historialPago.setHistorialPagoFechaPago(new Date());
         historialPago.setClienteclienteRut(cliente);
         historialPago.setHistorialPagoObservacion(planContratado.getPlanContratadoObservacion());
+        
+        
         
         persist(historialPago);
         
@@ -131,6 +135,18 @@ public class ClienteNegocio implements ClienteNegocioLocal {
     @Override
     public List<Cliente> busquedaClientePlan(PlanContratado planContratado) {
         return null;
+    }
+
+    @Override
+    public int comprobarBoleta(HistorialPago historialPago) {
+        Query q = em.createNamedQuery("HistorialPago.findByHistorialPagoNumeroBoleta",HistorialPago.class).setParameter("historialPagoNumeroBoleta", historialPago.getHistorialPagoNumeroBoleta());
+        // el cliente existe
+        if(q.getResultList().size() > 0){
+            return -1;
+        }
+        else{
+            return 0;
+        }
     }
 
    

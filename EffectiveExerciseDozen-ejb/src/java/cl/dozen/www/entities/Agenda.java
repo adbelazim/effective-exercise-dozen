@@ -139,7 +139,8 @@ public class Agenda implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.dozen.www.entities.Agenda[ agendaId=" + agendaId + " ]";
+        return "Agenda{" + "agendaId=" + agendaId + ", agendaFecha=" + agendaFecha + ", agendaHora=" + agendaHora + ", agrendaDisponible=" + agrendaDisponible + ", entrenadorentrenadorRut=" + entrenadorentrenadorRut + '}';
     }
+
     
 }

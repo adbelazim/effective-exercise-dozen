@@ -6,6 +6,7 @@
 
 package cl.dozen.www.controller;
 
+import cl.dozen.www.cliente.entrenador.EntrenadorNegocioLocal;
 import cl.dozen.www.entities.Ejercicio;
 import cl.dozen.www.entities.RutinaEjercicioEspecializada;
 import cl.dozen.www.entities.RutinaEspecializada;
@@ -16,11 +17,13 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -28,15 +31,18 @@ import javax.inject.Named;
  * @author rob_sandova
  */
 @Named
-@SessionScoped
+@ConversationScoped
 public class AsignarEjercicioRutinaEsp implements Serializable{
+    @EJB
+    private EntrenadorNegocioLocal entrenadorNegocio;
     @EJB
     private RutinaEjercicioEspecializadaFacadeLocal rutinaEjercicioEspecializadaFacade;
     @EJB
     private RutinaEspecializadaFacadeLocal rutinaEspecializadaFacade;
     @EJB
     private EjercicioFacadeLocal ejercicioFacade;
-    
+    @Inject
+    private Conversation conversation;
     
     private int repeticion;
     private int serie;
@@ -85,12 +91,32 @@ public class AsignarEjercicioRutinaEsp implements Serializable{
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaPeso(peso);
           rutinaEjercicioEspecializada.setRutinaEjercicioEspecializadaObservacion(observacion);
           System.out.println(rutinaEjercicioEspecializada.toString());
-          rutinaEjercicioEspecializadaFacade.create(rutinaEjercicioEspecializada);
-          FacesContext context;
-          context = FacesContext.getCurrentInstance();
-          context.addMessage(null , new FacesMessage("Exito", "Ejercicio asignado a la rutina"));
+          if(entrenadorNegocio.verificarEjecicioEnRutina(rutinaEjercicioEspecializada, ejercicioSeleccionado, rutinaSeleccionada) == -1){
+              FacesContext context;
+              context = FacesContext.getCurrentInstance();
+              context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro","El ejercicio ya esta en la rutina"));
+          }
+          else{
+            rutinaEjercicioEspecializadaFacade.create(rutinaEjercicioEspecializada);
+            FacesContext context;
+            context = FacesContext.getCurrentInstance();
+            context.addMessage(null , new FacesMessage("Exito", "Ejercicio asignado a la rutina"));
+            endConversation();
+          }
+          
           }
       }
+          public void beginConversation() {
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
+    }
+
+    public void endConversation() {
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
+    }
     public EjercicioFacadeLocal getEjercicioFacade() {
         return ejercicioFacade;
     }

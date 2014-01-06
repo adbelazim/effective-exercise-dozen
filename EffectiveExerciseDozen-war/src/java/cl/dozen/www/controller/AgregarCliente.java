@@ -187,14 +187,24 @@ public class AgregarCliente implements Serializable {
         aux = rutSeparado[0];
         rut = Integer.parseInt(aux);
         cliente.setClienteRut(rut);
-        if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
+        System.out.println(cliente.toString());
+        if(clienteNegocio.comprobarBoleta(historialPago) == -1){
+            FacesContext context;
+            context = FacesContext.getCurrentInstance();
+            context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "El Numero de boleta ya existe"));
+       }
+       else{
+           if ((cod = clienteNegocio.crearCliente(cliente, planSeleccionado, planContratado, historialPago)) == -1) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error", "Cliente con " + cliente.getClienteRut() + " ya existe"));
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Exxito", "Cliente agregado con exito, su código es:" + cod));
+            context.addMessage(null, new FacesMessage("Exito", "Cliente agregado con exito, su código es:" + cod));
         }
         endConversation();
+       }
+        
+        
 
     }
 

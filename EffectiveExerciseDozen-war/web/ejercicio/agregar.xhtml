@@ -16,6 +16,8 @@
 
             <ui:define name="content">
                 <h:outputStylesheet library="css" name="position.css"  />
+                <f:event listener="#{agregarCliente.beginConversation()}"
+                         type="preRenderView"></f:event>
                 <h:form id="formPagos">
                     <p:growl id="growl" showDetail="true" sticky="true" /> 
                     <p:panel  header="Ingresar Ejercicio" >

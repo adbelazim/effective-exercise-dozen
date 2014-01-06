@@ -6,6 +6,7 @@
 
 package cl.dozen.www.controller;
 
+import cl.dozen.www.cliente.entrenador.EntrenadorNegocioLocal;
 import cl.dozen.www.entities.Entrenador;
 import cl.dozen.www.entities.RutinaEspecializada;
 import cl.dozen.www.facades.RutinaEspecializadaFacadeLocal;
@@ -23,6 +24,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AgregarRutinaEspecializada {
+    @EJB
+    private EntrenadorNegocioLocal entrenadorNegocio;
 
     @EJB
     private RutinaEspecializadaFacadeLocal rutinaEspecializadaFacade;
@@ -112,9 +115,21 @@ public class AgregarRutinaEspecializada {
         rutina.setRutinaEspecializadaNombre(nombreRutinaEsp);
         rutina.setRutinaEspecializadaDescripcion(descripcionRutinaEsp);
         rutina.setRutinaEspecializadaObjetivo(objetivoRutinaEsp);
-        rutinaEspecializadaFacade.create(rutina);
-         FacesContext context = FacesContext.getCurrentInstance();
-         context.addMessage(null, new FacesMessage("Exito", "Rutina Especializada agregada con éxito"));
+        int respuestaRut = entrenadorNegocio.verificarEntrenador(entrenador);
+        if(respuestaRut == -1){
+            rutinaEspecializadaFacade.create(rutina);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Exito", "Rutina especializada creada"));
+            
+            
+            
+        }
+        else{ 
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Ojo", "El rut del entrenador no existe"));
+              
+        } 
+         
     
     }
    
