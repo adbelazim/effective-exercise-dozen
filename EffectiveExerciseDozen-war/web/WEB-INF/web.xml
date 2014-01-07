@@ -18,6 +18,10 @@
             30
         </session-timeout>
     </session-config>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>redmond</param-value>
+    </context-param>
     <welcome-file-list>
         <welcome-file>index.jsf</welcome-file>
     </welcome-file-list>

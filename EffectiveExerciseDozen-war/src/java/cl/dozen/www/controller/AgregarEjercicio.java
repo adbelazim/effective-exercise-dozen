@@ -40,6 +40,7 @@ public class AgregarEjercicio implements Serializable{
     private String comentario;
     private TipoEjercicio tipoEjercicioSelecciondo;
     private List<TipoEjercicio> tipoEjercicios;
+    
     private Ejercicio ejercicio;
     private String link;
     
@@ -114,6 +115,7 @@ public class AgregarEjercicio implements Serializable{
  
     public void onRowSelect(){
         ejercicio.setTipoEjerciciotipoEjercicioId(tipoEjercicioSelecciondo);
+        
         
     }
      public void beginConversation() {
