@@ -40,8 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RutinaEspecializada.findByRutinaEspecializadaDescripcion", query = "SELECT r FROM RutinaEspecializada r WHERE r.rutinaEspecializadaDescripcion = :rutinaEspecializadaDescripcion"),
     @NamedQuery(name = "RutinaEspecializada.findByRutinaEspecializadaObjetivo", query = "SELECT r FROM RutinaEspecializada r WHERE r.rutinaEspecializadaObjetivo = :rutinaEspecializadaObjetivo")})
 public class RutinaEspecializada implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rutinaEspecializadarutinaEspecializadaId")
-    private Collection<RutinaEspecialAsignada> rutinaEspecialAsignadaCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -155,15 +153,6 @@ public class RutinaEspecializada implements Serializable {
     @Override
     public String toString() {
         return "cl.dozen.www.entities.RutinaEspecializada[ rutinaEspecializadaId=" + rutinaEspecializadaId + " ]";
-    }
-
-    @XmlTransient
-    public Collection<RutinaEspecialAsignada> getRutinaEspecialAsignadaCollection() {
-        return rutinaEspecialAsignadaCollection;
-    }
-
-    public void setRutinaEspecialAsignadaCollection(Collection<RutinaEspecialAsignada> rutinaEspecialAsignadaCollection) {
-        this.rutinaEspecialAsignadaCollection = rutinaEspecialAsignadaCollection;
     }
     
 }

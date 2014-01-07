@@ -18,13 +18,8 @@
             30
         </session-timeout>
     </session-config>
+
     <welcome-file-list>
         <welcome-file>index.jsf</welcome-file>
     </welcome-file-list>
-    <ejb-local-ref>
-        <ejb-ref-name>RutinaEspecialAsignadaFacade</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>cl.dozen.www.facades.RutinaEspecialAsignadaFacadeLocal</local>
-        <ejb-link>EffectiveExerciseDozen-ejb.jar#RutinaEspecialAsignadaFacade</ejb-link>
-    </ejb-local-ref>
 </web-app>

@@ -12,7 +12,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author sergio
+ * @author root
  */
 @Local
 public interface EjercicioFacadeLocal {
