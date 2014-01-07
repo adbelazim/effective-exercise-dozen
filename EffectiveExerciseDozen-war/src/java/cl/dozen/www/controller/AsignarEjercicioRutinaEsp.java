@@ -94,7 +94,7 @@ public class AsignarEjercicioRutinaEsp implements Serializable{
           if(entrenadorNegocio.verificarEjecicioEnRutina(rutinaEjercicioEspecializada, ejercicioSeleccionado, rutinaSeleccionada) == -1){
               FacesContext context;
               context = FacesContext.getCurrentInstance();
-              context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro","El ejercicio ya esta en la rutina"));
+              context.addMessage(null , new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","El ejercicio ya esta en la rutina"));
           }
           else{
             rutinaEjercicioEspecializadaFacade.create(rutinaEjercicioEspecializada);

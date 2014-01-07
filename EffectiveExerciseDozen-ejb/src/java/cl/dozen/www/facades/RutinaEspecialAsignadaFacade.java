@@ -6,7 +6,7 @@
 
 package cl.dozen.www.facades;
 
-import cl.dozen.www.entities.PlanContratado;
+import cl.dozen.www.entities.RutinaEspecialAsignada;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
  * @author sergio
  */
 @Stateless
-public class PlanContratadoFacade extends AbstractFacade<PlanContratado> implements PlanContratadoFacadeLocal {
+public class RutinaEspecialAsignadaFacade extends AbstractFacade<RutinaEspecialAsignada> implements RutinaEspecialAsignadaFacadeLocal {
     @PersistenceContext(unitName = "EffectiveExerciseDozen-ejbPU")
     private EntityManager em;
 
@@ -25,8 +25,8 @@ public class PlanContratadoFacade extends AbstractFacade<PlanContratado> impleme
         return em;
     }
 
-    public PlanContratadoFacade() {
-        super(PlanContratado.class);
+    public RutinaEspecialAsignadaFacade() {
+        super(RutinaEspecialAsignada.class);
     }
     
 }

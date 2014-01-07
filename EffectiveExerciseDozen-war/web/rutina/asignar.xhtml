@@ -18,19 +18,19 @@
                 <h:form id="formBuscar">                    
                     <h:panelGrid columns="3">
                         <p:outputLabel value="Buscar"></p:outputLabel>
-                        <p:inputText value="#{buscarCliente.buscado}"/>
-                        <p:commandButton update="clientes" action="#{buscarCliente.buscar}" value="Buscar"/>
+                        <p:inputText value="#{asignarRutinaEspecializada.buscado}"/>
+                        <p:commandButton update="clientes" action="#{asignarRutinaEspecializada.buscar}" value="Buscar"/>
                     </h:panelGrid>
 
 
-                    <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{buscarCliente.opcion}">  
+                    <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{asignarRutinaEspecializada.opcion}">  
                         <f:selectItem itemLabel="Codigo" itemValue="codigo" />  
                         <f:selectItem itemLabel="Rut" itemValue="rut" />  
                         <f:selectItem itemLabel="Apellido Paterno" itemValue="apellido" />  
                     </p:selectOneRadio> 
 
                     <p:dataTable id="clientes" paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                 rowsPerPageTemplate="5,10,15"   var="cliente" value="#{buscarCliente.clientes}">  
+                                 rowsPerPageTemplate="5,10,15"   var="cliente" value="#{asignarRutinaEspecializada.clientes}">  
 
                         <f:facet name="header">  
                             Clientes  
@@ -58,27 +58,75 @@
                         </p:column>
 
                         <p:column headerText="Opciones" style="width:20px">  
-                            <p:commandButton  oncomplete="dialogAsignarRutina.show()"  value="Asignar Rutina" >
-                                <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
+                            <p:commandButton  oncomplete="dialogAsignarRutina.show()"  value="Asignar Rutina" update=":asignarRutina:panelAsignarRutina" >
+                                <f:setPropertyActionListener value="#{cliente}" target="#{asignarRutinaEspecializada.clienteSeleccionado}" />  
                             </p:commandButton>
-                            
+
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                
+
                 <p:dialog id="dialogRutina" modal="true" header="Asignar Rutina" widgetVar="dialogAsignarRutina" >  
-                    
-                </p:dialog>
-                <p:confirmDialog id="confirmDialog" message="¿Esta seguro de editar al cliente?" header="Actualizar Datos" severity="alert" widgetVar="confirmation"> 
-                    <h:form>
+                    <h:form id="asignarRutina">
+                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                        <!--<p:panel  header="Ingresar Ejercicio" id="ingresarEjercicio" >-->
 
-                        <p:commandButton   onclick="confirmation.hide()" value="Si" />
-                        <p:commandButton  onclick="confirmation.hide();" value="No"/>
+                            <p:dataTable id="ejercicio" var="rutina" value="#{asignarRutinaEspecializada.rutinasEspecializadas}" rowKey="#{rutina.rutinaEspecializadaId}"  
+                                         selection="#{asignarRutinaEspecializada.rutinaEspecializadaSelec}" selectionMode="single">  
 
+                                <f:facet name="header">  
+                                    Rutinas Especializadas 
+                                </f:facet>  
+
+                                <p:column headerText="Nombre">  
+                                    #{rutina.rutinaEspecializadaNombre}  
+                                </p:column>  
+
+                                <p:column headerText="Objetivo">  
+                                    #{rutina.rutinaEspecializadaObjetivo}  
+                                </p:column>
+
+                                <p:ajax event="rowSelect" listener="#{asignarRutinaEspecializada.onRowSelectRutina()}" update=":asignarRutina:panelAsignarRutina"  />
+                            </p:dataTable>
+                            <p:separator />
+
+                            <p:growl id="growl1" showDetail="true" sticky="true" /> 
+                            <h:panelGrid  id="panelAsignarRutina" columns="3" styleClass="centered" >            
+
+                                <h:outputLabel for="histClienteRut" value="Rut Cliente" />
+                                <p:inputText  id="histClienteRut" readonly="true" value="#{asignarRutinaEspecializada.clienteSeleccionado.clienteRut}">
+                                    <p:ajax event="blur" update="msghistClienteRut" />
+                                </p:inputText>
+                                <p:message id="msghistClienteRut" for="histClienteRut" />
+
+                                <h:outputLabel for="histRutina" value="Nombre Rutina" />
+                                <p:inputText  id="histRutina" readonly="true" value="#{asignarRutinaEspecializada.rutinaEspecializadaSelec.rutinaEspecializadaNombre}">
+                                    <p:ajax event="blur" update="msgRutina" />
+                                </p:inputText>
+                                <p:message id="msgRutina" for="histRutina" />                            
+
+                                <h:outputLabel  for="fechaInicio" value="Fecha de Inicio"/>
+                                <p:calendar    mindate="1/1/14" maxdate="1/1/15" id="fechaInicio" value="#{asignarRutinaEspecializada.fechaInicio}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                                </p:calendar>
+                                <p:message id="msgFechaInicio" for="fechaInicio" />
+
+                                <h:outputLabel  for="fechaTermino" value="Fecha de Termino "/>
+                                <p:calendar    mindate="1/1/14" maxdate="1/1/15" id="fechaTermino" value="#{asignarRutinaEspecializada.fechaTermino}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                                </p:calendar>
+                                <p:message id="msgFechaTermino" for="fechaTermino" />
+
+                                <h:outputLabel for="planObs" value="Comentarios" />
+                                <p:inputTextarea  id="planObs" value="#{asignarRutinaEspecializada.comentarios}"/>
+                                <p:message id="msgplanObs" for="planObs" />
+
+
+                                <h:outputLabel/>
+                                <p:commandButton value="asignar" action="#{asignarRutinaEspecializada.asignarRutina()}" onclick="confirmation.hide();" update="growl1" />
+
+                            </h:panelGrid>
+                        <!--</p:panel>-->
                     </h:form>
-                </p:confirmDialog>
-
-
+                </p:dialog>
             </ui:define>
 
         </ui:composition>
