@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author root
+ * @author sergio
  */
 @Entity
 @Table(name = "evaluacion")
@@ -102,12 +102,12 @@ public class Evaluacion implements Serializable {
     @Size(max = 200)
     @Column(name = "evaluacionObservacion")
     private String evaluacionObservacion;
-    @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut")
-    @ManyToOne(optional = false)
-    private Cliente clienteclienteRut;
     @JoinColumn(name = "entrenador_entrenadorRut", referencedColumnName = "entrenadorRut")
     @ManyToOne(optional = false)
     private Entrenador entrenadorentrenadorRut;
+    @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut")
+    @ManyToOne(optional = false)
+    private Cliente clienteclienteRut;
 
     public Evaluacion() {
     }
@@ -235,20 +235,20 @@ public class Evaluacion implements Serializable {
         this.evaluacionObservacion = evaluacionObservacion;
     }
 
-    public Cliente getClienteclienteRut() {
-        return clienteclienteRut;
-    }
-
-    public void setClienteclienteRut(Cliente clienteclienteRut) {
-        this.clienteclienteRut = clienteclienteRut;
-    }
-
     public Entrenador getEntrenadorentrenadorRut() {
         return entrenadorentrenadorRut;
     }
 
     public void setEntrenadorentrenadorRut(Entrenador entrenadorentrenadorRut) {
         this.entrenadorentrenadorRut = entrenadorentrenadorRut;
+    }
+
+    public Cliente getClienteclienteRut() {
+        return clienteclienteRut;
+    }
+
+    public void setClienteclienteRut(Cliente clienteclienteRut) {
+        this.clienteclienteRut = clienteclienteRut;
     }
 
     @Override

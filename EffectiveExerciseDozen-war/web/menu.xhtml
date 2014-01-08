@@ -9,11 +9,12 @@
     <h:body>
         <h:form>
             <p:tabMenu>  
-                <p:menuitem value="Información Personal" url="/ui/tabMenu.jsf" />  
-                <p:menuitem value="Clientes" url="/ui/tabMenuDemos.jsf" />  
-                <p:menuitem value="Entrenadores" url="/ui/tabMenuDocumentation.jsf" />  
-                <p:menuitem value="Tomar Horario" url="/ui/tabMenuSupport.jsf" />  
-                <p:menuitem value="Asistencia" url="/ui/tabMenuSocial.jsf"  />  
+                <p:menuitem value="Información Personal" url="ui/tabMenu.jsf" />  
+                <p:menuitem value="Clientes" url="ui/tabMenuDemos.jsf" />  
+                <p:menuitem value="Entrenadores" url="ui/tabMenuDocumentation.jsf" />  
+                <p:menuitem value="Tomar Horario" url="ui/tabMenuSupport.jsf" />  
+                <p:menuitem value="Asistencia" url="ui/tabMenuSocial.jsf"  /> 
+                <p:menuitem value="Cerrar Session" action="#{logIn.cerrarSesion()}" url=" #{request.requestURI}/index.xhtml"  /> 
             </p:tabMenu>  
         </h:form>
     </h:body>

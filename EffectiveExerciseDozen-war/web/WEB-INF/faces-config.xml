@@ -28,11 +28,6 @@
     </validator>
     
         
-    <navigation-rule>
-        <!--        <from-view-id>/Cliente/add.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>success</from-outcome>
-            <to-view-id>/Cliente/search.xhtml</to-view-id>
-        </navigation-case>-->
-    </navigation-rule>
+
+
 </faces-config>

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author root
+ * @author sergio
  */
 @Entity
 @Table(name = "entrenador")
@@ -33,15 +33,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Entrenador.findAll", query = "SELECT e FROM Entrenador e"),
     @NamedQuery(name = "Entrenador.findByEntrenadorRut", query = "SELECT e FROM Entrenador e WHERE e.entrenadorRut = :entrenadorRut"),
     @NamedQuery(name = "Entrenador.findByEntrenadorNombre", query = "SELECT e FROM Entrenador e WHERE e.entrenadorNombre = :entrenadorNombre"),
-    @NamedQuery(name = "Entrenador.findByEntrenadorApellidoPaterno", query = "SELECT e FROM Entrenador e WHERE e.entrenadorApellidoPaterno = :entrenadorApellidoPaterno"),
-    @NamedQuery(name = "Entrenador.findByEntrenadorApellidoMaterno", query = "SELECT e FROM Entrenador e WHERE e.entrenadorApellidoMaterno = :entrenadorApellidoMaterno"),
+    @NamedQuery(name = "Entrenador.findByEntrenadorApellidoPaterno", query = "SELECT e FROM Entrenador e WHERE e.entrenadorApellidoPaterno like :entrenadorApellidoPaterno"),
+    @NamedQuery(name = "Entrenador.findByEntrenadorApellidoMaterno", query = "SELECT e FROM Entrenador e WHERE e.entrenadorApellidoMaterno like :entrenadorApellidoMaterno"),
     @NamedQuery(name = "Entrenador.findByEntrenadorDireccion", query = "SELECT e FROM Entrenador e WHERE e.entrenadorDireccion = :entrenadorDireccion"),
     @NamedQuery(name = "Entrenador.findByEntrenadorTelefono", query = "SELECT e FROM Entrenador e WHERE e.entrenadorTelefono = :entrenadorTelefono"),
     @NamedQuery(name = "Entrenador.findByEntrenadorSexo", query = "SELECT e FROM Entrenador e WHERE e.entrenadorSexo = :entrenadorSexo"),
     @NamedQuery(name = "Entrenador.findByEntrenadorMail", query = "SELECT e FROM Entrenador e WHERE e.entrenadorMail = :entrenadorMail")})
 public class Entrenador implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenadorentrenadorRut")
-    private Collection<RutinaEspecializada> rutinaEspecializadaCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -80,6 +78,12 @@ public class Entrenador implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "entrenadorMail")
     private String entrenadorMail;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenadorentrenadorRut")
+    private Collection<Agenda> agendaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenadorentrenadorRut")
+    private Collection<RutinaEspecializada> rutinaEspecializadaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenadorentrenadorRut")
+    private Collection<Evaluacion> evaluacionCollection;
 
     public Entrenador() {
     }
@@ -162,6 +166,33 @@ public class Entrenador implements Serializable {
         this.entrenadorMail = entrenadorMail;
     }
 
+    @XmlTransient
+    public Collection<Agenda> getAgendaCollection() {
+        return agendaCollection;
+    }
+
+    public void setAgendaCollection(Collection<Agenda> agendaCollection) {
+        this.agendaCollection = agendaCollection;
+    }
+
+    @XmlTransient
+    public Collection<RutinaEspecializada> getRutinaEspecializadaCollection() {
+        return rutinaEspecializadaCollection;
+    }
+
+    public void setRutinaEspecializadaCollection(Collection<RutinaEspecializada> rutinaEspecializadaCollection) {
+        this.rutinaEspecializadaCollection = rutinaEspecializadaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Evaluacion> getEvaluacionCollection() {
+        return evaluacionCollection;
+    }
+
+    public void setEvaluacionCollection(Collection<Evaluacion> evaluacionCollection) {
+        this.evaluacionCollection = evaluacionCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -185,15 +216,6 @@ public class Entrenador implements Serializable {
     @Override
     public String toString() {
         return "cl.dozen.www.entities.Entrenador[ entrenadorRut=" + entrenadorRut + " ]";
-    }
-
-    @XmlTransient
-    public Collection<RutinaEspecializada> getRutinaEspecializadaCollection() {
-        return rutinaEspecializadaCollection;
-    }
-
-    public void setRutinaEspecializadaCollection(Collection<RutinaEspecializada> rutinaEspecializadaCollection) {
-        this.rutinaEspecializadaCollection = rutinaEspecializadaCollection;
     }
     
 }

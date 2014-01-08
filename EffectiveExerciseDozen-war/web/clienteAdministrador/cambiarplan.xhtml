@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pagos</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+            <ui:define name="top">
+                <ui:include src="../menus/menuAdministrador.xhtml" />
+            </ui:define>
+
+            <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
+
+                <h:form id="formPagos">
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
+                    <p:panel  header="Ingresar Pagos" >
+
+                        <p:dataTable id="planes" var="plan" value="#{cambiarPlan.planes}" rowKey="#{plan.planId}"  
+                                     selection="#{cambiarPlan.planSeleccionado}" selectionMode="single">  
+
+                            <f:facet name="header">  
+                                Lista de planes  
+                            </f:facet>  
+
+                            <p:column headerText="Nombre">  
+                                #{plan.planNombre}  
+                            </p:column>  
+
+                            <p:column headerText="Precio">  
+                                #{plan.planPrecio}  
+                            </p:column>  
+
+                            <p:column headerText="Descripcion" style="width:20px" >  
+                                #{plan.planDescripcion}  
+                            </p:column> 
+                            <p:ajax event="rowSelect" listener="#{cambiarPlan.onRowSelect}" update=":formPagos:panelDetalle"  />
+                        </p:dataTable>
+                        <p:separator />
+
+                        <p:panel id="panelDetalle" header="Detalle del Plan" >
+                            <h:panelGrid  columns="3" styleClass="centered" >
+
+                                <h:outputLabel for="histNumeroBoleta" value="Numero boleta" />
+                                <p:inputText  id="histNumeroBoleta" value="#{cambiarPlan.historialPago.historialPagoNumeroBoleta}">
+                                    <p:ajax event="blur" update="msgNumeroBoleta" />
+                                </p:inputText>
+                                <p:message id="msgNumeroBoleta" for="histNumeroBoleta" />
+
+                                <h:outputLabel for="histClienteRut" value="Rut Cliente" />
+                                <p:inputText  id="histClienteRut" value="#{cambiarPlan.clienteRut}">
+                                    <p:ajax event="blur" update="msghistClienteRut" />
+                                </p:inputText>
+                                <p:message id="msghistClienteRut" for="histClienteRut" />
+
+                                <h:outputLabel for="planSelNom" value="Nombre del Plan" />
+                                <p:inputText readonly="true" id="planSelNom" value="#{cambiarPlan.planSeleccionado.planNombre}"/>
+                                <p:message id="msgplanSelNom" for="planSelNom" />  
+
+                                <h:outputLabel for="planSelPre" value="Precio" />
+                                <p:inputText readonly="true" id="planSelPre" value="#{cambiarPlan.planContratado.planContratadoMonto}">
+                                    <p:ajax event="blur" update="msgPrecio" />
+                                </p:inputText>
+                                <p:message id="msgPrecio" for="planSelPre" /> 
+
+                                <h:outputLabel for="planObs" value="Observaciones" />
+                                <p:inputTextarea  id="planObs" value="#{cambiarPlan.planContratado.planContratadoObservacion}"/>
+                                <p:message id="msgplanObs" for="planObs" />
+
+
+
+
+
+                                
+                            </h:panelGrid>
+                            
+                        </p:panel>
+                        <p:commandButton   value="Ingresar Pago" action="#{cambiarPlan.agregarPago}" onclick="confirmation.hide();" update="growl"/>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+

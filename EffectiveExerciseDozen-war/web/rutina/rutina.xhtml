@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pagos</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+            <ui:define name="top">
+                <ui:include src="../menu.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formBuscar">                    
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Buscar"></p:outputLabel>
+                        <p:inputText value="#{buscarCliente.buscado}"/>
+                        <p:commandButton update="clientes" action="#{buscarCliente.buscar}" value="Buscar"/>
+                    </h:panelGrid>
+
+
+                    <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{buscarCliente.opcion}">  
+                        <f:selectItem itemLabel="Codigo" itemValue="codigo" />  
+                        <f:selectItem itemLabel="Rut" itemValue="rut" />  
+                        <f:selectItem itemLabel="Apellido Paterno" itemValue="apellido" />  
+                    </p:selectOneRadio> 
+
+                    <p:dataTable id="clientes" paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"   var="cliente" value="#{buscarCliente.clientes}">  
+
+                        <f:facet name="header">  
+                            Clientes  
+                        </f:facet>  
+
+                        <p:column headerText="Codigo">  
+                            #{cliente.clienteCodigo}  
+                        </p:column>  
+
+                        <p:column headerText="Rut">  
+                            #{cliente.clienteRut}  
+                        </p:column>  
+
+                        <p:column headerText="Nombre" >  
+                            #{cliente.clienteNombre}  
+                        </p:column> 
+
+                        <p:column headerText="Apellido paterno" >  
+                            #{cliente.clienteApellidoPaterno}  
+                        </p:column>
+
+
+                        <p:column headerText="Apellido materno" >  
+                            #{cliente.clienteApellidoMaterno}  
+                        </p:column>
+
+                        <p:column headerText="Opciones" style="width:20px">  
+                            <p:commandButton  oncomplete="dialogAsignarRutina.show()"  value="Asignar Rutina" >
+                                <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
+                            </p:commandButton>
+                            
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+                <p:dialog id="dialogRutina" modal="true" header="Asignar Rutina" widgetVar="dialogAsignarRutina" >  
+                    
+                </p:dialog>
+                <p:confirmDialog id="confirmDialog" message="¿Esta seguro de editar al cliente?" header="Actualizar Datos" severity="alert" widgetVar="confirmation"> 
+                    <h:form>
+
+                        <p:commandButton   onclick="confirmation.hide()" value="Si" />
+                        <p:commandButton  onclick="confirmation.hide();" value="No"/>
+
+                    </h:form>
+                </p:confirmDialog>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+

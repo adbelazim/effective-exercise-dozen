@@ -8,11 +8,15 @@
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
+                    <file>${reference.EffectiveExerciseDozen-ejb.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
+                </library>
+                <library>
                     <file>${reference.EffectiveExerciseDozen-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.EffectiveExerciseDozen-ejb.dist-ear}</file>
+                    <file>${reference.EffectiveExerciseDozen-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>

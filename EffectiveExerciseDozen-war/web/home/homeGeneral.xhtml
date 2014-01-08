@@ -7,22 +7,74 @@
       xmlns:p="http://primefaces.org/ui" >
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Effective Excercise</title>
+        <title>Dozen Fitness Club</title>
 
     </h:head>
     <h:body>
-        <ui:composition template="../template.xhtml">
-
+        <ui:composition template="/template.xhtml">
 
             <ui:define name="top">
-                <ui:include src="../menu.xhtml"/>
+                <ui:include src="/menus/menuGeneral.xhtml"/>
 
             </ui:define>
-            <ui:define  name="content">  
+            <ui:define  name="content" >                
                 <h:outputStylesheet library="css" name="position.css"  />
-                <p:galleria styleClass="centeredFoto"  value="#{homeManagedBeans.images}" var="image" panelWidth="900" panelHeight="313" showCaption="true">  
-                    <p:graphicImage value="../imagenes/#{image}"  title="Effective Excercise"/> 
-                </p:galleria>  
+
+
+                <p:galleria styleClass="centeredFoto"  value="#{homeManagedBeans.images}" var="image" panelWidth="1000" panelHeight="313" effect="fade">  
+                    <p:graphicImage value="/imagenes/#{image}"  title="Dozen Fitness Club" /> 
+                </p:galleria>
+
+                <p:panel >
+                    <h:panelGrid columns="2" >
+
+                        <p:column >
+                            <p:panel header="QUIENES SOMOS"  >
+                                <h:outputText value="Gimnasio Dozen Fitness Club nació de la energía de dos 
+                                              profesionales con muchos años de experiencia en el rubro 
+                                              del deporte, 
+                                              la salud y la entretención. Nuestro propósito es la difusión de un sistema
+                                              de vida basado en el deporte saludable, acompañado de mucha alegría, calor 
+                                              humano y respeto por el cuerpo y su espíritu. Creemos firmemente que un 
+                                              buen ser humano se construye a través del deporte alimentando su espíritu, 
+                                              además llevar una vida simple, serena y en busca de la verdad; teniendo 
+                                              como única guía, la honestidad. Si crees que estos principios 
+                                              son los que llenan tu vida, esta es tu casa. Incorpórate para que juntos 
+                                              caminemos en busca de la verdad, llevando una vida al estilo Dozen.
+                                              Do: Camino, vía Zen: Mente Sana, Limpia, Purificada. Zazen es el secreto 
+                                              del Zen." style="font-weight: lighter" styleClass="centered"/>
+
+
+                            </p:panel >
+                        </p:column>
+                        <p:column>
+                            <p:panel header="CONOCENOS">
+                                <!--http://www.youtube.com/watch?v=GI9Zu1Go3pk-->
+                                <!--<p:media value="http://www.youtube.com/src?v=GI9Zu1Go3pk" width="560" height="315" player="flash"/>-->  
+                       
+                                <iframe width="560" height="315" src="//www.youtube.com/embed/t-m9MXq1f5c" frameborder="0" ></iframe>
+                            </p:panel>
+
+
+
+
+                        </p:column>
+
+
+                    </h:panelGrid>
+
+
+                    <p:panel header="Pie de pagina"  >
+                        <h:outputText value="contactos pichula"/>
+
+
+                    </p:panel>
+                </p:panel>
+
+
+
+
+
             </ui:define>
         </ui:composition>
 

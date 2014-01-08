@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author rob_sandova
+ * @author sergio
  */
 @Entity
 @Table(name = "ejercicio")
@@ -40,8 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ejercicio.findByEjercicioDescripcion", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioDescripcion = :ejercicioDescripcion"),
     @NamedQuery(name = "Ejercicio.findByEjercicioLink", query = "SELECT e FROM Ejercicio e WHERE e.ejercicioLink = :ejercicioLink")})
 public class Ejercicio implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ejercicioejercicioId")
-    private Collection<RutinaEjercicioEspecializada> rutinaEjercicioEspecializadaCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +62,8 @@ public class Ejercicio implements Serializable {
     @JoinColumn(name = "tipoEjercicio_tipoEjercicioId", referencedColumnName = "tipoEjercicioId")
     @ManyToOne(optional = false)
     private TipoEjercicio tipoEjerciciotipoEjercicioId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ejercicioejercicioId")
+    private Collection<RutinaEjercicioEspecializada> rutinaEjercicioEspecializadaCollection;
 
     public Ejercicio() {
     }
@@ -118,6 +118,15 @@ public class Ejercicio implements Serializable {
         this.tipoEjerciciotipoEjercicioId = tipoEjerciciotipoEjercicioId;
     }
 
+    @XmlTransient
+    public Collection<RutinaEjercicioEspecializada> getRutinaEjercicioEspecializadaCollection() {
+        return rutinaEjercicioEspecializadaCollection;
+    }
+
+    public void setRutinaEjercicioEspecializadaCollection(Collection<RutinaEjercicioEspecializada> rutinaEjercicioEspecializadaCollection) {
+        this.rutinaEjercicioEspecializadaCollection = rutinaEjercicioEspecializadaCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -140,18 +149,7 @@ public class Ejercicio implements Serializable {
 
     @Override
     public String toString() {
-        return "Ejercicio{" + "ejercicioId=" + ejercicioId + ", ejercicioNombre=" + ejercicioNombre + ", ejercicioDescripcion=" + ejercicioDescripcion + ", ejercicioLink=" + ejercicioLink + ", tipoEjerciciotipoEjercicioId=" + tipoEjerciciotipoEjercicioId + '}';
+        return "cl.dozen.www.entities.Ejercicio[ ejercicioId=" + ejercicioId + " ]";
     }
-
-    @XmlTransient
-    public Collection<RutinaEjercicioEspecializada> getRutinaEjercicioEspecializadaCollection() {
-        return rutinaEjercicioEspecializadaCollection;
-    }
-
-    public void setRutinaEjercicioEspecializadaCollection(Collection<RutinaEjercicioEspecializada> rutinaEjercicioEspecializadaCollection) {
-        this.rutinaEjercicioEspecializadaCollection = rutinaEjercicioEspecializadaCollection;
-    }
-
-    
     
 }

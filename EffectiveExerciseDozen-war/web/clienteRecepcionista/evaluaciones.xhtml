@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" >
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Effective Excercise</title>
+<!-- -->
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+
+
+            <ui:define name="top">
+                <ui:include src="../menus/menuRecepcionista.xhtml"/>
+
+            </ui:define>
+            <ui:define  name="content"> 
+                <h:outputStylesheet library="css" name="position.css"  />
+                <h:form id="formBuscar">                    
+                    
+                    <p:dataTable id="evaluaciones" paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"   var="evaluacion" value="#{historialEvaluaciones.evaluaciones}" rowKey="#{evaluacion.evaluacionId}" selection="#{historialEvaluaciones.evaluacion}" >  
+
+                        <f:facet name="header">  
+                            Evaluaciones  
+                        </f:facet>  
+
+                        
+
+                        <p:column headerText="Nombre Entrenador">  
+                            #{evaluacion.entrenadorentrenadorRut.entrenadorNombre}  
+                        </p:column>  
+
+                        <p:column headerText="Fecha" >  
+                            #{evaluacion.evaluacionFecha}  
+                        </p:column> 
+
+                        <p:column headerText="IMC" >  
+                            #{evaluacion.evaluacionIMC}  
+                        </p:column>
+
+
+                        <p:column headerText="PGC" >  
+                            #{evaluacion.evaluacionPGC}  
+                        </p:column>
+
+                        <p:column headerText="Acción" style="width:20px">  
+                           
+                            <p:commandButton update=":detalleEvaluacion:panelDetalle" oncomplete="dialogDetalleEvaluacion.show()"  value="Detalle" >
+                                <f:setPropertyActionListener value="#{evaluacion}" target="#{historialEvaluaciones.evaluacion}" />  
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+                
+
+                
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

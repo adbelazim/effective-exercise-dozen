@@ -66,10 +66,6 @@ public class Asistencia implements Serializable {
         this.asistenciaPK = new AsistenciaPK(clienteclienteRut, asistenciaFecha);
     }
 
-    public Asistencia(Asistencia asistenciapk, boolean maquinaAsistencia, boolean claseAsistencia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public AsistenciaPK getAsistenciaPK() {
         return asistenciaPK;
     }

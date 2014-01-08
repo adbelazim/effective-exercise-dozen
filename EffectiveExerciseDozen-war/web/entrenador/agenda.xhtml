@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <!-- -->
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+
+            <ui:define name="top">
+                <ui:include src="../menus/menuEntrenador.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
+                <style type="text/css">
+                    .column1{width: 500px;height: 350px}
+                    .column2{width: 500px;height: 350px}
+
+                </style>
+
+                <h:form >
+                    <p:panel style="size: auto">
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <h:panelGrid columns="2" styleClass="centered" columnClasses="column1,column2"  >
+                            <p:panel header="Calendario Evaluacion" style="height: 300px">
+
+                                <p:column  >
+                                    <h:outputLabel  for="fechaAgenda" />
+                                    <p:calendar id="fechaAgenda" yearRange="2014" value="#{agregarAgenda.agenda.agendaFecha}" mode="inline"  />  
+
+                                </p:column>
+                            </p:panel>
+                            <p:panel header="Bloque Horario" style="height: 300px">
+                                <p:column  >
+                                    <h:panelGrid  styleClass="centered" >
+
+                                        <h:outputLabel for="rutEntrenador" value="Rut" />
+                                        <p:inputText id="rutEntrenador" value="#{agregarAgenda.entrenador.entrenadorRut}"/>
+                                        <p:message id="msgrutEntrenador" for="rutEntrenador" /> 
+
+                                        <p:selectOneMenu id="hora" value="#{agregarAgenda.agendaHora}" required="true" requiredMessage="Campo requerido">  
+                                            <f:selectItem itemLabel="8:00  - 8:30 " itemValue="08:00:00"/>
+                                            <f:selectItem itemLabel="8:30  - 9:00 " itemValue="08:30:00"/>
+                                            <f:selectItem itemLabel="9:00  - 9:30 " itemValue="09:00:00"/>
+                                            <f:selectItem itemLabel="9:30  - 10:00 " itemValue="09:30:00"/>
+                                            <f:selectItem itemLabel="10:00 - 10:30 " itemValue="10:00:00"/>
+                                            <f:selectItem itemLabel="10:30 - 11:00 " itemValue="10:30:00"/>
+                                            <f:selectItem itemLabel="11:00 - 11:30 " itemValue="11:00:00"/>
+                                            <f:selectItem itemLabel="11:30 - 12:00 " itemValue="11:30:00"/>
+                                            <f:selectItem itemLabel="12:00 - 12:30 " itemValue="12:00:00"/>
+                                            <f:selectItem itemLabel="12:30 - 13:00 " itemValue="12:30:00"/>
+                                            <f:selectItem itemLabel="13:00 - 13:30 " itemValue="13:00:00"/>
+                                            <f:selectItem itemLabel="13:30 - 14:00 " itemValue="13:30:00"/>
+                                            <f:selectItem itemLabel="14:00 - 14:30 " itemValue="14:00:00"/>
+                                            <f:selectItem itemLabel="14:30 - 15:00 " itemValue="14:30:00"/>
+                                            <f:selectItem itemLabel="15:00 - 15:30 " itemValue="15:00:00"/>
+                                            <f:selectItem itemLabel="15:30 - 16:00 " itemValue="15:30:00"/>
+                                            <f:selectItem itemLabel="16:00 - 16:30 " itemValue="16:00:00"/>
+                                            <f:selectItem itemLabel="16:30 - 17:00 " itemValue="16:30:00"/>
+                                            <f:selectItem itemLabel="17:00 - 17:30 " itemValue="17:00:00"/>
+                                            <f:selectItem itemLabel="17:30 - 18:00 " itemValue="17:30:00"/>
+                                            <f:selectItem itemLabel="18:00 - 18:30 " itemValue="18:00:00"/>
+                                            <f:selectItem itemLabel="18:30 - 19:00 " itemValue="18:30:00"/>
+                                            <f:selectItem itemLabel="19:00 - 19:30 " itemValue="19:00:00"/>
+                                            <f:selectItem itemLabel="19:30 - 20:00 " itemValue="19:30:00"/>
+                                            <f:selectItem itemLabel="20:00 - 20:30 " itemValue="20:00:00"/>
+                                            <f:selectItem itemLabel="20:30 - 21:00 " itemValue="20:30:00"/>
+                                            <f:selectItem itemLabel="21:00 - 21:30 " itemValue="21:00:00"/>
+                                            <f:selectItem itemLabel="21:30 - 22:00 " itemValue="21:30:00"/>
+
+
+                                        </p:selectOneMenu>
+                                        <p:message id="msghora" for="hora"  />
+                                        <p:commandButton action="#{agregarAgenda.agregarHorario}" value="Ingresar Horario" update="growl" />
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:panel>
+
+                        </h:panelGrid> 
+                    </p:panel>
+
+                </h:form>
+
+
+
+
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

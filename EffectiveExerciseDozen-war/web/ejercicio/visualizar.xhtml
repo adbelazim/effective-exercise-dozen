@@ -6,48 +6,61 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Asistencia</title>
+        <title>Ejercicios</title>
     </h:head>
     <h:body>
         <ui:composition template="../template.xhtml">
             <ui:define name="top">
-                <ui:include src="../menu.xhtml"/>
+                <ui:include src="../menus/menuEntrenador.xhtml"/>
             </ui:define>
 
             <ui:define name="content">
+                <p:separator/>
                 <h:outputStylesheet library="css" name="position.css"  />
-                <f:event listener="#{agregarCliente.beginConversation()}"
+                <f:event listener="#{verEjercicio.beginConversation()}"
                          type="preRenderView"></f:event>
                 <h:form id="formPagos">
-                    <p:growl id="growl" showDetail="true" sticky="true" /> 
-                    <p:panel  header="Ingresar Ejercicio" >
+                    <p:growl id="growl" showDetail="true" sticky="true" />
+                    <p:dataTable id="ejercicio" var="ejercicio" value="#{verEjercicio.ejercicios}" rowKey="#{ejercicio.ejercicioId}" rowsPerPageTemplate="5,10,15"   
+                                 selection="#{verEjercicio.ejercicioSeleccionado}" selectionMode="single" paginator="true" 
+                                 rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">  
 
-                        <p:dataTable id="ejercicio" var="plan" value="#{agregarEjercicio.tipoEjercicios}" rowKey="#{plan.tipoEjercicioId}"  
-                                     selection="#{agregarEjercicio.tipoEjercicioSelecciondo}" selectionMode="single">  
+                        <f:facet name="header">  
+                            Lista de Ejercicios
+                        </f:facet>  
 
-                            <f:facet name="header">  
-                                Tipo de Ejercicios 
-                            </f:facet>  
+                        <p:column headerText="Nombre" >  
+                            #{ejercicio.ejercicioNombre}  
+                        </p:column> 
+                        <p:column headerText="Descripción" >  
+                            #{ejercicio.ejercicioDescripcion}  
+                        </p:column>
 
-                            <p:column headerText="Nombre">  
-                                #{plan.tipoEjercicioNombre}  
-                            </p:column>  
+                        <p:column headerText="Acción" style="width:20px">  
+                            <p:commandButton update=":detalleEjercicio:panelDetalle" oncomplete="dialogDetalleEjercicio.show()"  value="Ver Video" >
+                                <f:setPropertyActionListener value="#{ejercicio}" target="#{verEjercicio.ejercicioSeleccionado}" />  
+                            </p:commandButton>
 
-                            <p:column headerText="Descripcion">  
-                                #{plan.tipoEjercicioDescripcion}  
-                            </p:column>
 
-                            <p:ajax event="rowSelect" listener="#{agregarEjercicio.onRowSelect()}" update=":formPagos:panelDetalle"  />
-                        </p:dataTable>
-                        <p:separator />
 
-                        <p:panel id="panelDetalle" header="Datos del Ejercicio" >
-                            
-
-                        </p:panel>
-                        
-                    </p:panel>
+                        </p:column> 
+                    </p:dataTable>
                 </h:form>
+                
+                <p:dialog id="dialogEditar" modal="false" header="Video" widgetVar="dialogDetalleEjercicio" >  
+                        <h:form id="detalleEjercicio" >
+                            <p:growl id="growl" showDetail="true" sticky="true" /> 
+                            <h:panelGrid  id="panelDetalle" columns="1" styleClass="centered" >                                
+                                
+                                    <iframe width="420" height="315" src="#{verEjercicio.ejercicioSeleccionado.ejercicioLink}" frameborder="0"></iframe>                              
+                            </h:panelGrid>
+                            <p:commandButton onclick="confirmation.show();" value="Salir"/>
+
+
+                        </h:form>
+                    </p:dialog>
+
+                
             </ui:define>
         </ui:composition>
     </h:body>    

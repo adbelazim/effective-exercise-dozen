@@ -21,14 +21,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author root
+ * @author sergio
  */
 @Entity
 @Table(name = "tablaPGC")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TablaPGC.findAll", query = "SELECT t FROM TablaPGC t"),
-    @NamedQuery(name= "TabaPGC.findBySexoSumaEdad", query="SELECT t.tablaPGCTotal FROM TablaPGC t WHERE t.tablaPGCSexo = :tablaPGCSexo AND t.tablaPGCSuma =:tablaPGCSuma AND t.tablaPGCGrupoEtareo =:tablaPGCEdad"),
     @NamedQuery(name = "TablaPGC.findByTablaPGCId", query = "SELECT t FROM TablaPGC t WHERE t.tablaPGCId = :tablaPGCId"),
     @NamedQuery(name = "TablaPGC.findByTablaPGCTotal", query = "SELECT t FROM TablaPGC t WHERE t.tablaPGCTotal = :tablaPGCTotal"),
     @NamedQuery(name = "TablaPGC.findByTablaPGCSexo", query = "SELECT t FROM TablaPGC t WHERE t.tablaPGCSexo = :tablaPGCSexo"),

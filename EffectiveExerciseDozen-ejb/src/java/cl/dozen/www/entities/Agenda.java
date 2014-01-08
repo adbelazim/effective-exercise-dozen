@@ -7,20 +7,26 @@
 package cl.dozen.www.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,8 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Agenda.findByAgendaId", query = "SELECT a FROM Agenda a WHERE a.agendaId = :agendaId"),
     @NamedQuery(name = "Agenda.findByAgendaFecha", query = "SELECT a FROM Agenda a WHERE a.agendaFecha = :agendaFecha"),
     @NamedQuery(name = "Agenda.findByAgendaHora", query = "SELECT a FROM Agenda a WHERE a.agendaHora = :agendaHora"),
-    @NamedQuery(name = "Agenda.findByAgrendaDisponible", query = "SELECT a FROM Agenda a WHERE a.agrendaDisponible = :agrendaDisponible"),
-    @NamedQuery(name = "Agenda.findByEntrenadorentrenadorRut", query = "SELECT a FROM Agenda a WHERE a.entrenadorentrenadorRut = :entrenadorentrenadorRut")})
+    @NamedQuery(name = "Agenda.findByAgendaDisponible", query = "SELECT a FROM Agenda a WHERE a.agendaDisponible = :agendaDisponible")})
 public class Agenda implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,12 +60,13 @@ public class Agenda implements Serializable {
     private Date agendaHora;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "agrendaDisponible")
-    private boolean agrendaDisponible;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "entrenador_entrenadorRut")
-    private int entrenadorentrenadorRut;
+    @Column(name = "agendaDisponible")
+    private boolean agendaDisponible;
+    @JoinColumn(name = "entrenador_entrenadorRut", referencedColumnName = "entrenadorRut")
+    @ManyToOne(optional = false)
+    private Entrenador entrenadorentrenadorRut;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "agendaagendaId")
+    private Collection<Agendamiento> agendamientoCollection;
 
     public Agenda() {
     }
@@ -69,12 +75,11 @@ public class Agenda implements Serializable {
         this.agendaId = agendaId;
     }
 
-    public Agenda(Integer agendaId, Date agendaFecha, Date agendaHora, boolean agrendaDisponible, int entrenadorentrenadorRut) {
+    public Agenda(Integer agendaId, Date agendaFecha, Date agendaHora, boolean agendaDisponible) {
         this.agendaId = agendaId;
         this.agendaFecha = agendaFecha;
         this.agendaHora = agendaHora;
-        this.agrendaDisponible = agrendaDisponible;
-        this.entrenadorentrenadorRut = entrenadorentrenadorRut;
+        this.agendaDisponible = agendaDisponible;
     }
 
     public Integer getAgendaId() {
@@ -101,20 +106,29 @@ public class Agenda implements Serializable {
         this.agendaHora = agendaHora;
     }
 
-    public boolean getAgrendaDisponible() {
-        return agrendaDisponible;
+    public boolean getAgendaDisponible() {
+        return agendaDisponible;
     }
 
-    public void setAgrendaDisponible(boolean agrendaDisponible) {
-        this.agrendaDisponible = agrendaDisponible;
+    public void setAgendaDisponible(boolean agendaDisponible) {
+        this.agendaDisponible = agendaDisponible;
     }
 
-    public int getEntrenadorentrenadorRut() {
+    public Entrenador getEntrenadorentrenadorRut() {
         return entrenadorentrenadorRut;
     }
 
-    public void setEntrenadorentrenadorRut(int entrenadorentrenadorRut) {
+    public void setEntrenadorentrenadorRut(Entrenador entrenadorentrenadorRut) {
         this.entrenadorentrenadorRut = entrenadorentrenadorRut;
+    }
+
+    @XmlTransient
+    public Collection<Agendamiento> getAgendamientoCollection() {
+        return agendamientoCollection;
+    }
+
+    public void setAgendamientoCollection(Collection<Agendamiento> agendamientoCollection) {
+        this.agendamientoCollection = agendamientoCollection;
     }
 
     @Override
@@ -139,8 +153,7 @@ public class Agenda implements Serializable {
 
     @Override
     public String toString() {
-        return "Agenda{" + "agendaId=" + agendaId + ", agendaFecha=" + agendaFecha + ", agendaHora=" + agendaHora + ", agrendaDisponible=" + agrendaDisponible + ", entrenadorentrenadorRut=" + entrenadorentrenadorRut + '}';
+        return "cl.dozen.www.entities.Agenda[ agendaId=" + agendaId + " ]";
     }
-
     
 }

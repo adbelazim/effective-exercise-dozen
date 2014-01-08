@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pagos</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template.xhtml">
+            <ui:define name="top">
+                <ui:include src="../menus/menuRecepcionista.xhtml"/>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:outputStylesheet library="css" name="position.css"  />
+                <h:form id="formBuscar">                    
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Buscar"></p:outputLabel>
+                        <p:inputText value="#{buscarCliente.buscado}"/>
+                        <p:commandButton update="clientes" action="#{buscarCliente.buscar}" value="Buscar"/>
+                    </h:panelGrid>
+
+
+                    <p:selectOneRadio requiredMessage="Campo requerido" required ="true"  id="buscado" value="#{buscarCliente.opcion}">  
+                        <f:selectItem itemLabel="Codigo" itemValue="codigo" />  
+                        <f:selectItem itemLabel="Rut" itemValue="rut" />  
+                        <f:selectItem itemLabel="Apellido Paterno" itemValue="apellido" />  
+                    </p:selectOneRadio> 
+
+                    <p:dataTable id="clientes" paginator="true" paginatorAlwaysVisible="false" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"   var="cliente" value="#{buscarCliente.clientes}">  
+
+                        <f:facet name="header">  
+                            Clientes  
+                        </f:facet>  
+
+                        <p:column headerText="Codigo">  
+                            #{cliente.clienteCodigo}  
+                        </p:column>  
+
+                        <p:column headerText="Rut">  
+                            #{cliente.clienteRut}  
+                        </p:column>  
+
+                        <p:column headerText="Nombre" >  
+                            #{cliente.clienteNombre}  
+                        </p:column> 
+
+                        <p:column headerText="Apellido paterno" >  
+                            #{cliente.clienteApellidoPaterno}  
+                        </p:column>
+
+
+                        <p:column headerText="Apellido materno" >  
+                            #{cliente.clienteApellidoMaterno}  
+                        </p:column>
+
+                        <p:column headerText="Acción" style="width:20px">  
+                            <p:commandButton update=":actualizarCliente:panelEditar" oncomplete="dialogEditarCliente.show()"  value="Editar" >
+                                <f:setPropertyActionListener value="#{cliente}" target="#{buscarCliente.clienteSeleccionado}" />  
+                            </p:commandButton>
+                         
+                            
+                            
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+
+                <p:dialog id="dialogEditar" modal="true" header="Editar cliente" widgetVar="dialogEditarCliente" >  
+                    <h:form id="actualizarCliente">
+                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                        <h:panelGrid  id="panelEditar" columns="3" styleClass="centered" >
+                            <h:outputLabel for="rut" value="Rut"/>
+                            <p:inputText required="true" readonly="true" requiredMessage="Campo Requerido" id="rut" value="#{buscarCliente.clienteSeleccionado.clienteRut}"  > 
+                            </p:inputText>
+                            <p:message id="msgRut" for="rut"  />
+
+                            <h:outputLabel for="nombre" value="Nombre"/>
+                            <p:inputText  id="nombre" value="#{buscarCliente.clienteSeleccionado.clienteNombre}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgNombre" for="nombre"  />
+
+                            <h:outputLabel  for="apellido_paterno" value="Apellido Paterno" />
+                            <p:inputText id ="apellido_paterno"  value="#{buscarCliente.clienteSeleccionado.clienteApellidoPaterno}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgApellidoPaterno" for="apellido_paterno"  />
+
+                            <h:outputLabel  for="apellido_materno" value="Apellido Materno" />
+                            <p:inputText id ="apellido_materno"  value="#{buscarCliente.clienteSeleccionado.clienteApellidoMaterno}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgApellido_materno" for="apellido_materno"  />
+
+                            <h:outputLabel  for="fechanac" value="Fecha Nacimiento"/>
+                            <p:calendar   yearRange="1900" id="fechanac" value="#{buscarCliente.clienteSeleccionado.clienteFechaNacimiento}" required="true" requiredMessage="Campo requerido" navigator="true" >
+                            </p:calendar>
+                            <p:message id="msgFechanac" for="fechanac" /> 
+
+                            <h:outputLabel  for="sexo" value="Sexo"/>
+                            <p:selectOneRadio  id="sexo" value="#{buscarCliente.clienteSeleccionado.clienteSexo}" required="true" requiredMessage="Campo requerido">  
+                                <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+                            </p:selectOneRadio>
+                            <p:message id="msgSexo" for="sexo"  />
+
+                            <h:outputLabel for="email" value="Email"/>
+                            <p:inputText id ="email"  value="#{buscarCliente.clienteSeleccionado.clienteMail}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgEmail" for="email"  />
+
+                            <h:outputLabel for="direccion" value="Direccion"/>
+                            <p:inputText id ="direccion"  value="#{buscarCliente.clienteSeleccionado.clienteDireccion}" required="true" requiredMessage="Campo requerido">
+                            </p:inputText>
+                            <p:message id="msgDireccion" for="direccion"  />
+
+                            <h:outputText value="Estado Civil: " />  
+                            <p:selectOneMenu requiredMessage="Campo requerido" required ="true"  id="civil" value="#{buscarCliente.clienteSeleccionado.clienteEstadoCivil}">  
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="Soltero" itemValue="Soltero" />  
+                                <f:selectItem itemLabel="Casado" itemValue="Casado" />  
+                                <f:selectItem itemLabel="Viudo" itemValue="Viudo" />  
+                            </p:selectOneMenu> 
+                            <p:message id="msgEstadoCivil" for="civil"  />
+
+                            <h:outputLabel for="telcont" value="Telefono Contacto" />
+                            <p:inputText id="telcont" value="#{buscarCliente.clienteSeleccionado.clienteTelefono}" required="true" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido" >
+                                <f:validateLength minimum="7"/>
+                            </p:inputText>
+                            <p:message id="msgTelcont" for="telcont"  />
+
+
+                            <h:outputLabel for="telemer" value="Telefono Emergencia"/>
+                            <p:inputText id ="telemer" value="#{buscarCliente.clienteSeleccionado.clienteTelefonoEmergencia}" required="false" validatorMessage="Telefono Invalido" requiredMessage="Campo requerido">
+                                <f:validateLength minimum="7"/>
+
+                            </p:inputText>
+                            <p:message id="msgTelemer" for="telemer"  />
+
+                            <p:commandButton process="@this"  onclick="confirmation.show();" value="Editar Datos"/>
+
+
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+                <p:confirmDialog id="confirmDialog" message="¿Esta seguro de editar al cliente?" header="Actualizar Datos" severity="alert" widgetVar="confirmation"> 
+                    <h:form>
+
+                        <p:commandButton  action="#{buscarCliente.actualizar}" onclick="confirmation.hide()" value="Si" update=":actualizarCliente:growl"/>
+                        <p:commandButton  onclick="confirmation.hide();" value="No"/>
+
+                    </h:form>
+                </p:confirmDialog>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+

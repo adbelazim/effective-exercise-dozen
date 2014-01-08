@@ -58,12 +58,12 @@ public class RutinaEspecialAsignada implements Serializable {
     @Size(max = 300)
     @Column(name = "rutinaEspecialAsignadaComentario")
     private String rutinaEspecialAsignadaComentario;
-    @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut")
-    @ManyToOne(optional = false)
-    private Cliente clienteclienteRut;
     @JoinColumn(name = "rutinaEspecializada_rutinaEspecializadaId", referencedColumnName = "rutinaEspecializadaId")
     @ManyToOne(optional = false)
     private RutinaEspecializada rutinaEspecializadarutinaEspecializadaId;
+    @JoinColumn(name = "cliente_clienteRut", referencedColumnName = "clienteRut")
+    @ManyToOne(optional = false)
+    private Cliente clienteclienteRut;
 
     public RutinaEspecialAsignada() {
     }
@@ -110,20 +110,20 @@ public class RutinaEspecialAsignada implements Serializable {
         this.rutinaEspecialAsignadaComentario = rutinaEspecialAsignadaComentario;
     }
 
-    public Cliente getClienteclienteRut() {
-        return clienteclienteRut;
-    }
-
-    public void setClienteclienteRut(Cliente clienteclienteRut) {
-        this.clienteclienteRut = clienteclienteRut;
-    }
-
     public RutinaEspecializada getRutinaEspecializadarutinaEspecializadaId() {
         return rutinaEspecializadarutinaEspecializadaId;
     }
 
     public void setRutinaEspecializadarutinaEspecializadaId(RutinaEspecializada rutinaEspecializadarutinaEspecializadaId) {
         this.rutinaEspecializadarutinaEspecializadaId = rutinaEspecializadarutinaEspecializadaId;
+    }
+
+    public Cliente getClienteclienteRut() {
+        return clienteclienteRut;
+    }
+
+    public void setClienteclienteRut(Cliente clienteclienteRut) {
+        this.clienteclienteRut = clienteclienteRut;
     }
 
     @Override
@@ -148,9 +148,7 @@ public class RutinaEspecialAsignada implements Serializable {
 
     @Override
     public String toString() {
-        return "RutinaEspecialAsignada{" + "rutinaEspecialAsignadaId=" + rutinaEspecialAsignadaId + ", rutinaEspecialAsignadaInicio=" + rutinaEspecialAsignadaInicio + ", rutinaEspecialAsignadaTermino=" + rutinaEspecialAsignadaTermino + ", rutinaEspecialAsignadaComentario=" + rutinaEspecialAsignadaComentario + ", clienteclienteRut=" + clienteclienteRut + ", rutinaEspecializadarutinaEspecializadaId=" + rutinaEspecializadarutinaEspecializadaId + '}';
+        return "cl.dozen.www.entities.RutinaEspecialAsignada[ rutinaEspecialAsignadaId=" + rutinaEspecialAsignadaId + " ]";
     }
-
-   
     
 }

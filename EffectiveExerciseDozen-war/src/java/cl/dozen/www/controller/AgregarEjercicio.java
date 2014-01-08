@@ -30,17 +30,18 @@ import javax.inject.Named;
 @Named
 @ConversationScoped
 public class AgregarEjercicio implements Serializable{
+  
     @EJB
     private EjercicioFacadeLocal ejercicioFacade;
     @EJB
     private TipoEjercicioFacadeLocal tipoEjercicioFacade;
+    
     @Inject
     private Conversation conversation;
     private String nombre;
     private String comentario;
     private TipoEjercicio tipoEjercicioSelecciondo;
-    private List<TipoEjercicio> tipoEjercicios;
-    
+    private List<TipoEjercicio> tipoEjercicios;   
     private Ejercicio ejercicio;
     private String link;
     
@@ -51,10 +52,25 @@ public class AgregarEjercicio implements Serializable{
     @PostConstruct
     public void init(){
         ejercicio = new Ejercicio();
-        tipoEjercicios = tipoEjercicioFacade.findAll();
+        tipoEjercicios = tipoEjercicioFacade.findAll();  
         
     }
 
+    
+
+   
+
+    public EjercicioFacadeLocal getEjercicioFacade() {
+        return ejercicioFacade;
+    }
+
+    public void setEjercicioFacade(EjercicioFacadeLocal ejercicioFacade) {
+        this.ejercicioFacade = ejercicioFacade;
+    }
+
+    
+
+   
     public String getLink() {
         return link;
     }
@@ -115,6 +131,7 @@ public class AgregarEjercicio implements Serializable{
  
     public void onRowSelect(){
         ejercicio.setTipoEjerciciotipoEjercicioId(tipoEjercicioSelecciondo);
+        
         
         
     }

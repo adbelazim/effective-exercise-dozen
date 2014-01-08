@@ -108,7 +108,6 @@ public class AsignarRutinaEspecializada implements Serializable{
         rutinaEspecialAsignada.setRutinaEspecialAsignadaComentario(comentarios);
         rutinaEspecialAsignada.setRutinaEspecialAsignadaInicio(fechaInicio);
         rutinaEspecialAsignada.setRutinaEspecialAsignadaTermino(fechaTermino);
-        System.out.println(rutinaEspecialAsignada.toString());
         rutinaEspecialAsignadaFacade.create(rutinaEspecialAsignada);
         FacesContext context;
         context = FacesContext.getCurrentInstance();
